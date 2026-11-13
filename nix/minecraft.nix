@@ -3,15 +3,31 @@
   inputs,
   ...
 }: {
+  perSystem = {
+    pkgs,
+    system,
+    ...
+  }: {
+    _module.args = {
+      pkgs = import inputs.nixpkgs {
+        inherit system;
+        overlays = [inputs.nix-minecraft.overlay];
+      };
+
+      mkModpack = side: packHash:
+        pkgs.fetchPackwizModpack {
+          src = "${self}/packwiz";
+          inherit side packHash;
+        };
+    };
+  };
+
   flake.nixosModules.default = {
     pkgs,
     lib,
     ...
   }: let
-    modpack = pkgs.fetchPackwizModpack {
-      src = "${self}/packwiz";
-      packHash = "sha256-D49JViyqUZXgUsyJS5LjbfLZAgb5bIr2kmD6hLL2U4c=";
-    };
+    modpack = self.packages.${pkgs.stdenv.hostPlatform.system}.modpacks.server;
   in {
     imports = [
       inputs.nix-minecraft.nixosModules.minecraft-servers

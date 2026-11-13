@@ -18,6 +18,8 @@
         ./nix/formatting.nix
         ./nix/minecraft.nix
         ./nix/checks.nix
+
+        ./nix/packages
       ];
 
       systems = [
