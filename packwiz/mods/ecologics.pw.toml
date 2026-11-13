@@ -1,0 +1,13 @@
+name = "Ecologics"
+filename = "Ecologics-Fabric-1.21.1-2.3.10.jar"
+side = "both"
+
+[download]
+url = "https://cdn.modrinth.com/data/NCKpPR0Z/versions/y7mKIry5/Ecologics-Fabric-1.21.1-2.3.10.jar"
+hash-format = "sha512"
+hash = "737b4efa519768511282d3a246c1f22a2dd1c7058e57044f35de1dd1ee6af63377009a5cb1007db9635c0fd2c19db8ab31ec0210d58d2e2fe79a283c4f517f8e"
+
+[update]
+[update.modrinth]
+mod-id = "NCKpPR0Z"
+version = "y7mKIry5"

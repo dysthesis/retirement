@@ -1,6 +1,16 @@
 hash-format = "sha256"
 
 [[files]]
+file = "mods/aether.pw.toml"
+hash = "e71c04679ff75573cd8ef1003eb167830f794b8979f2bdd3c99d28793f2918b0"
+metafile = true
+
+[[files]]
+file = "mods/ambientsounds.pw.toml"
+hash = "9a7596969b984ae9c6932066c00d11759fdb2a337c44b445ec1ec9f27ae0324c"
+metafile = true
+
+[[files]]
 file = "mods/asynclogger.pw.toml"
 hash = "0f3729599d048f0d93627ba1c1a3ed4b96df2cbc895a826e6739bec0702beec2"
 metafile = true
@@ -12,7 +22,7 @@ metafile = true
 
 [[files]]
 file = "mods/c2me-fabric.pw.toml"
-hash = "3e39d76864c9d949c6fd793149d97480cccbbd114e3c25caf6773b4e612a825b"
+hash = "b949add92d8a4c1890c780d24eb8653bd4be8b54240a3066b89f86683653d743"
 metafile = true
 
 [[files]]
@@ -36,8 +46,28 @@ hash = "80ee1d38ad30728520c1d65fdb17d396da6e7f9b0ae8506b74e5ca1a97ab49d5"
 metafile = true
 
 [[files]]
+file = "mods/creativecore.pw.toml"
+hash = "d479eb65b85ca8267d0614dfc38ba0468310103bfc38cc35d59bc0eef7e5917d"
+metafile = true
+
+[[files]]
+file = "mods/cristel-lib.pw.toml"
+hash = "aa2c192c435e084d54b48ed426e7ebae469d162b636f7dccbd0e68ba8f79764e"
+metafile = true
+
+[[files]]
+file = "mods/deeperdarker.pw.toml"
+hash = "d056036f71ac0fe66147f415e0142c1fd8889c065b7f1e5880ad3d46c583136f"
+metafile = true
+
+[[files]]
 file = "mods/dynamic-fps.pw.toml"
 hash = "582070fa54fe1743a837c0351eee7ea4a79080e647d5438656d372ae9433b272"
+metafile = true
+
+[[files]]
+file = "mods/ecologics.pw.toml"
+hash = "b3844193b2fd4e3f4075b2334730f5cba2c591be3d382f4ad63cfcbe832074da"
 metafile = true
 
 [[files]]
@@ -61,13 +91,33 @@ hash = "1d5799cd3b6ea714602c18546b99ba894e7511835b77803304792468fb7ee187"
 metafile = true
 
 [[files]]
+file = "mods/fish-of-thieves.pw.toml"
+hash = "79f1a2c4318020c7809d5f58d3bf8614860ab25df727f0739a287188b91f0f5d"
+metafile = true
+
+[[files]]
 file = "mods/fzzy-config.pw.toml"
 hash = "cbeb48d7af1bcb06af49d2b1d443929dc144cd36922006a6a66f3e1d0777cc5c"
 metafile = true
 
 [[files]]
+file = "mods/geckolib.pw.toml"
+hash = "5f62f54e16fdc97a0fb21b63a563583f85d141772f6aa99f68d40cd654b7dc35"
+metafile = true
+
+[[files]]
+file = "mods/glitchcore.pw.toml"
+hash = "e7a737720192a1ec35fbc8d8061f7373fd0a900806882d43e30511967e9a06d0"
+metafile = true
+
+[[files]]
 file = "mods/immediatelyfast.pw.toml"
 hash = "10930324bc5d409d8d557b003a1b7eaf1af00dc336db8f7aea877335f0748aa1"
+metafile = true
+
+[[files]]
+file = "mods/incendium.pw.toml"
+hash = "391f5b0b0fcae3ce77be6ab211435228faec79cb92c50d69471c52ba36b139d6"
 metafile = true
 
 [[files]]
@@ -101,6 +151,11 @@ hash = "6507abf4b8a62f88641ff236e708e940268844f3c717e4c799c4848077b2f0bf"
 metafile = true
 
 [[files]]
+file = "mods/midnightlib.pw.toml"
+hash = "1d050a30412c6c7cb26b622b598b4211454116fb200a99425ba9440a167e9ec9"
+metafile = true
+
+[[files]]
 file = "mods/modernfix.pw.toml"
 hash = "b9651d06e56ad51c1cdcf4b03b6a34328b7dc941f263ff92b189ee26a47cc224"
 metafile = true
@@ -111,8 +166,28 @@ hash = "62f164a7b7c8731436389dc1855862d1eb1fa73fd76407b0fb8d129b7b6f00a9"
 metafile = true
 
 [[files]]
+file = "mods/naturalist.pw.toml"
+hash = "526c5ab193bb69b5f2a1c660624376e23f44be2377a6b8aaf04178ee300bfdf7"
+metafile = true
+
+[[files]]
+file = "mods/nullscape.pw.toml"
+hash = "dcfbfa39abeaba554c2c5323f9b9a3ec58dfc386aca2d237f73948abdbdc7125"
+metafile = true
+
+[[files]]
+file = "mods/owo-lib.pw.toml"
+hash = "31e7b4d016cbdf3f0abbb1ab202cf60e84ff8330ebbf6f043739128fb9133fad"
+metafile = true
+
+[[files]]
 file = "mods/particle-core.pw.toml"
 hash = "97156c7cbfd94c3f457f5ef89ab65f1b963b1559f98fd3923ab40cf8cc21a905"
+metafile = true
+
+[[files]]
+file = "mods/particular.pw.toml"
+hash = "9bceeadea46405d869a5b781efb109ac9fd7b4455c9c536092ccc93a135bad96"
 metafile = true
 
 [[files]]
@@ -131,8 +206,18 @@ hash = "2272f386d6106a691953f80822614643f0a4ef9df1cbff71fcc02caebd8ad45b"
 metafile = true
 
 [[files]]
+file = "mods/resourceful-lib.pw.toml"
+hash = "d3f633dd12cd039a4e58dd398d1c80a324b0d78b9da5b3972b69640bfed211ed"
+metafile = true
+
+[[files]]
 file = "mods/scalablelux.pw.toml"
 hash = "570b0f010c431efcaacf5210d9747ad671df80a67509ed61c5fe18cf4c9730b6"
+metafile = true
+
+[[files]]
+file = "mods/serene-seasons.pw.toml"
+hash = "2906fd64b454760ba0eb835e00a00a7d60c9b03ba0af12b219234a44cf29df19"
 metafile = true
 
 [[files]]
@@ -151,18 +236,53 @@ hash = "869af67848bf3b9ba4384bc9fb0cbe303d35263bd8de75eeabcba796edf4d7c6"
 metafile = true
 
 [[files]]
+file = "mods/sound-physics-remastered.pw.toml"
+hash = "f58afbe79ea14087160830efff055c08955fc7321fc27137810e5da2f548426c"
+metafile = true
+
+[[files]]
+file = "mods/stellarity.pw.toml"
+hash = "2a0794f30a563dc48063728a9b452125c4e45749283f103e396ec1890e518a14"
+metafile = true
+
+[[files]]
+file = "mods/streams-reflowing.pw.toml"
+hash = "60f6f11a49b7d8c45be4253fc611f14283d8715ffa0294a533344c1599e1acb5"
+metafile = true
+
+[[files]]
+file = "mods/structory.pw.toml"
+hash = "3c4da8a221086153d491104bba4fd8796dac92d5c3e0b2dc111a6c5d53b65484"
+metafile = true
+
+[[files]]
 file = "mods/structure-layout-optimizer.pw.toml"
 hash = "300bbdd1b2feaef57f228585b73ca8f35909ec247bda36dc9664288bc08b6158"
 metafile = true
 
 [[files]]
-file = "mods/terra-diffusion.pw.toml"
-hash = "8578b6782e6af1ba1e1c106d2d6a19f9200b50d2ce59353700dd33307e5479a2"
+file = "mods/tectonic.pw.toml"
+hash = "f1bfac1c5060b9e0ec9166de25bce8305d16dee48fb31583380567c37ee6b349"
+metafile = true
+
+[[files]]
+file = "mods/terrablender.pw.toml"
+hash = "e35593590fe988653baebae4638f6c93b5d822351274955cc1288b34fe5429fe"
 metafile = true
 
 [[files]]
 file = "mods/terralith.pw.toml"
 hash = "66e1ed3e329e3ffa72a59acf74fae153157e6fb7d836afedb687b61ec2d8113a"
+metafile = true
+
+[[files]]
+file = "mods/the-bumblezone-fabric.pw.toml"
+hash = "155420e3430aaec37b2a1bb25615dbef0d9fbc9e173f12f37c8addbce6303adb"
+metafile = true
+
+[[files]]
+file = "mods/towns-and-towers.pw.toml"
+hash = "a9afe82b3d1b4975dd9f8b3272898450aeb29365678b3779059977301f88c101"
 metafile = true
 
 [[files]]
@@ -185,6 +305,26 @@ hash = "af20070dd9497817a83162c17b181a0a44f7213ea302d059a81c5aed02d0c877"
 metafile = true
 
 [[files]]
+file = "mods/yungs-api.pw.toml"
+hash = "b30757f7f10735b8eb53112494685bf9e5934d8df8729472f2827e1aa2197949"
+metafile = true
+
+[[files]]
+file = "mods/yungs-better-dungeons.pw.toml"
+hash = "08c12b515261f297770fa17af2508f263ccb9c2b30333979cd3c3b0fbbbef23f"
+metafile = true
+
+[[files]]
+file = "mods/yungs-better-mineshafts.pw.toml"
+hash = "95a58cb02bde21978340d0b118c46c96fdfd00d4b34ebefaf4854f2d57ab0875"
+metafile = true
+
+[[files]]
+file = "mods/yungs-cave-biomes.pw.toml"
+hash = "57ae99f727e3fcd7a1abbc624bf14cafa5f092f2082dcf3edc609289efb25c15"
+metafile = true
+
+[[files]]
 file = "mods/zconfig.pw.toml"
 hash = "8f353eed81effd44cc2de464f33e3c772129b15389d2427167c174784400bd23"
 metafile = true
@@ -192,4 +332,19 @@ metafile = true
 [[files]]
 file = "mods/zfastnoise.pw.toml"
 hash = "735995fbc0515fd4bf94fa9a6060ada43620827cfaa9c6dae5d74d7bacc6259e"
+metafile = true
+
+[[files]]
+file = "shaderpacks/bliss-shader.pw.toml"
+hash = "f25a34e083b05071711bb97464a0bd6c2f5fc6e4c0bc650ee2d133508c21a868"
+metafile = true
+
+[[files]]
+file = "shaderpacks/complementary-reimagined.pw.toml"
+hash = "507cb3963240110bc71ed7c75cac1682e66d3609536b0bc5ef90a01db3cce21f"
+metafile = true
+
+[[files]]
+file = "shaderpacks/complementary-unbound.pw.toml"
+hash = "d28a3f3e991a4d65cda9d18b37bc3672bc87f3e04aeeaf47b59d7e63581e3c3f"
 metafile = true
