@@ -17,6 +17,7 @@
         ./nix/shell.nix
         ./nix/formatting.nix
         ./nix/minecraft.nix
+        ./nix/checks.nix
       ];
 
       systems = [

@@ -4,6 +4,7 @@
       name = "retirement-dev";
       packages = with pkgs; [
         packwiz
+        just
 
         nil
         statix
