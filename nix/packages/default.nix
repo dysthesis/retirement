@@ -1,4 +1,4 @@
-{
+{self, ...}: {
   perSystem = {
     pkgs,
     lib,
@@ -15,6 +15,7 @@
     packages = {
       modpack-server = modpacks.server;
       modpack-client = modpacks.client;
+      modrinth = pkgs.callPackage ./modrinth.nix {inherit self lib;};
       default = modpacks.client;
     };
   };
