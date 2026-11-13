@@ -1,0 +1,13 @@
+name = "Platform"
+filename = "Platform-fabric-1.21.1-1.4.2.jar"
+side = "both"
+
+[download]
+url = "https://cdn.modrinth.com/data/i6fiqm5y/versions/UBpoaJQa/Platform-fabric-1.21.1-1.4.2.jar"
+hash-format = "sha512"
+hash = "67d316a306b694dbf2c345e5d5db82b9a0810648046372fe53e787d812d18171d533b174cd2aba6ec3b31fa6c569397459157b84ed2b1fb3b432f282fca7344d"
+
+[update]
+[update.modrinth]
+mod-id = "i6fiqm5y"
+version = "UBpoaJQa"

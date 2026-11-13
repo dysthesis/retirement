@@ -1,0 +1,13 @@
+name = "retirement"
+author = "dysthesis"
+version = "1.0.0"
+pack-format = "packwiz:1.1.0"
+
+[index]
+file = "index.toml"
+hash-format = "sha256"
+hash = "3fd9f2cfe4212dfd615e3f2369a993a99d36402b92cd773901de896519fa2f64"
+
+[versions]
+fabric = "0.20.1"
+minecraft = "1.21.11"
