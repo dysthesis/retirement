@@ -2,7 +2,7 @@ hash-format = "sha256"
 
 [[files]]
 file = "mods/fabric-api.pw.toml"
-hash = "0c2a00cdbcf84f32ed8c6232e94cadb586bf1280d6b922818db808c16c6d8a77"
+hash = "1ed7a6439d9c3cd9bc8e7db6a4362eb710de0f4da90b619f883e99f5765e96c0"
 metafile = true
 
 [[files]]
@@ -12,20 +12,15 @@ metafile = true
 
 [[files]]
 file = "mods/sodium.pw.toml"
-hash = "e243aee66d3bce50082e7d61936f535688002ea81d021d0808fd6cdd40b6bd66"
+hash = "869af67848bf3b9ba4384bc9fb0cbe303d35263bd8de75eeabcba796edf4d7c6"
 metafile = true
 
 [[files]]
 file = "mods/terrain-diffusion.pw.toml"
-hash = "1c98cd6f6805f38f04a2c90b99dccec7e7fa4e0530ec396210e36400f6645a3a"
+hash = "a5b1cb986bee9672261c607bd8816e2234b3ee894096d52e62b7cf2b2e5c62c3"
 metafile = true
 
 [[files]]
 file = "mods/vanillabackport.pw.toml"
 hash = "a17763690bb43a875602809d78127c96482bebd5e4eebdc2889f625cc9460e96"
-metafile = true
-
-[[files]]
-file = "mods/voxy.pw.toml"
-hash = "1b15aa249e728fe7af88899bfa08ca4a7a629b0f440750138f74a9b36c607292"
 metafile = true

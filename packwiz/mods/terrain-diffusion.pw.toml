@@ -1,13 +1,9 @@
 name = "Terrain Diffusion"
-filename = "terrain-diffusion-mc-2.2.0-windows+1.21.1.jar"
+filename = "terrain-diffusion-mc-2.2.0-cpu+1.21.1.jar"
 side = "both"
 
 [download]
-url = "https://cdn.modrinth.com/data/6cI2TdZu/versions/dyTZtcJi/terrain-diffusion-mc-2.2.0-windows%2B1.21.1.jar"
-hash-format = "sha512"
-hash = "112093471629e51cfc9eba55cab775e6b1bcc5e229c175ee0eb2825ab3b361e33ccc1299829e17a893be2d33b4d83a8ce0e843978308e017dc64cb64eaaec7c8"
-
-[update]
-[update.modrinth]
-mod-id = "6cI2TdZu"
-version = "dyTZtcJi"
+# Modrinth publishes Windows GPU builds; use the cross-platform CPU release.
+url = "https://github.com/xandergos/terrain-diffusion-mc/releases/download/v2.2.0/terrain-diffusion-mc-2.2.0-cpu%2B1.21.1.jar"
+hash-format = "sha256"
+hash = "fe639251245bea5e3ef97fe79e8f1de46beed562ce28057db1b19b111e3f68b7"

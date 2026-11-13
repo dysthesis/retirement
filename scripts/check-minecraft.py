@@ -5,6 +5,7 @@ upgrades, authenticated player logins, backups and sustained load remain unteste
 """
 
 import json
+import math
 import shlex
 
 with open("@settings@") as settings_file:
@@ -33,6 +34,11 @@ try:
         server.wait_for_unit(unit)
         # A separate machine exercises the firewall and the Minecraft protocol.
         client.wait_until_succeeds(settings["status"], timeout=600)
+        # Exercise inference, not just loading the model files.
+        server.succeed(command("td-explore"))
+        server.wait_for_open_port(19801)
+        terrain = json.loads(server.succeed(settings["terrain"], timeout=610))
+        assert math.isfinite(terrain["channels"]["Elev"][0][0]), terrain
         server.succeed(command("forceload add 0 0"))
         marker = f"retirement-check-loaded-{boot}"
         expect(f"execute if loaded 0 100 0 run say {marker}", marker)

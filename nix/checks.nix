@@ -46,6 +46,7 @@
         settings = pkgs.writeText "retirement-check.json" (builtins.toJSON {
           log = "${cfg.dataDir}/retirement/logs/latest.log";
           tmux = "${pkgs.tmux}/bin/tmux -S ${lib.escapeShellArg (server.managementSystem.tmux.socketPath "retirement")}";
+          terrain = "${pkgs.curl}/bin/curl --fail --silent --show-error --max-time 600 'http://127.0.0.1:19801/api/coarse_data.json?ci0=0&ci1=1&cj0=0&cj1=1'";
           status = lib.escapeShellArgs [
             "python"
             "${../scripts/check-minecraft-status.py}"
