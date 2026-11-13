@@ -1,0 +1,8 @@
+name = "Terra Diffusion"
+filename = "Fabric-terra_diffusion-1.5.0-cpu+1.21.1.jar"
+side = "both"
+
+[download]
+url = "https://github.com/Alesrr/terra-diffusion/releases/download/TD_v1.5.0/Fabric-terra_diffusion-1.5.0-cpu+1.21.1.jar"
+hash-format = "sha256"
+hash = "e91662535a283326cc830c1551a8768f80e2247c32e164a4cd6d8988d0148f6a"

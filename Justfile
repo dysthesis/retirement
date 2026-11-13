@@ -12,3 +12,6 @@ install from="modrinth" *args: (pack from "install" args)
 
 # Remove a mod
 rm mod: (pack "remove" mod)
+
+# Export modpack as a mrpack
+export: (pack "modrinth export")

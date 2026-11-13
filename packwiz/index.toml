@@ -16,6 +16,11 @@ hash = "3e39d76864c9d949c6fd793149d97480cccbbd114e3c25caf6773b4e612a825b"
 metafile = true
 
 [[files]]
+file = "mods/chunky.pw.toml"
+hash = "7fe287ca1bed0ad67f37e62a5816da7b7ae59486102c5e4b7532f0a999444527"
+metafile = true
+
+[[files]]
 file = "mods/cloth-config.pw.toml"
 hash = "446c173c87b7908daee86b0dee89c6b628c77beb7a0bc091ff5252b7c0062080"
 metafile = true
@@ -76,6 +81,11 @@ hash = "101d29680a0fbb8f56497372ffd06fe85491d14d8371ff5a2c876175dab70b59"
 metafile = true
 
 [[files]]
+file = "mods/kiwi.pw.toml"
+hash = "e06f3ac45d22bd311f97a5dd8974bff1b02c31fd1ff9bd7f65cb0faf7dc14c1f"
+metafile = true
+
+[[files]]
 file = "mods/krypton.pw.toml"
 hash = "2b699ec9fd674b493af0e52bc3ecbbdb3dc890a6d70f132dc146d5331c0d5b28"
 metafile = true
@@ -83,6 +93,11 @@ metafile = true
 [[files]]
 file = "mods/lithium.pw.toml"
 hash = "e10e639f71700a67d7f9b9d747e1685f838d703dadd432464b54e31b26f4742b"
+metafile = true
+
+[[files]]
+file = "mods/lithostitched.pw.toml"
+hash = "6507abf4b8a62f88641ff236e708e940268844f3c717e4c799c4848077b2f0bf"
 metafile = true
 
 [[files]]
@@ -126,6 +141,11 @@ hash = "794871c20bc24ba3ae5e35225f57b98cc139dddfad27eb525b366f209a95387a"
 metafile = true
 
 [[files]]
+file = "mods/snow-real-magic.pw.toml"
+hash = "85bcb5fb9463dbd0cb7d329856b2d0ce0a2e8efdd21ca7bbb394f5f0ac7c6423"
+metafile = true
+
+[[files]]
 file = "mods/sodium.pw.toml"
 hash = "869af67848bf3b9ba4384bc9fb0cbe303d35263bd8de75eeabcba796edf4d7c6"
 metafile = true
@@ -136,8 +156,13 @@ hash = "300bbdd1b2feaef57f228585b73ca8f35909ec247bda36dc9664288bc08b6158"
 metafile = true
 
 [[files]]
-file = "mods/terrain-diffusion.pw.toml"
-hash = "a5b1cb986bee9672261c607bd8816e2234b3ee894096d52e62b7cf2b2e5c62c3"
+file = "mods/terra-diffusion.pw.toml"
+hash = "8578b6782e6af1ba1e1c106d2d6a19f9200b50d2ce59353700dd33307e5479a2"
+metafile = true
+
+[[files]]
+file = "mods/terralith.pw.toml"
+hash = "66e1ed3e329e3ffa72a59acf74fae153157e6fb7d836afedb687b61ec2d8113a"
 metafile = true
 
 [[files]]
