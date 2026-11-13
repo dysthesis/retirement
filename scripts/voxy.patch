@@ -1,0 +1,65 @@
+diff --git i/build.gradle w/build.gradle
+index 25a32f1..35210a0 100644
+--- i/build.gradle
++++ w/build.gradle
+@@ -1,5 +1,5 @@
+ plugins {
+-    id 'fabric-loom' version "1.16-SNAPSHOT"
++    id 'fabric-loom' version "1.16.3"
+     id 'maven-publish'
+ }
+ 
+@@ -65,7 +65,7 @@ def gitCommitHash = { ->
+     }
+ }
+ 
+-def buildtime = {System.currentTimeSeconds()}
++def buildtime = {0}
+ 
+ processResources {
+     def time = buildtime()
+@@ -106,8 +106,8 @@ dependencies {
+     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
+ 
+     //TODO: this is to eventually not need sodium installed as atm its just used for parsing shaders
+-    modRuntimeOnlyMsk "maven.modrinth:sodium:mc1.21.1-0.8.12-alpha.3-fabric"
+-    modCompileOnly "maven.modrinth:sodium:mc1.21.1-0.8.12-alpha.3-fabric"
++    modRuntimeOnlyMsk "maven.modrinth:sodium:mc1.21.1-0.8.13-fabric"
++    modCompileOnly "maven.modrinth:sodium:mc1.21.1-0.8.13-fabric"
+ 
+     modImplementation("maven.modrinth:lithium:mc1.21.1-0.15.0-fabric")
+ 
+@@ -167,7 +167,7 @@ java {
+ }
+ 
+ jar {
+-    from("LICENSE") {
++    from("LICENSE.md") {
+         rename { "${it}_${project.archives_base_name}"}
+     }
+ }
+diff --git i/gradle/wrapper/gradle-wrapper.properties w/gradle/wrapper/gradle-wrapper.properties
+index c61a118..80d8229 100644
+--- i/gradle/wrapper/gradle-wrapper.properties
++++ w/gradle/wrapper/gradle-wrapper.properties
+@@ -1,6 +1,7 @@
+ distributionBase=GRADLE_USER_HOME
+ distributionPath=wrapper/dists
+ distributionUrl=https\://services.gradle.org/distributions/gradle-9.4.1-bin.zip
++distributionSha256Sum=2ab2958f2a1e51120c326cad6f385153bb11ee93b3c216c5fccebfdfbb7ec6cb
+ networkTimeout=10000
+ validateDistributionUrl=true
+ zipStoreBase=GRADLE_USER_HOME
+diff --git i/src/main/resources/fabric.mod.json w/src/main/resources/fabric.mod.json
+index 3d8c015..cc923fc 100644
+--- i/src/main/resources/fabric.mod.json
++++ w/src/main/resources/fabric.mod.json
+@@ -14,7 +14,7 @@
+   "contact": {},
+   "license": "All-Rights-Reserved",
+   "icon": "assets/voxy/icon.png",
+-  "environment": "*",
++  "environment": "client",
+   "entrypoints": {
+     "client": [
+       "me.cortex.voxy.client.VoxyClient"

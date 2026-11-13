@@ -10,7 +10,7 @@
   }: let
     modpack = pkgs.fetchPackwizModpack {
       src = "${self}/packwiz";
-      packHash = "sha256-lOlkAVprPk/aVqavwxq2gox2aSZ8abnMvM+WAz+u+GM=";
+      packHash = "sha256-D49JViyqUZXgUsyJS5LjbfLZAgb5bIr2kmD6hLL2U4c=";
     };
   in {
     imports = [

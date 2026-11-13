@@ -5,6 +5,8 @@
       packages = with pkgs; [
         packwiz
         just
+        jdk21
+        gitMinimal
 
         nil
         statix

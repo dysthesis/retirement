@@ -13,5 +13,9 @@ install from="modrinth" *args: (pack from "install" args)
 # Remove a mod
 rm mod: (pack "remove" mod)
 
-# Export modpack as a mrpack
+# Export private mrpack; the unofficial Voxy backport must not be redistributed.
 export: (pack "modrinth export")
+
+# Rebuild the pinned Voxy backport and private mrpack without updating existing mods.
+build-voxy:
+	scripts/build-voxy.sh

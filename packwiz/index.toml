@@ -176,6 +176,10 @@ hash = "53e01bde67391ead9e5bcf1e86479aebd9ddb0345f871ce4b49afd655b238523"
 metafile = true
 
 [[files]]
+file = "mods/voxy-0.2.15-beta+retirement.1.jar"
+hash = "ab34ed4e4862269e34488274eea19be479b7a15f0bdb0148af67ec809f93aa95"
+
+[[files]]
 file = "mods/yacl.pw.toml"
 hash = "af20070dd9497817a83162c17b181a0a44f7213ea302d059a81c5aed02d0c877"
 metafile = true
