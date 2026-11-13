@@ -2,7 +2,6 @@
   self,
   runCommand,
   packwiz,
-  lib,
   cacert,
   ...
 }:
@@ -11,7 +10,7 @@ runCommand "retirement.mrpack" {
 
   outputHashMode = "flat";
   outputHashAlgo = "sha256";
-  outputHash = lib.fakeHash;
+  outputHash = "sha256-ay6L5Hr5dIHdosUf7OGI09ocBOOlDzA0iUW2ygZ6Shs=";
 
   SSL_CERT_FILE = "${cacert}/etc/ssl/certs/ca-bundle.crt";
 } ''

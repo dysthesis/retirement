@@ -126,6 +126,11 @@ hash = "391f5b0b0fcae3ce77be6ab211435228faec79cb92c50d69471c52ba36b139d6"
 metafile = true
 
 [[files]]
+file = "mods/iris.pw.toml"
+hash = "6ee94689dd67f0210e07feafac8140e8968bcbcd67defcfbdcd677cf78943900"
+metafile = true
+
+[[files]]
 file = "mods/ixeris.pw.toml"
 hash = "dbe159d8930c51b82967996a0aaeb4ef08001b262369d7e784f5698b025f0854"
 metafile = true

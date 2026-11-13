@@ -15,7 +15,7 @@
     packages = {
       modpack-server = modpacks.server;
       modpack-client = modpacks.client;
-      modrinth = pkgs.callPackage ./modrinth.nix {inherit self lib;};
+      modrinth = pkgs.callPackage ./modrinth.nix {inherit self;};
       default = modpacks.client;
     };
   };
