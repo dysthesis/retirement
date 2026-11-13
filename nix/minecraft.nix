@@ -30,7 +30,7 @@
         autoStart = true;
         openFirewall = true;
 
-        package = pkgs.fabricServers.fabric-1_21_1;
+        package = pkgs.fabricServers.fabric-1_21_11;
 
         jvmOpts = "-Xms8G -Xmx10G";
 
