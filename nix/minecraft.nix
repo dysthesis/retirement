@@ -3,14 +3,10 @@
   inputs,
   ...
 }: {
-  flake.nixosModules.default = {
-    pkgs,
-    lib,
-    ...
-  }: let
+  flake.nixosModules.default = {pkgs, ...}: let
     modpack = pkgs.fetchPackwizModpack {
       src = "${self}/packwiz";
-      packHash = lib.fakeHash;
+      packHash = "sha256-BJp2GA3kK642HEjFVaMYE7sCrIsmFuJXA245OooySio=";
     };
   in {
     imports = [
