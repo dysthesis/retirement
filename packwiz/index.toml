@@ -1,6 +1,11 @@
 hash-format = "sha256"
 
 [[files]]
+file = "datapacks/stellarity-x-nullscape.pw.toml"
+hash = "7884337803babcd6ccbfaae85318547dd9e3384f3838191942d00c14ff93ffe0"
+metafile = true
+
+[[files]]
 file = "mods/aether.pw.toml"
 hash = "e71c04679ff75573cd8ef1003eb167830f794b8979f2bdd3c99d28793f2918b0"
 metafile = true
