@@ -1,0 +1,14 @@
+# shortcut: retirement-compat mirrors this version's flax loot; rebase it when updating Supplementaries.
+name = "Supplementaries"
+filename = "supplementaries-1.21.1-4.1.1-fabric.jar"
+side = "both"
+
+[download]
+url = "https://cdn.modrinth.com/data/fFEIiSDQ/versions/3QNMpqj6/supplementaries-1.21.1-4.1.1-fabric.jar"
+hash-format = "sha512"
+hash = "8c0ec53331d525c9303941d75b28e2de099927aff358cc28a789f5584decfb3d96d57b29319c53674a04403845b92a3198428b4074c526825aefe2171ae2467c"
+
+[update]
+[update.modrinth]
+mod-id = "fFEIiSDQ"
+version = "3QNMpqj6"

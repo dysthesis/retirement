@@ -42,6 +42,52 @@ try:
         # Above vanilla's height limit: also catches Tectonic falling back to defaults.
         marker = f"retirement-check-persisted-{boot}"
         expect(f"execute if block 0 500 0 minecraft:diamond_block run say {marker}", marker)
+        server.succeed(command("setblock 1 500 0 minecraft:chest"))
+        for item, accepted in [
+            ("moredelight:toast", True),
+            ("minecraft:cookie", True),
+            ("minecraft:stone", False),
+        ]:
+            server.succeed(command(f"item replace block 1 500 0 container.0 with {item}"))
+            marker = f"retirement-check-jar-{item.split(':')[1]}-{boot}"
+            condition = "if" if accepted else "unless"
+            expect(
+                f"execute {condition} items block 1 500 0 container.0 "
+                f"#supplementaries:jar_cookies run say {marker}",
+                marker,
+            )
+        server.succeed(command("setblock 3 499 0 minecraft:farmland"))
+        for age, half, tool_item, harvests in [
+            (7, "lower", "farmersdelight:iron_knife", True),
+            (6, "lower", "farmersdelight:iron_knife", False),
+            (7, "lower", "minecraft:stick", False),
+            (7, "upper", "farmersdelight:iron_knife", False),
+        ]:
+            server.succeed(command("setblock 3 501 0 minecraft:air"))
+            server.succeed(command("setblock 3 500 0 minecraft:air"))
+            server.succeed(command("data merge block 1 500 0 {Items:[]}"))
+            server.succeed(command(f"setblock 3 500 0 supplementaries:flax[age={age},half=lower]"))
+            if age == 7:
+                server.succeed(command("setblock 3 501 0 supplementaries:flax[age=7,half=upper]"))
+            y = 501 if half == "upper" else 500
+            key = f"{age}-{half}-{tool_item.split(':')[1]}-{boot}"
+            marker = f"retirement-check-flax-state-{key}"
+            expect(
+                f"execute if block 3 {y} 0 supplementaries:flax[age={age},half={half}] "
+                f"run say {marker}",
+                marker,
+            )
+            server.succeed(command(f"loot insert 1 500 0 mine 3 {y} 0 {tool_item}"))
+            marker = f"retirement-check-flax-drop-{key}"
+            condition = "if" if harvests else "unless"
+            expect(
+                f"execute {condition} items block 1 500 0 container.* "
+                f"farmersdelight:straw run say {marker}",
+                marker,
+            )
+        server.succeed(command("setblock 3 501 0 minecraft:air"))
+        server.succeed(command("setblock 3 500 0 minecraft:air"))
+        server.succeed(command("setblock 1 500 0 minecraft:air"))
         for biome, accepted in [
             ("terralith:lavender_forest", True),
             ("terralith:siberian_taiga", True),

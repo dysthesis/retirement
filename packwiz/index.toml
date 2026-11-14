@@ -13,6 +13,14 @@ file = "config/paxi/datapack_load_order.json"
 hash = "e305ca86eb2a550f86e9c608b07e6adba6aff3658b74d85c0adc7eb05d736e84"
 
 [[files]]
+file = "config/paxi/datapacks/retirement-compat/data/supplementaries/loot_table/blocks/flax.json"
+hash = "01a6eae1546dfd6f0074b1d1e8adec25f17df58fbfdf5561d11e5d5e07cc2631"
+
+[[files]]
+file = "config/paxi/datapacks/retirement-compat/data/supplementaries/tags/item/jar_cookies.json"
+hash = "fa20ef0f01799cb465c69be5bec579f889dbc3ace39ca4ebc3c3c8eb83c7732c"
+
+[[files]]
 file = "config/paxi/datapacks/retirement-compat/data/wildernature/tags/worldgen/biome/spawns_squirrel.json"
 hash = "b72e0ffa27c6e57b0acf169bcb5e65a9b4d7d85302b64dbf614a3c8eabec646d"
 
@@ -305,6 +313,11 @@ hash = "62f164a7b7c8731436389dc1855862d1eb1fa73fd76407b0fb8d129b7b6f00a9"
 metafile = true
 
 [[files]]
+file = "mods/moonlight.pw.toml"
+hash = "5b44f9d615e53f911b47b89aec48a255a462023ab25313adeaaeb67ebf77cc43"
+metafile = true
+
+[[files]]
 file = "mods/more-delight.pw.toml"
 hash = "c3e74ba92df17c5fbdb21c4d2418e1296dc579049f060bd0fb5e8604bf9556ac"
 metafile = true
@@ -427,6 +440,16 @@ metafile = true
 [[files]]
 file = "mods/structure-layout-optimizer.pw.toml"
 hash = "300bbdd1b2feaef57f228585b73ca8f35909ec247bda36dc9664288bc08b6158"
+metafile = true
+
+[[files]]
+file = "mods/supplementaries-squared.pw.toml"
+hash = "a7861588c61c1bd59bb96c88c5ab760ce8bd626599d142bee05a21480c0f3dca"
+metafile = true
+
+[[files]]
+file = "mods/supplementaries.pw.toml"
+hash = "faae8d5f7765916c63dfb97c6be075f1452ab01b15eddbfc2cbb6380d79bf9ad"
 metafile = true
 
 [[files]]
