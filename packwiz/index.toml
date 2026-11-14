@@ -9,13 +9,17 @@ file = "config/particle_core_config.toml"
 hash = "621cbc339671bcc38ed846b59a84fb931b980f7abd94747e13feb87069cad201"
 
 [[files]]
-file = "config/tectonic.json"
-hash = "fc5c426db0a123227d9019e34198d1328e41fab7a7c960a87a5bef191743b1d8"
+file = "config/paxi/datapack_load_order.json"
+hash = "f0c62ae27163bf2e2536a5c9132ec4bbd8bfb9df5dbfdd9200c1e4eaff6f1878"
 
 [[files]]
-file = "datapacks/stellarity-x-nullscape.pw.toml"
+file = "config/paxi/datapacks/stellarity-x-nullscape.pw.toml"
 hash = "7884337803babcd6ccbfaae85318547dd9e3384f3838191942d00c14ff93ffe0"
 metafile = true
+
+[[files]]
+file = "config/tectonic.json"
+hash = "2a3f541c1939b5a67d85634b580db7368564699dd388a2d43ab5645c8ba18780"
 
 [[files]]
 file = "mods/aether.pw.toml"
@@ -35,6 +39,11 @@ metafile = true
 [[files]]
 file = "mods/better-block-entities.pw.toml"
 hash = "82b91651e37e154e82eeedee46044e0d95affd761343f6cca07f3ba3697ef806"
+metafile = true
+
+[[files]]
+file = "mods/biolith.pw.toml"
+hash = "c61f06701276fc9c8475ed79e60c13068c1dfb2cdfda887a4ea68f8cd0482cb6"
 metafile = true
 
 [[files]]
@@ -218,6 +227,16 @@ hash = "22ca1b774bd7f8e29a672455d8aedc1c4929c79c365cb18116173643cf22e183"
 metafile = true
 
 [[files]]
+file = "mods/no-chat-reports.pw.toml"
+hash = "f3c5cb21ff2e78c7e8cdbd14d1535e6edd464d5a436dbfa4e60b8ea91374674d"
+metafile = true
+
+[[files]]
+file = "mods/no-telemetry.pw.toml"
+hash = "c5e7e0a3de03c138f587fc56dca70013978677e0cde2ad19024dc798178a49bd"
+metafile = true
+
+[[files]]
 file = "mods/nullscape.pw.toml"
 hash = "dcfbfa39abeaba554c2c5323f9b9a3ec58dfc386aca2d237f73948abdbdc7125"
 metafile = true
@@ -235,6 +254,11 @@ metafile = true
 [[files]]
 file = "mods/particular.pw.toml"
 hash = "9bceeadea46405d869a5b781efb109ac9fd7b4455c9c536092ccc93a135bad96"
+metafile = true
+
+[[files]]
+file = "mods/paxi.pw.toml"
+hash = "4d327db95d15a81aa38ca20bcdfd573a0537360c898622d13b263b2d9c06cd8d"
 metafile = true
 
 [[files]]

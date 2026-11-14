@@ -1,4 +1,7 @@
 {
+  "general": {
+    "mod_enabled": true
+  },
   "global_terrain": {
     "vertical_scale": 1.38,
     "elevation_boost": 0.1,

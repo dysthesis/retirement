@@ -13,7 +13,8 @@ install from="modrinth" *args: (pack from "install" args)
 # Remove a mod
 rm mod: (pack "remove" mod)
 
-# Export private mrpack; the unofficial Voxy backport must not be redistributed.
+# Export a deterministic private mrpack using the devShell's patched Packwiz (also used by .#modrinth).
+# The unofficial Voxy backport must not be redistributed.
 export: (pack "modrinth export")
 
 # Rebuild the pinned Voxy backport and private mrpack without updating existing mods.

@@ -1,8 +1,8 @@
-"""NixOS driver test: real service, network protocol, chunk generation and save/reload.
+"""NixOS driver test: real service, terrain height, integrated biomes and save/reload.
 
-Run through nix flake check, not directly. Packwiz changes require refreshing both
-modpack hashes in nix/packages/. Fresh-world smoke only: existing-world upgrades,
-authenticated player logins, backups and sustained load remain untested.
+Run through nix flake check, not directly. Packwiz changes require refreshing the
+modpack and export hashes in nix/packages/. Fresh-world smoke only: existing-world
+upgrades, authenticated player logins, backups and sustained load remain untested.
 """
 
 import json
@@ -36,12 +36,28 @@ try:
         client.wait_until_succeeds(settings["status"], timeout=600)
         server.succeed(command("forceload add 0 0"))
         marker = f"retirement-check-loaded-{boot}"
-        expect(f"execute if loaded 0 100 0 run say {marker}", marker)
+        expect(f"execute if loaded 0 500 0 run say {marker}", marker)
         if boot == 0:
-            server.succeed(command("setblock 0 100 0 minecraft:diamond_block"))
-        # Unique per boot: only a live server reading the saved chunk can pass.
+            server.succeed(command("setblock 0 500 0 minecraft:diamond_block"))
+        # Above vanilla's height limit: also catches Tectonic falling back to defaults.
         marker = f"retirement-check-persisted-{boot}"
-        expect(f"execute if block 0 100 0 minecraft:diamond_block run say {marker}", marker)
+        expect(f"execute if block 0 500 0 minecraft:diamond_block run say {marker}", marker)
+        for dimension, biome in [
+            ("minecraft:the_end", "nullscape:crystal_peaks"),
+            ("minecraft:overworld", "fishofthieves:tropical_island"),
+        ]:
+            key = f"{biome.split(':')[1]}_{boot}"
+            server.succeed(
+                command(
+                    f"execute in {dimension} store success storage retirement:check "
+                    f"{key} byte 1 run locate biome {biome}"
+                )
+            )
+            marker = f"retirement-check-{key}"
+            expect(
+                f"execute if data storage retirement:check {{{key}:1b}} run say {marker}",
+                marker,
+            )
         assert server.succeed(f"systemctl show {unit} -p NRestarts --value").strip() == "0"
         server.succeed(f"systemctl stop {unit}", timeout=120)
         assert server.succeed(f"systemctl show {unit} -p Result --value").strip() == "success"

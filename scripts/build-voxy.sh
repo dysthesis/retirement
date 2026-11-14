@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Private build of https://github.com/MCRcortex/voxy via m3t4f1v3's 1.21.1/Sodium 0.8 backport.
 # Upstream forbids redistributing unofficial builds: https://modrinth.com/mod/voxy
-# Requires JDK 21, git, sha256sum and packwiz; no existing mod is updated.
+# Requires the repository dev shell's JDK 21 and deterministic Packwiz; no existing mod is updated.
 set -euo pipefail
 root="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
 work="$(mktemp -d)"

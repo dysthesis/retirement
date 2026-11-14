@@ -5,6 +5,7 @@
     mkModpack,
     ...
   }: let
+    packwiz = pkgs.callPackage ./packwiz.nix {};
     modpacks = lib.makeScope pkgs.newScope (scope: {
       inherit mkModpack;
 
@@ -13,9 +14,10 @@
     });
   in {
     packages = {
+      inherit packwiz;
       modpack-server = modpacks.server;
       modpack-client = modpacks.client;
-      modrinth = pkgs.callPackage ./modrinth.nix {inherit self;};
+      modrinth = pkgs.callPackage ./modrinth.nix {inherit self packwiz;};
       default = modpacks.client;
     };
   };

@@ -28,6 +28,8 @@
             message = "retirement: packwiz requires ${pack.versions.minecraft}-fabric-${pack.versions.fabric}, but the server is ${config.services.minecraft-servers.servers.retirement.package.version}";
           }
         ];
+        # Fixed seed makes biome coverage reproducible.
+        services.minecraft-servers.servers.retirement.serverProperties.level-seed = "86204277";
 
         # Keep the real JVM flags, mods, world generation, authentication and firewall.
         virtualisation = {
