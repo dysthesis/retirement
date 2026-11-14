@@ -112,8 +112,18 @@ hash = "b3844193b2fd4e3f4075b2334730f5cba2c591be3d382f4ad63cfcbe832074da"
 metafile = true
 
 [[files]]
+file = "mods/entity-model-features.pw.toml"
+hash = "90ac6b37b37b05683d8898e9752e2aef840e9b04cc3f2d7c1776cd730c28038e"
+metafile = true
+
+[[files]]
 file = "mods/entityculling.pw.toml"
 hash = "da65b584b0a4c366e83d8acf81824ac1244ddda206c4a202d19ed3b08413e4ae"
+metafile = true
+
+[[files]]
+file = "mods/entitytexturefeatures.pw.toml"
+hash = "1d152d29950b882aaf24c021323c299eda8e45c60428b1428d213a5be2addff7"
 metafile = true
 
 [[files]]
@@ -462,7 +472,7 @@ metafile = true
 
 [[files]]
 file = "resourcepacks/fresh-animations.pw.toml"
-hash = "6a489b37b949921beffb24adb91d6f572c4ee82668b7dc15b8aaedd767476aad"
+hash = "871f06ae7465ba64ea565ff43b7065fabe53169fe3d2d21034dfddb977153bf0"
 metafile = true
 
 [[files]]
