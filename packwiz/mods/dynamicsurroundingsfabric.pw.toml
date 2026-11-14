@@ -1,0 +1,13 @@
+name = "Dynamic Surroundings"
+filename = "dynamicsurroundings-fabric-1.21.1-0.4.9.jar"
+side = "client"
+
+[download]
+url = "https://cdn.modrinth.com/data/H7fshfpD/versions/tC1BRduh/dynamicsurroundings-fabric-1.21.1-0.4.9.jar"
+hash-format = "sha512"
+hash = "954cec869189da265e9c7cf6f551544c614462cf89a2924392ed95ed5c5d28dc9e70036e8f35e65b789b195897e66462e1e4e3f3c9bfd97ee9d0a0974d24e921"
+
+[update]
+[update.modrinth]
+mod-id = "H7fshfpD"
+version = "tC1BRduh"

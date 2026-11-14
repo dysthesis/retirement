@@ -15,11 +15,6 @@ hash = "e71c04679ff75573cd8ef1003eb167830f794b8979f2bdd3c99d28793f2918b0"
 metafile = true
 
 [[files]]
-file = "mods/ambientsounds.pw.toml"
-hash = "9a7596969b984ae9c6932066c00d11759fdb2a337c44b445ec1ec9f27ae0324c"
-metafile = true
-
-[[files]]
 file = "mods/asynclogger.pw.toml"
 hash = "0f3729599d048f0d93627ba1c1a3ed4b96df2cbc895a826e6739bec0702beec2"
 metafile = true
@@ -72,6 +67,11 @@ metafile = true
 [[files]]
 file = "mods/dynamic-fps.pw.toml"
 hash = "582070fa54fe1743a837c0351eee7ea4a79080e647d5438656d372ae9433b272"
+metafile = true
+
+[[files]]
+file = "mods/dynamicsurroundingsfabric.pw.toml"
+hash = "085897055602aa3f1ea2116f342120c2c4714604b0f06ce7e92dd314e1c71c02"
 metafile = true
 
 [[files]]
