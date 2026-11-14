@@ -1,6 +1,6 @@
-# Minecraft clients require Java 25; the dev shell keeps JDK 21 for reproducible Voxy builds.
-# Fresh profiles get Wands shortcuts from packwiz/options.txt; existing players keep their Controls.
-# Keep preserve = true on its index entry so updates never overwrite player options.
+# Minecraft clients require Java 25; the dev shell keeps JDK 21 for reproducible patched-mod builds.
+# Fresh profiles get Wands shortcuts from packwiz/options.txt; Packwiz preserves existing Controls.
+# Keep preserve = true on its index entry so Packwiz updates never overwrite player options.
 # Resource layers put Animations before Extensions and Icon Xaero's before Icon Fresh.
 # Photon stays opt-in through Iris (O); shader hardware requirements are not pack defaults.
 # General entrypoint for the `packwiz` CLI without having to worry about cd-ing into the correct directory.
@@ -41,3 +41,14 @@ build-emi-rechiseled:
 # Rebuild EMI Loot's immutable input snapshots for concurrent network synchronization.
 build-emi-loot:
 	scripts/build-emi-loot.sh
+
+# Check actual EMI repair recipes in a running Fabric 1.21.1 client after joining a world.
+check-client-repairs pid output:
+	#!/usr/bin/env bash
+	set -euo pipefail
+	work="$(mktemp -d)"
+	trap 'rm -rf -- "$work"' EXIT
+	javac --add-modules jdk.attach -d "$work" scripts/CheckClientRepairs.java
+	printf 'Manifest-Version: 1.0\nAgent-Class: CheckClientRepairs\n\n' > "$work/manifest"
+	jar --create --file "$work/probe.jar" --manifest "$work/manifest" -C "$work" CheckClientRepairs.class
+	java --add-modules jdk.attach -cp "$work" CheckClientRepairs {{quote(pid)}} "$work/probe.jar" {{quote(output)}}
