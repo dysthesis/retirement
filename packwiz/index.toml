@@ -57,6 +57,11 @@ hash = "7fe287ca1bed0ad67f37e62a5816da7b7ae59486102c5e4b7532f0a999444527"
 metafile = true
 
 [[files]]
+file = "mods/cit-resewn.pw.toml"
+hash = "6d511d91e17e09d36b0b0c7065b07eb604146bc9f3df0fbc932948aaf33aa440"
+metafile = true
+
+[[files]]
 file = "mods/cloth-config.pw.toml"
 hash = "446c173c87b7908daee86b0dee89c6b628c77beb7a0bc091ff5252b7c0062080"
 metafile = true
@@ -64,6 +69,11 @@ metafile = true
 [[files]]
 file = "mods/configmanager.pw.toml"
 hash = "48eea561787fda4c303f60716c0266ab613e8d816642617515be3d04777189b2"
+metafile = true
+
+[[files]]
+file = "mods/continuity.pw.toml"
+hash = "4f97764f3cb4c74f84afbe32cf8a1d2cefecda129c0f1441906562dcb8f2b8cb"
 metafile = true
 
 [[files]]
@@ -113,7 +123,7 @@ metafile = true
 
 [[files]]
 file = "mods/fabric-api.pw.toml"
-hash = "8c3eee0d25275b9d572d1ce2c7fb2255474a62d57177c8db09f275085c794550"
+hash = "1ed7a6439d9c3cd9bc8e7db6a4362eb710de0f4da90b619f883e99f5765e96c0"
 metafile = true
 
 [[files]]
@@ -428,6 +438,46 @@ metafile = true
 [[files]]
 file = "mods/zfastnoise.pw.toml"
 hash = "735995fbc0515fd4bf94fa9a6060ada43620827cfaa9c6dae5d74d7bacc6259e"
+metafile = true
+
+[[files]]
+file = "resourcepacks/default-dark-mode.pw.toml"
+hash = "4aead38bb5d9ffcb8df8512b0cac7e03a238239fe81f33179126415662cc93bb"
+metafile = true
+
+[[files]]
+file = "resourcepacks/even-better-enchants.pw.toml"
+hash = "123aedbad1318ddfaef3173c56994542077ff0f8fd9982bfb3430b331d46323a"
+metafile = true
+
+[[files]]
+file = "resourcepacks/fast-better-grass.pw.toml"
+hash = "9bec6ecb763a81e7ddd77ce07f354c287085f585eb1e8d2442d93520975eae7b"
+metafile = true
+
+[[files]]
+file = "resourcepacks/fresh-animations-extensions.pw.toml"
+hash = "cc45eddc38491d24d9060f7737863cc5d4719f558e1acde8c8b9b1ce31054ff2"
+metafile = true
+
+[[files]]
+file = "resourcepacks/fresh-animations.pw.toml"
+hash = "6a489b37b949921beffb24adb91d6f572c4ee82668b7dc15b8aaedd767476aad"
+metafile = true
+
+[[files]]
+file = "resourcepacks/icon-fresh.pw.toml"
+hash = "4eac41dec26bd3e8b0298f1753d8888c60c0dfd0f0dc40b04a54144e66b7fe07"
+metafile = true
+
+[[files]]
+file = "resourcepacks/icon-xaeros.pw.toml"
+hash = "138782de21338a65a0ead81c88e1f6b6046dd20f1a9952a07d503dab948d0cd3"
+metafile = true
+
+[[files]]
+file = "resourcepacks/icons.pw.toml"
+hash = "1e34347e78a18e3d1b25969a841d78ea61ab4380cc1bb87899b0ad5ab0b7e788"
 metafile = true
 
 [[files]]
