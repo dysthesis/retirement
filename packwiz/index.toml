@@ -315,6 +315,16 @@ file = "mods/voxy-0.2.15-beta+retirement.1.jar"
 hash = "ab34ed4e4862269e34488274eea19be479b7a15f0bdb0148af67ec809f93aa95"
 
 [[files]]
+file = "mods/xaeros-minimap.pw.toml"
+hash = "3d9b82d9ae5481fb89d2b9ee9078ab07abe7f173c721b5fe305ee61e143d4a51"
+metafile = true
+
+[[files]]
+file = "mods/xaeros-world-map.pw.toml"
+hash = "73d1367d4abe99767382e71303cbf5cd0449f55c5ceb6a32f8d6c1c13536ead4"
+metafile = true
+
+[[files]]
 file = "mods/yacl.pw.toml"
 hash = "af20070dd9497817a83162c17b181a0a44f7213ea302d059a81c5aed02d0c877"
 metafile = true
