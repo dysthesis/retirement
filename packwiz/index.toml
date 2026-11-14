@@ -1,6 +1,10 @@
 hash-format = "sha256"
 
 [[files]]
+file = "config/tectonic.json"
+hash = "fc5c426db0a123227d9019e34198d1328e41fab7a7c960a87a5bef191743b1d8"
+
+[[files]]
 file = "datapacks/stellarity-x-nullscape.pw.toml"
 hash = "7884337803babcd6ccbfaae85318547dd9e3384f3838191942d00c14ff93ffe0"
 metafile = true

@@ -22,11 +22,7 @@
     };
   };
 
-  flake.nixosModules.default = {
-    pkgs,
-    lib,
-    ...
-  }: let
+  flake.nixosModules.default = {pkgs, ...}: let
     modpack = self.packages.${pkgs.stdenv.hostPlatform.system}.modpacks.server;
   in {
     imports = [
@@ -58,20 +54,8 @@
           white-list = true;
         };
 
-        symlinks =
-          {mods = "${modpack}/mods";}
-          # Fetch at build time for offline startup; leave onnx-cache writable.
-          // lib.mapAttrs' (name: hash:
-            lib.nameValuePair "terrain-diffusion-models/${name}" (pkgs.fetchurl {
-              url = "https://huggingface.co/xandergos/terrain-diffusion-30m-onnx/resolve/ad2df557eca5645f588766101cf3bc3682455c3e/${name}";
-              inherit hash;
-            })) {
-            "base_model.onnx" = "sha256-VD3niPc9CkASaFyQgln2FWARAqrOR1GuzOxkFUuhRcA=";
-            "coarse_model.onnx" = "sha256-1soVshsuNdXllKmsekJJojdlkMCtK1tJoebi0DNFAAg=";
-            "decoder_model.onnx" = "sha256-ZHOuR8puxNdD0w/k9dOB/kFYiZcU7/CbdiAFvb3vaME=";
-            "pipeline_data.json" = "sha256-4xMsPvDGXYYTYV+SeP/iO72TY93Nh/HMbxhFa8ye/lw=";
-            "world_pipeline_config.json" = "sha256-xg8LdNiTF+ZM/GI/v92CjxtbLlCqdQIKxAARAzgYU70=";
-          };
+        files."config" = "${modpack}/config";
+        symlinks.mods = "${modpack}/mods";
       };
     };
   };

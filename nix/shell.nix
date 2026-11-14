@@ -7,6 +7,7 @@
         just
         jdk21
         gitMinimal
+        jq
 
         nil
         statix
