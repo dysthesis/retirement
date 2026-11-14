@@ -123,6 +123,16 @@ hash = "085897055602aa3f1ea2116f342120c2c4714604b0f06ce7e92dd314e1c71c02"
 metafile = true
 
 [[files]]
+file = "mods/easy-anvils.pw.toml"
+hash = "c03848ab316f8f8e07656e08c675541ce90f0ad729d5b31df336fe8f27a58b3f"
+metafile = true
+
+[[files]]
+file = "mods/easy-magic.pw.toml"
+hash = "e7a682a577780a52963a998f6941c13cbd75455a65368e9b665c56efca37cbb6"
+metafile = true
+
+[[files]]
 file = "mods/ecologics.pw.toml"
 hash = "b3844193b2fd4e3f4075b2334730f5cba2c591be3d382f4ad63cfcbe832074da"
 metafile = true
@@ -380,6 +390,11 @@ metafile = true
 [[files]]
 file = "mods/platform.pw.toml"
 hash = "11993496610f018fd777af45b14a4f3d6748de1f46307aa3d76ff41b7b62b675"
+metafile = true
+
+[[files]]
+file = "mods/puzzles-lib.pw.toml"
+hash = "989cde9caba6f1b61aae36f9048725335a8da1d90ad33dc57a58ef3c04d6858b"
 metafile = true
 
 [[files]]
