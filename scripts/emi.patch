@@ -1,0 +1,69 @@
+--- a/xplat/src/main/java/dev/emi/emi/VanillaPlugin.java
++++ b/xplat/src/main/java/dev/emi/emi/VanillaPlugin.java
+@@ -495,11 +495,11 @@
+ 			try {
+ 				if (i.getComponents().getOrDefault(DataComponentTypes.MAX_DAMAGE, 0) > 0) {
+ 					if (i instanceof ArmorItem ai && ai.getMaterial() != null && ai.getMaterial().value().repairIngredient().get() != null
+-							&& !ai.getMaterial().value().repairIngredient().get().isEmpty()) {
++							&& ai.getMaterial().value().repairIngredient().get().getMatchingStacks().length > 0) {
+ 						Identifier id = synthetic("anvil/repairing/material", EmiUtil.subId(i) + "/" + EmiUtil.subId(ai.getMaterial().value().repairIngredient().get().getMatchingStacks()[0].getItem()));
+ 						addRecipeSafe(registry, () -> new EmiAnvilRecipe(EmiStack.of(i), EmiIngredient.of(ai.getMaterial().value().repairIngredient().get()), id));
+ 					} else if (i instanceof ToolItem ti && ti.getMaterial().getRepairIngredient() != null
+-							&& !ti.getMaterial().getRepairIngredient().isEmpty()) {
++							&& ti.getMaterial().getRepairIngredient().getMatchingStacks().length > 0) {
+ 						Identifier id = synthetic("anvil/repairing/material", EmiUtil.subId(i) + "/" + EmiUtil.subId(ti.getMaterial().getRepairIngredient().getMatchingStacks()[0].getItem()));
+ 						addRecipeSafe(registry, () -> new EmiAnvilRecipe(EmiStack.of(i), EmiIngredient.of(ti.getMaterial().getRepairIngredient()), id));
+ 					}
+--- a/build.gradle
++++ b/build.gradle
+@@ -1,6 +1,6 @@
+ plugins {
+-	id "architectury-plugin" version "3.4-SNAPSHOT"
+-	id "dev.architectury.loom" version "1.7-SNAPSHOT" apply false
++	id "architectury-plugin" version "3.4-20260412.215235-1"
++	id "dev.architectury.loom" version "1.7-20250818.175821-1" apply false
+ }
+ 
+ architectury {
+@@ -40,6 +40,11 @@
+ 		options.release = 21
+ 	})
+ 
++	tasks.withType(AbstractArchiveTask).configureEach {
++		preserveFileTimestamps = false
++		reproducibleFileOrder = true
++	}
++
+ 	java {
+ 		withSourcesJar()
+ 	}
+@@ -72,6 +77,7 @@
+ 					}
+ 				}
+ 			}
++			classNames.sort()
+ 
+ 			def parseHex = { hex ->
+ 				return hex.split().collect { j ->
+--- a/settings.gradle
++++ b/settings.gradle
+@@ -8,9 +8,7 @@
+ }
+ 
+ include("xplat")
+-include("xplat:mojmap")
+ include("fabric")
+ //include("forge")
+-include("neoforge")
+ 
+ rootProject.name = "emi"
+--- a/gradle/wrapper/gradle-wrapper.properties
++++ b/gradle/wrapper/gradle-wrapper.properties
+@@ -1,6 +1,7 @@
+ distributionBase=GRADLE_USER_HOME
+ distributionPath=wrapper/dists
+ distributionUrl=https\://services.gradle.org/distributions/gradle-8.8-bin.zip
++distributionSha256Sum=a4b4158601f8636cdeeab09bd76afb640030bb5b144aafe261a5e8af027dc612
+ networkTimeout=10000
+ validateDistributionUrl=true
+ zipStoreBase=GRADLE_USER_HOME

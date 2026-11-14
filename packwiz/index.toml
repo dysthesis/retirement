@@ -157,6 +157,10 @@ hash = "b3844193b2fd4e3f4075b2334730f5cba2c591be3d382f4ad63cfcbe832074da"
 metafile = true
 
 [[files]]
+file = "mods/emi-1.1.24+retirement.1+1.21.1+fabric.jar"
+hash = "2e1248afda209b8990a76d7d1f4f86942011240c2963ca12cf26575f59886556"
+
+[[files]]
 file = "mods/emi-enchanting.pw.toml"
 hash = "1f9cd4e83ced98ba9f8ccff164ce108990e1e8f8f8205b6c549f7db26f1d8c11"
 metafile = true
@@ -169,11 +173,6 @@ metafile = true
 [[files]]
 file = "mods/emi-ores.pw.toml"
 hash = "fe9b380cd0c833d8eaa01fa859c8d53ad1fbd329d829f43633de3a2b6f0db4cc"
-metafile = true
-
-[[files]]
-file = "mods/emi.pw.toml"
-hash = "a0a3d38daafb58117aaf29bb0b0520534abb7175e8d98f63cb47a65c75afac79"
 metafile = true
 
 [[files]]

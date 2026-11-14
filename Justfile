@@ -21,3 +21,7 @@ export: (pack "modrinth export")
 # Rebuild and verify the pinned private Voxy backport; refresh pack metadata separately.
 build-voxy:
 	scripts/build-voxy.sh
+
+# Rebuild the pinned EMI empty-repair-tag fix; refresh pack metadata separately.
+build-emi:
+	scripts/build-emi.sh
