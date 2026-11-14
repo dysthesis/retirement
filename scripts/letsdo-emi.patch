@@ -1,0 +1,3360 @@
+diff --git 1/letsdo-original/build.gradle 2/clean-A/build.gradle
+index 7b8c4dc..3566de4 100644
+--- 1/letsdo-original/build.gradle
++++ 2/clean-A/build.gradle
+@@ -1,45 +1,52 @@
+ plugins {
+-    id 'dev.architectury.loom' version '1.10-SNAPSHOT' apply false
+-    id 'architectury-plugin' version '3.4-SNAPSHOT'
+-    id 'com.github.johnrengelman.shadow' version '8.1.1' apply false
++    id 'fabric-loom' version '1.16.3'
+ }
+ 
+-architectury {
+-    minecraft = rootProject.minecraft_version
++version = '2.0.3+retirement.1'
++group = 'com.pandaismyname1'
++base.archivesName = 'emi-letsdo-compat'
++
++repositories {
++    mavenCentral()
+ }
+ 
+-subprojects {
+-    apply plugin: "dev.architectury.loom"
+-
+-    loom {
+-        silentMojangMappingsLicense()
+-    }
+-
+-    dependencies {
+-        minecraft "com.mojang:minecraft:${rootProject.minecraft_version}"
+-        mappings loom.officialMojangMappings()
++dependencies {
++    minecraft 'com.mojang:minecraft:1.21.1'
++    mappings loom.officialMojangMappings()
++    modImplementation 'net.fabricmc:fabric-loader:0.20.1'
++    modCompileOnly fileTree(providers.gradleProperty('retirementDependencies').get()) {
++        include '**/*.jar'
+     }
+ }
+ 
+-allprojects {
+-    apply plugin: "java"
+-    apply plugin: "architectury-plugin"
+-    apply plugin: "maven-publish"
+-
+-    archivesBaseName = rootProject.archives_base_name
+-    version = rootProject.mod_version
+-    group = rootProject.maven_group
+-
+-    repositories {
+-        maven { url "https://maven.neoforged.net/releases" }
+-    }
+-
+-    tasks.withType(JavaCompile) {
+-        options.encoding = "UTF-8"
+-        options.release.set(21)
+-    }
+-
+-    java {
+-        withSourcesJar()
++sourceSets {
++    main {
++        java.srcDirs = ['common/src/main/java', 'fabric/src/main/java']
++        resources.srcDirs = ['common/src/main/resources', 'fabric/src/main/resources']
+     }
+ }
++
++java {
++    toolchain.languageVersion = JavaLanguageVersion.of(21)
++}
++
++tasks.withType(JavaCompile).configureEach {
++    options.encoding = 'UTF-8'
++    options.release = 21
++}
++
++tasks.withType(AbstractArchiveTask).configureEach {
++    preserveFileTimestamps = false
++    reproducibleFileOrder = true
++}
++
++processResources {
++    inputs.property 'version', project.version
++    filesMatching('fabric.mod.json') {
++        expand version: project.version
++    }
++}
++
++jar {
++    from('LICENSE.md')
++}
+diff --git 1/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/Emi_letsdo_compat.java 2/clean-A/common/src/main/java/com/pandaismyname1/emiletsdocompat/Emi_letsdo_compat.java
+index c7e4488..e1637f4 100644
+--- 1/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/Emi_letsdo_compat.java
++++ 2/clean-A/common/src/main/java/com/pandaismyname1/emiletsdocompat/Emi_letsdo_compat.java
+@@ -4,22 +4,6 @@ public class Emi_letsdo_compat {
+     public static final String MOD_ID = "emi_letsdo_compat";
+ 
+     public static void init() {
+-        try {
+-            Class.forName("net.satisfy.meadow.Meadow");
+-            com.pandaismyname1.emiletsdocompat.meadow.internal.Registry.init();
+-        } catch (ClassNotFoundException | NoSuchFieldError e) {
+-            // Meadow not found
+-        }
+-
+-
+-        try {
+-            Class.forName("net.satisfy.bakery.Bakery");
+-            Class.forName("net.satisfy.bakery.recipe.BakingStationRecipe");
+-            com.pandaismyname1.emiletsdocompat.bakery.internal.Registry.init();
+-        } catch (ClassNotFoundException | NoSuchFieldError e) {
+-            // Bakery not found
+-        }
+-
+         try {
+             Class.forName("net.satisfy.bakery.Bakery");
+             Class.forName("net.satisfy.bakery.core.recipe.BakingStationRecipe");
+@@ -28,12 +12,6 @@ public class Emi_letsdo_compat {
+             // Bakery not found
+         }
+ 
+-        try {
+-            Class.forName("net.satisfy.vinery.Vinery");
+-            com.pandaismyname1.emiletsdocompat.vinery.internal.Registry.init();
+-        } catch (ClassNotFoundException | NoSuchFieldError e) {
+-            // Vinery not found
+-        }
+     }
+ }
+ 
+diff --git 1/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/LetsDoEmiPlugin.java 2/clean-A/common/src/main/java/com/pandaismyname1/emiletsdocompat/LetsDoEmiPlugin.java
+index 7ee60e3..775c789 100644
+--- 1/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/LetsDoEmiPlugin.java
++++ 2/clean-A/common/src/main/java/com/pandaismyname1/emiletsdocompat/LetsDoEmiPlugin.java
+@@ -11,17 +11,6 @@ public class LetsDoEmiPlugin implements EmiPlugin {
+     public void register(EmiRegistry registry) {
+         RecipeManager manager = registry.getRecipeManager();
+ 
+-        // Compats:
+-        // Bakery, Beachparty, Brewery, Candlelight, Farm And Charm, Hebalbrews, Meadow, Vinery
+-
+-        try {
+-            Class.forName("net.satisfy.bakery.Bakery");
+-            Class.forName("net.satisfy.bakery.recipe.BakingStationRecipe");
+-            new com.pandaismyname1.emiletsdocompat.bakery.BakeryCompat().init(registry, manager);
+-        } catch (ClassNotFoundException | NoSuchFieldException | NoSuchFieldError e) {
+-            // Bakery not found
+-        }
+-
+         try {
+             Class.forName("net.satisfy.bakery.Bakery");
+             Class.forName("net.satisfy.bakery.core.recipe.BakingStationRecipe");
+@@ -37,37 +26,6 @@ public class LetsDoEmiPlugin implements EmiPlugin {
+             // Beachparty not found
+         }
+ 
+-//        try {
+-//            Class.forName("net.satisfy.brewery.Brewery");
+-//            Class.forName("net.satisfy.brewery.recipe.BrewingRecipe");
+-//            new com.pandaismyname1.emiletsdocompat.brewery.BreweryCompat().init(registry, manager);
+-//        } catch (ClassNotFoundException | NoSuchFieldException | NoSuchFieldError e) {
+-//            // Brewery not found
+-//        }
+-
+-        try {
+-            Class.forName("net.satisfy.brewery.Brewery");
+-            Class.forName("net.satisfy.brewery.core.recipe.BrewingRecipe");
+-            new com.pandaismyname1.emiletsdocompat.brewery_fc.BreweryFCCompat().init(registry, manager);
+-        } catch (ClassNotFoundException | NoSuchFieldException | NoSuchFieldError e) {
+-            // Brewery not found
+-        }
+-
+-//        try {
+-//            Class.forName("net.satisfy.candlelight.Candlelight");
+-//            Class.forName("net.satisfy.candlelight.recipe.CookingPanRecipe");
+-//            new com.pandaismyname1.emiletsdocompat.candlelight.CandlelightCompat().init(registry, manager);
+-//        } catch (ClassNotFoundException | NoSuchFieldException | NoSuchFieldError e) {
+-//            // Candlelight not found
+-//        }
+-
+-        try {
+-            Class.forName("net.satisfy.farm_and_charm.FarmAndCharm");
+-            new com.pandaismyname1.emiletsdocompat.farm_and_charm.FarmAndCharmCompat().init(registry, manager);
+-        } catch (ClassNotFoundException | NoSuchFieldException | NoSuchFieldError e) {
+-            // Farmandcharm not found
+-        }
+-
+         try {
+             Class.forName("net.satisfy.herbalbrews.HerbalBrews");
+             Class.forName("net.satisfy.herbalbrews.core.registry.RecipeTypeRegistry");
+@@ -76,17 +34,10 @@ public class LetsDoEmiPlugin implements EmiPlugin {
+             // Herbalbrews not found
+         }
+ 
+-        try {
+-            Class.forName("net.satisfy.meadow.Meadow");
+-            new com.pandaismyname1.emiletsdocompat.meadow.MeadowCompat().init(registry, manager);
+-        } catch (ClassNotFoundException | NoSuchFieldException | NoSuchFieldError e) {
+-            // Meadow not found
+-        }
+-
+         try {
+             Class.forName("net.satisfy.vinery.core.Vinery");
+-            new com.pandaismyname1.emiletsdocompat.vinery.VineryCompat().init(registry, manager);
+-        } catch (ClassNotFoundException | NoSuchFieldException | NoSuchFieldError e) {
++            new com.pandaismyname1.emiletsdocompat.vinery.VineryCompat().init(registry);
++        } catch (ClassNotFoundException | NoSuchFieldError e) {
+             // Vinery not found
+         }
+ 
+diff --git 1/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/bakery/BakeryCompat.java 2/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/bakery/BakeryCompat.java
+deleted file mode 100644
+index 8fa5bb6..0000000
+--- 1/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/bakery/BakeryCompat.java
++++ /dev/null
+@@ -1,85 +0,0 @@
+-package com.pandaismyname1.emiletsdocompat.bakery;
+-
+-import com.pandaismyname1.emiletsdocompat.IEmiModCompat;
+-import dev.emi.emi.api.EmiRegistry;
+-import dev.emi.emi.api.recipe.EmiRecipeCategory;
+-import dev.emi.emi.api.stack.EmiStack;
+-import net.minecraft.resources.ResourceLocation;
+-import net.minecraft.world.item.crafting.RecipeManager;
+-
+-public class BakeryCompat implements IEmiModCompat {
+-
+-    public void init(EmiRegistry registry, RecipeManager manager) throws NoSuchFieldException {
+-//        try {
+-//            var recipeCategory = new EmiRecipeCategory(ResourceLocation.fromNamespaceAndPath(net.satisfy.bakery.Bakery.MOD_ID, "caking"),
+-//                    EmiStack.of(net.satisfy.bakery.registry.ObjectRegistry.BAKER_STATION.get()));
+-//            registerRecipeType(registry, manager,
+-//                    recipeCategory,
+-//                    (recipe) -> {
+-//                        registry.addRecipe(new BakingStationRecipe(recipeCategory, (net.satisfy.bakery.recipe.BakingStationRecipe) recipe));
+-//                    },
+-//                    net.satisfy.bakery.registry.RecipeTypeRegistry.BAKING_STATION_RECIPE_TYPE.get(),
+-//                    EmiStack.of(net.satisfy.bakery.registry.ObjectRegistry.BAKER_STATION.get()));
+-//        } catch (NoSuchFieldError | NoSuchFieldException | ClassNotFoundException e) {
+-//        }
+-//
+-//        try {
+-//            var recipeCategory = new EmiRecipeCategory(ResourceLocation.fromNamespaceAndPath(net.satisfy.bakery.Bakery.MOD_ID, "doughing"),
+-//                    EmiStack.of(net.satisfy.bakery.registry.ObjectRegistry.CRAFTING_BOWL.get()));
+-//            registerRecipeType(registry, manager,
+-//                    recipeCategory,
+-//                    (recipe) -> {
+-//                        registry.addRecipe(new CraftingBowlRecipe(recipeCategory, (net.satisfy.bakery.recipe.CraftingBowlRecipe) recipe));
+-//                    },
+-//                    net.satisfy.bakery.registry.RecipeTypeRegistry.CRAFTING_BOWL_RECIPE_TYPE.get(),
+-//                    EmiStack.of(net.satisfy.bakery.registry.ObjectRegistry.CRAFTING_BOWL.get()));
+-//        } catch (NoSuchFieldError | NoSuchFieldException | ClassNotFoundException e) {
+-//        }
+-//
+-//        try {
+-//            var recipeCategory = new EmiRecipeCategory(ResourceLocation.fromNamespaceAndPath(net.satisfy.bakery.Bakery.MOD_ID, "stove"),
+-//                    EmiStack.of(net.satisfy.bakery.registry.ObjectRegistry.BRICK_STOVE.get()));
+-//            registerRecipeType(registry, manager,
+-//                    recipeCategory,
+-//                    (recipe) -> {
+-//                        registry.addRecipe(new StoveRecipe(recipeCategory, (net.satisfy.bakery.recipe.StoveRecipe) recipe));
+-//                    },
+-//                    net.satisfy.bakery.registry.RecipeTypeRegistry.STOVE_RECIPE_TYPE.get(),
+-//                    EmiStack.of(net.satisfy.bakery.registry.ObjectRegistry.BRICK_STOVE.get()),
+-//                    EmiStack.of(net.satisfy.bakery.registry.ObjectRegistry.COBBLESTONE_STOVE.get()),
+-//                    EmiStack.of(net.satisfy.bakery.registry.ObjectRegistry.SANDSTONE_STOVE.get()),
+-//                    EmiStack.of(net.satisfy.bakery.registry.ObjectRegistry.STONE_BRICKS_STOVE.get()),
+-//                    EmiStack.of(net.satisfy.bakery.registry.ObjectRegistry.DEEPSLATE_STOVE.get()),
+-//                    EmiStack.of(net.satisfy.bakery.registry.ObjectRegistry.GRANITE_STOVE.get()),
+-//                    EmiStack.of(net.satisfy.bakery.registry.ObjectRegistry.END_STOVE.get()),
+-//                    EmiStack.of(net.satisfy.bakery.registry.ObjectRegistry.MUD_STOVE.get()),
+-//                    EmiStack.of(net.satisfy.bakery.registry.ObjectRegistry.QUARTZ_STOVE.get()),
+-//                    EmiStack.of(net.satisfy.bakery.registry.ObjectRegistry.RED_NETHER_BRICKS_STOVE.get()));
+-//        } catch (NoSuchFieldError | NoSuchFieldException | ClassNotFoundException e) {
+-//        }
+-//
+-//        try {
+-//            var recipeCategory = new EmiRecipeCategory(ResourceLocation.fromNamespaceAndPath(net.satisfy.bakery.Bakery.MOD_ID, "pot_cooking"),
+-//                    EmiStack.of(net.satisfy.bakery.registry.ObjectRegistry.SMALL_COOKING_POT.get()));
+-//            registerRecipeType(registry, manager,
+-//                    recipeCategory,
+-//                    (recipe) -> {
+-//                        registry.addRecipe(new PotCookingRecipe(recipeCategory, (net.satisfy.bakery.recipe.CookingPotRecipe) recipe));
+-//                    },
+-//                    net.satisfy.bakery.registry.RecipeTypeRegistry.COOKING_POT_RECIPE_TYPE.get(),
+-//                    EmiStack.of(net.satisfy.bakery.registry.ObjectRegistry.SMALL_COOKING_POT.get()));
+-//        } catch (NoSuchFieldError | NoSuchFieldException | ClassNotFoundException e) {
+-//        }
+-        try {
+-            var recipeCategory = new EmiRecipeCategory(ResourceLocation.fromNamespaceAndPath(com.pandaismyname1.emiletsdocompat.Emi_letsdo_compat.MOD_ID, "cake_cut"),
+-                    EmiStack.of(net.minecraft.world.item.Items.CAKE));
+-            registerRecipeType(registry, manager,
+-                    recipeCategory,
+-                    (recipe) -> {
+-                        registry.addRecipe(new CustomCakeCutRecipe(recipeCategory, (com.pandaismyname1.emiletsdocompat.bakery.internal.CakeCutRecipe) recipe));
+-                    },
+-                    com.pandaismyname1.emiletsdocompat.bakery.internal.Registry.CAKE_CUT.get());
+-        } catch (NoSuchFieldError | NoSuchFieldException | ClassNotFoundException e) {
+-        }
+-    }
+-}
+diff --git 1/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/bakery/BakingStationRecipe.java 2/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/bakery/BakingStationRecipe.java
+deleted file mode 100644
+index 3e3927a..0000000
+--- 1/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/bakery/BakingStationRecipe.java
++++ /dev/null
+@@ -1,62 +0,0 @@
+-//package com.pandaismyname1.emiletsdocompat.bakery;
+-//
+-//import com.pandaismyname1.emiletsdocompat.MockRecipeIdGenerator;
+-//import dev.architectury.utils.EnvExecutor;
+-//import dev.architectury.utils.GameInstance;
+-//import dev.emi.emi.api.recipe.BasicEmiRecipe;
+-//import dev.emi.emi.api.recipe.EmiRecipeCategory;
+-//import dev.emi.emi.api.stack.EmiIngredient;
+-//import dev.emi.emi.api.stack.EmiStack;
+-//import dev.emi.emi.api.widget.WidgetHolder;
+-//import net.minecraft.core.RegistryAccess;
+-//import net.minecraft.resources.ResourceLocation;
+-//
+-//import java.util.function.Supplier;
+-//
+-//public class BakingStationRecipe extends BasicEmiRecipe {
+-//    public static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath("bakery", "textures/gui/baking_station.png");
+-//    protected static final Supplier<RegistryAccess> REGISTRY_ACCESS =
+-//            EnvExecutor.getEnvSpecific(() -> () -> () -> GameInstance.getClient().player.level().registryAccess(),
+-//                    () -> () -> () -> GameInstance.getServer().registryAccess());
+-//
+-//    public BakingStationRecipe(EmiRecipeCategory category, net.satisfy.bakery.recipe.BakingStationRecipe recipe) {
+-//        super(category, MockRecipeIdGenerator.generateRecipeId(), 70, 18);
+-//        var ingredients = recipe.getIngredients();
+-//        for (var ingredient : ingredients) {
+-//            this.inputs.add(EmiIngredient.of(ingredient));
+-//        }
+-//        this.outputs.add(EmiStack.of(recipe.getResultItem(REGISTRY_ACCESS.get())));
+-//    }
+-//
+-//    @Override
+-//    public void addWidgets(WidgetHolder widgets) {
+-//        widgets.addTexture(TEXTURE, 0, 0, 124, 60, 26, 12);
+-//        widgets.addFillingArrow(52, 24, 5000);
+-//
+-//
+-//        if (!this.inputs.isEmpty()) {
+-//            var s = widgets.addSlot(this.inputs.get(0), 49 - 26, 24 - 12);
+-//            s.drawBack(false);
+-//        }
+-//
+-//        if (this.inputs.size() > 1) {
+-//            var s = widgets.addSlot(this.inputs.get(1), 49 - 26, 42 - 12);
+-//            s.drawBack(false);
+-//        }
+-//
+-//        if (!this.outputs.isEmpty()) {
+-//            var s = widgets.addSlot(this.outputs.get(0), 109 - 26, 34 - 12);
+-//            s.drawBack(false);
+-//        }
+-//    }
+-//
+-//    @Override
+-//    public int getDisplayHeight() {
+-//        return 60;
+-//    }
+-//
+-//    @Override
+-//    public int getDisplayWidth() {
+-//        return 124;
+-//    }
+-//}
+\ No newline at end of file
+diff --git 1/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/bakery/CraftingBowlRecipe.java 2/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/bakery/CraftingBowlRecipe.java
+deleted file mode 100644
+index 26414ae..0000000
+--- 1/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/bakery/CraftingBowlRecipe.java
++++ /dev/null
+@@ -1,72 +0,0 @@
+-//package com.pandaismyname1.emiletsdocompat.bakery;
+-//
+-//import com.pandaismyname1.emiletsdocompat.MockRecipeIdGenerator;
+-//import dev.architectury.utils.EnvExecutor;
+-//import dev.architectury.utils.GameInstance;
+-//import dev.emi.emi.api.recipe.BasicEmiRecipe;
+-//import dev.emi.emi.api.recipe.EmiRecipeCategory;
+-//import dev.emi.emi.api.stack.EmiIngredient;
+-//import dev.emi.emi.api.stack.EmiStack;
+-//import dev.emi.emi.api.widget.WidgetHolder;
+-//import net.minecraft.core.RegistryAccess;
+-//import net.minecraft.resources.ResourceLocation;
+-//
+-//import java.util.function.Supplier;
+-//
+-//public class CraftingBowlRecipe extends BasicEmiRecipe {
+-//    public static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath("bakery", "textures/gui/crafting_bowl.png");
+-//    protected static final Supplier<RegistryAccess> REGISTRY_ACCESS =
+-//            EnvExecutor.getEnvSpecific(() -> () -> () -> GameInstance.getClient().player.level().registryAccess(),
+-//                    () -> () -> () -> GameInstance.getServer().registryAccess());
+-//
+-//    public CraftingBowlRecipe(EmiRecipeCategory category, net.satisfy.bakery.recipe.CraftingBowlRecipe recipe) {
+-//        super(category, MockRecipeIdGenerator.generateRecipeId(), 70, 18);
+-//        var ingredients = recipe.getIngredients();
+-//        for (var ingredient : ingredients) {
+-//            this.inputs.add(EmiIngredient.of(ingredient));
+-//        }
+-//        this.outputs.add(EmiStack.of(recipe.getResultItem(REGISTRY_ACCESS.get())));
+-//    }
+-//
+-//    @Override
+-//    public void addWidgets(WidgetHolder widgets) {
+-//        widgets.addTexture(TEXTURE, 0, 0, 124, 60, 16, 12);
+-//        widgets.addFillingArrow(62, 24, 5000);
+-//
+-//
+-//        if (!this.inputs.isEmpty()) {
+-//            var s = widgets.addSlot(this.inputs.get(0), 13, 12);
+-//            s.drawBack(false);
+-//        }
+-//
+-//        if (this.inputs.size() > 1) {
+-//            var s = widgets.addSlot(this.inputs.get(1), 33, 12);
+-//            s.drawBack(false);
+-//        }
+-//
+-//        if (this.inputs.size() > 2) {
+-//            var s = widgets.addSlot(this.inputs.get(2), 13, 30);
+-//            s.drawBack(false);
+-//        }
+-//
+-//        if (this.inputs.size() > 3) {
+-//            var s = widgets.addSlot(this.inputs.get(3), 33, 30);
+-//            s.drawBack(false);
+-//        }
+-//
+-//        if (!this.outputs.isEmpty()) {
+-//            var s = widgets.addSlot(this.outputs.get(0), 93, 22);
+-//            s.drawBack(false);
+-//        }
+-//    }
+-//
+-//    @Override
+-//    public int getDisplayHeight() {
+-//        return 60;
+-//    }
+-//
+-//    @Override
+-//    public int getDisplayWidth() {
+-//        return 124;
+-//    }
+-//}
+\ No newline at end of file
+diff --git 1/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/bakery/PotCookingRecipe.java 2/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/bakery/PotCookingRecipe.java
+deleted file mode 100644
+index a72e54d..0000000
+--- 1/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/bakery/PotCookingRecipe.java
++++ /dev/null
+@@ -1,91 +0,0 @@
+-//package com.pandaismyname1.emiletsdocompat.bakery;
+-//
+-//import com.pandaismyname1.emiletsdocompat.MockRecipeIdGenerator;
+-//import dev.architectury.utils.EnvExecutor;
+-//import dev.architectury.utils.GameInstance;
+-//import dev.emi.emi.api.recipe.BasicEmiRecipe;
+-//import dev.emi.emi.api.recipe.EmiRecipeCategory;
+-//import dev.emi.emi.api.stack.EmiIngredient;
+-//import dev.emi.emi.api.stack.EmiStack;
+-//import dev.emi.emi.api.widget.WidgetHolder;
+-//import net.minecraft.core.RegistryAccess;
+-//import net.minecraft.resources.ResourceLocation;
+-//import net.minecraft.world.item.ItemStack;
+-//
+-//import java.util.function.Supplier;
+-//
+-//public class PotCookingRecipe extends BasicEmiRecipe {
+-//    public static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath("bakery", "textures/gui/pot_gui.png");
+-//    protected static final Supplier<RegistryAccess> REGISTRY_ACCESS =
+-//            EnvExecutor.getEnvSpecific(() -> () -> () -> GameInstance.getClient().player.level().registryAccess(),
+-//                    () -> () -> () -> GameInstance.getServer().registryAccess());
+-//    protected final ItemStack CONTAINER_ITEM;
+-//
+-//    public PotCookingRecipe(EmiRecipeCategory category, net.satisfy.bakery.recipe.CookingPotRecipe recipe) {
+-//        super(category, MockRecipeIdGenerator.generateRecipeId(), 70, 18);
+-//        CONTAINER_ITEM = recipe.getContainer();
+-//        var ingredients = recipe.getIngredients();
+-//        for (var ingredient : ingredients) {
+-//            this.inputs.add(EmiIngredient.of(ingredient));
+-//        }
+-//        this.outputs.add(EmiStack.of(recipe.getResultItem(REGISTRY_ACCESS.get())));
+-//    }
+-//
+-//    @Override
+-//    public void addWidgets(WidgetHolder widgets) {
+-//        widgets.addTexture(TEXTURE, 0, 0, 124, 60, 26, 12);
+-//        widgets.addAnimatedTexture(TEXTURE, 67, 3, 19, 29, 176, 16, 5000, true, false, false);
+-//        widgets.addAnimatedTexture(TEXTURE, 98, 44, 16, 14, 176, 0, 5000, false, true, false);
+-//
+-//
+-//        if (!this.inputs.isEmpty()) {
+-//            var s = widgets.addSlot(this.inputs.get(0), 3, 4);
+-//            s.drawBack(false);
+-//        }
+-//
+-//        if (this.inputs.size() > 1) {
+-//            var s = widgets.addSlot(this.inputs.get(1), 21, 4);
+-//            s.drawBack(false);
+-//        }
+-//
+-//        if (this.inputs.size() > 2) {
+-//            var s = widgets.addSlot(this.inputs.get(2), 39, 4);
+-//            s.drawBack(false);
+-//        }
+-//
+-//        if (this.inputs.size() > 3) {
+-//            var s = widgets.addSlot(this.inputs.get(3), 3, 22);
+-//            s.drawBack(false);
+-//        }
+-//
+-//        if (this.inputs.size() > 4) {
+-//            var s = widgets.addSlot(this.inputs.get(4), 21, 22);
+-//            s.drawBack(false);
+-//        }
+-//
+-//        if (this.inputs.size() > 5) {
+-//            var s = widgets.addSlot(this.inputs.get(5), 39, 22);
+-//            s.drawBack(false);
+-//        }
+-//
+-//        if (CONTAINER_ITEM != null) {
+-//            var s = widgets.addSlot(EmiStack.of(CONTAINER_ITEM), 68, 43);
+-//            s.drawBack(false);
+-//        }
+-//
+-//        if (!this.outputs.isEmpty()) {
+-//            var s = widgets.addSlot(this.outputs.get(0), 97, 15);
+-//            s.drawBack(false);
+-//        }
+-//    }
+-//
+-//    @Override
+-//    public int getDisplayHeight() {
+-//        return 60;
+-//    }
+-//
+-//    @Override
+-//    public int getDisplayWidth() {
+-//        return 124;
+-//    }
+-//}
+\ No newline at end of file
+diff --git 1/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/bakery/StoveRecipe.java 2/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/bakery/StoveRecipe.java
+deleted file mode 100644
+index 39962b5..0000000
+--- 1/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/bakery/StoveRecipe.java
++++ /dev/null
+@@ -1,83 +0,0 @@
+-//package com.pandaismyname1.emiletsdocompat.bakery;
+-//
+-//import com.pandaismyname1.emiletsdocompat.MockRecipeIdGenerator;
+-//import dev.architectury.utils.EnvExecutor;
+-//import dev.architectury.utils.GameInstance;
+-//import dev.emi.emi.api.recipe.BasicEmiRecipe;
+-//import dev.emi.emi.api.recipe.EmiRecipeCategory;
+-//import dev.emi.emi.api.stack.EmiIngredient;
+-//import dev.emi.emi.api.stack.EmiStack;
+-//import dev.emi.emi.api.widget.WidgetHolder;
+-//import net.minecraft.core.RegistryAccess;
+-//import net.minecraft.resources.ResourceLocation;
+-//
+-//import java.util.function.Supplier;
+-//
+-//public class StoveRecipe extends BasicEmiRecipe {
+-//    public static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath("bakery", "textures/gui/stove_gui.png");
+-//    protected static final Supplier<RegistryAccess> REGISTRY_ACCESS =
+-//            EnvExecutor.getEnvSpecific(() -> () -> () -> GameInstance.getClient().player.level().registryAccess(),
+-//                    () -> () -> () -> GameInstance.getServer().registryAccess());
+-//
+-//    public StoveRecipe(EmiRecipeCategory category, net.satisfy.bakery.recipe.StoveRecipe recipe) {
+-//        super(category, MockRecipeIdGenerator.generateRecipeId(), 70, 18);
+-//        var ingredients = recipe.getIngredients();
+-//        for (var ingredient : ingredients) {
+-//            this.inputs.add(EmiIngredient.of(ingredient));
+-//        }
+-//        this.outputs.add(EmiStack.of(recipe.getResultItem(REGISTRY_ACCESS.get())));
+-//    }
+-//
+-//    @Override
+-//    public void addWidgets(WidgetHolder widgets) {
+-//        widgets.addTexture(TEXTURE, 0, 0, 124, 60, 25, 13);
+-//        widgets.addAnimatedTexture(TEXTURE, 66, 15, 19, 29, 176, 16, 5000, true, false, false);
+-//        widgets.addAnimatedTexture(TEXTURE, 37, 36, 17, 14, 176, 0, 5000, false, true, false);
+-//
+-//
+-//        if (!this.inputs.isEmpty()) {
+-//            var s = widgets.addSlot(this.inputs.get(0), 3, 4);
+-//            s.drawBack(false);
+-//        }
+-//
+-//        if (this.inputs.size() > 1) {
+-//            var s = widgets.addSlot(this.inputs.get(1), 21, 4);
+-//            s.drawBack(false);
+-//        }
+-//
+-//        if (this.inputs.size() > 2) {
+-//            var s = widgets.addSlot(this.inputs.get(2), 39, 4);
+-//            s.drawBack(false);
+-//        }
+-//
+-//        if (this.inputs.size() > 3) {
+-//            var s = widgets.addSlot(this.inputs.get(3), 3, 22);
+-//            s.drawBack(false);
+-//        }
+-//
+-//        if (this.inputs.size() > 4) {
+-//            var s = widgets.addSlot(this.inputs.get(4), 21, 22);
+-//            s.drawBack(false);
+-//        }
+-//
+-//        if (this.inputs.size() > 5) {
+-//            var s = widgets.addSlot(this.inputs.get(5), 39, 22);
+-//            s.drawBack(false);
+-//        }
+-//
+-//        if (!this.outputs.isEmpty()) {
+-//            var s = widgets.addSlot(this.outputs.get(0), 100, 29);
+-//            s.drawBack(false);
+-//        }
+-//    }
+-//
+-//    @Override
+-//    public int getDisplayHeight() {
+-//        return 60;
+-//    }
+-//
+-//    @Override
+-//    public int getDisplayWidth() {
+-//        return 124;
+-//    }
+-//}
+\ No newline at end of file
+diff --git 1/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/bakery_fc/BakeryFCCompat.java 2/clean-A/common/src/main/java/com/pandaismyname1/emiletsdocompat/bakery_fc/BakeryFCCompat.java
+index 38a6dae..b6d2241 100644
+--- 1/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/bakery_fc/BakeryFCCompat.java
++++ 2/clean-A/common/src/main/java/com/pandaismyname1/emiletsdocompat/bakery_fc/BakeryFCCompat.java
+@@ -11,18 +11,6 @@ import net.minecraft.world.item.crafting.RecipeManager;
+ public class BakeryFCCompat implements IEmiModCompat {
+ 
+     public void init(EmiRegistry registry, RecipeManager manager) throws NoSuchFieldException {
+-        try {
+-            var recipeCategory = new EmiRecipeCategory(ResourceLocation.fromNamespaceAndPath(net.satisfy.bakery.Bakery.MOD_ID, "caking"),
+-                    EmiStack.of(net.satisfy.bakery.core.registry.ObjectRegistry.BAKER_STATION.get()));
+-            registerRecipeType(registry, manager,
+-                    recipeCategory,
+-                    (recipe) -> {
+-                        registry.addRecipe(new BakingStationRecipe(recipeCategory, (net.satisfy.bakery.core.recipe.BakingStationRecipe) recipe));
+-                    },
+-                    net.satisfy.bakery.core.registry.RecipeTypeRegistry.BAKING_STATION_RECIPE_TYPE.get(),
+-                    EmiStack.of(net.satisfy.bakery.core.registry.ObjectRegistry.BAKER_STATION.get()));
+-        } catch (NoSuchFieldError | NoSuchFieldException | ClassNotFoundException e) {
+-        }
+         try {
+             var recipeCategory = new EmiRecipeCategory(ResourceLocation.fromNamespaceAndPath(com.pandaismyname1.emiletsdocompat.Emi_letsdo_compat.MOD_ID, "cake_cut"),
+                     EmiStack.of(net.minecraft.world.item.Items.CAKE));
+diff --git 1/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/bakery_fc/BakingStationRecipe.java 2/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/bakery_fc/BakingStationRecipe.java
+deleted file mode 100644
+index 413e2ef..0000000
+--- 1/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/bakery_fc/BakingStationRecipe.java
++++ /dev/null
+@@ -1,62 +0,0 @@
+-package com.pandaismyname1.emiletsdocompat.bakery_fc;
+-
+-import com.pandaismyname1.emiletsdocompat.MockRecipeIdGenerator;
+-import dev.architectury.utils.EnvExecutor;
+-import dev.architectury.utils.GameInstance;
+-import dev.emi.emi.api.recipe.BasicEmiRecipe;
+-import dev.emi.emi.api.recipe.EmiRecipeCategory;
+-import dev.emi.emi.api.stack.EmiIngredient;
+-import dev.emi.emi.api.stack.EmiStack;
+-import dev.emi.emi.api.widget.WidgetHolder;
+-import net.minecraft.core.RegistryAccess;
+-import net.minecraft.resources.ResourceLocation;
+-
+-import java.util.function.Supplier;
+-
+-public class BakingStationRecipe extends BasicEmiRecipe {
+-    public static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath("bakery", "textures/gui/baking_station.png");
+-    protected static final Supplier<RegistryAccess> REGISTRY_ACCESS =
+-            EnvExecutor.getEnvSpecific(() -> () -> () -> GameInstance.getClient().player.level().registryAccess(),
+-                    () -> () -> () -> GameInstance.getServer().registryAccess());
+-
+-    public BakingStationRecipe(EmiRecipeCategory category, net.satisfy.bakery.core.recipe.BakingStationRecipe recipe) {
+-        super(category, MockRecipeIdGenerator.generateRecipeId(), 70, 18);
+-        var ingredients = recipe.getIngredients();
+-        for (var ingredient : ingredients) {
+-            this.inputs.add(EmiIngredient.of(ingredient));
+-        }
+-        this.outputs.add(EmiStack.of(recipe.getResultItem(REGISTRY_ACCESS.get())));
+-    }
+-
+-    @Override
+-    public void addWidgets(WidgetHolder widgets) {
+-        widgets.addTexture(TEXTURE, 0, 0, 124, 60, 26, 12);
+-        widgets.addFillingArrow(52, 24, 5000);
+-
+-
+-        if (!this.inputs.isEmpty()) {
+-            var s = widgets.addSlot(this.inputs.get(0), 49 - 26, 24 - 12);
+-            s.drawBack(false);
+-        }
+-
+-        if (this.inputs.size() > 1) {
+-            var s = widgets.addSlot(this.inputs.get(1), 49 - 26, 42 - 12);
+-            s.drawBack(false);
+-        }
+-
+-        if (!this.outputs.isEmpty()) {
+-            var s = widgets.addSlot(this.outputs.get(0), 109 - 26, 34 - 12);
+-            s.drawBack(false);
+-        }
+-    }
+-
+-    @Override
+-    public int getDisplayHeight() {
+-        return 60;
+-    }
+-
+-    @Override
+-    public int getDisplayWidth() {
+-        return 124;
+-    }
+-}
+\ No newline at end of file
+diff --git 1/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/brewery/BreweryCompat.java 2/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/brewery/BreweryCompat.java
+deleted file mode 100644
+index ac29e8d..0000000
+--- 1/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/brewery/BreweryCompat.java
++++ /dev/null
+@@ -1,46 +0,0 @@
+-//package com.pandaismyname1.emiletsdocompat.brewery;
+-//
+-//import com.pandaismyname1.emiletsdocompat.IEmiModCompat;
+-//import dev.emi.emi.api.EmiRegistry;
+-//import dev.emi.emi.api.recipe.EmiRecipeCategory;
+-//import dev.emi.emi.api.stack.EmiStack;
+-//import net.minecraft.resources.ResourceLocation;
+-//import net.minecraft.world.item.crafting.RecipeManager;
+-//import net.satisfy.brewery.Brewery;
+-//
+-//public class BreweryCompat implements IEmiModCompat {
+-//
+-//    @Override
+-//    public void init(EmiRegistry registry, RecipeManager manager) throws NoSuchFieldException {
+-//        try {
+-//            var recipeCategory = new EmiRecipeCategory(ResourceLocation.fromNamespaceAndPath(Brewery.MOD_ID, "brewing"),
+-//                    EmiStack.of(net.satisfy.brewery.registry.ObjectRegistry.WOODEN_BREWINGSTATION.get()));
+-//            registerRecipeType(registry, manager,
+-//                    recipeCategory,
+-//                    (recipe) -> {
+-//                        registry.addRecipe(new BrewingRecipe(recipeCategory, (net.satisfy.brewery.recipe.BrewingRecipe) recipe));
+-//                    },
+-//                    net.satisfy.brewery.registry.RecipeTypeRegistry.BREWING_RECIPE_TYPE.get(),
+-//                    EmiStack.of(net.satisfy.brewery.registry.ObjectRegistry.WOODEN_BREWINGSTATION.get()),
+-//                    EmiStack.of(net.satisfy.brewery.registry.ObjectRegistry.COPPER_BREWINGSTATION.get()),
+-//                    EmiStack.of(net.satisfy.brewery.registry.ObjectRegistry.NETHERITE_BREWINGSTATION.get()));
+-//        } catch (NoSuchFieldError | NoSuchFieldException | ClassNotFoundException e) {
+-//            // Recipe not found
+-//        }
+-//
+-//        try {
+-//            var recipeCategory = new EmiRecipeCategory(ResourceLocation.fromNamespaceAndPath(Brewery.MOD_ID, "drying"),
+-//                    EmiStack.of(net.satisfy.brewery.registry.ObjectRegistry.SILO_WOOD.get()));
+-//            registerRecipeType(registry, manager,
+-//                    recipeCategory,
+-//                    (recipe) -> {
+-//                        registry.addRecipe(new DryingRecipe(recipeCategory, (net.satisfy.brewery.recipe.SiloRecipe) recipe));
+-//                    },
+-//                    net.satisfy.brewery.registry.RecipeTypeRegistry.SILO_RECIPE_TYPE.get(),
+-//                    EmiStack.of(net.satisfy.brewery.registry.ObjectRegistry.SILO_WOOD.get()),
+-//                    EmiStack.of(net.satisfy.brewery.registry.ObjectRegistry.SILO_COPPER.get()));
+-//        } catch (NoSuchFieldError | NoSuchFieldException | ClassNotFoundException e) {
+-//            // Recipe not found
+-//        }
+-//    }
+-//}
+\ No newline at end of file
+diff --git 1/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/brewery/BrewingRecipe.java 2/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/brewery/BrewingRecipe.java
+deleted file mode 100644
+index b8b8185..0000000
+--- 1/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/brewery/BrewingRecipe.java
++++ /dev/null
+@@ -1,59 +0,0 @@
+-//package com.pandaismyname1.emiletsdocompat.brewery;
+-//
+-//import com.pandaismyname1.emiletsdocompat.MockRecipeIdGenerator;
+-//import dev.architectury.utils.EnvExecutor;
+-//import dev.architectury.utils.GameInstance;
+-//import dev.emi.emi.api.recipe.BasicEmiRecipe;
+-//import dev.emi.emi.api.recipe.EmiRecipeCategory;
+-//import dev.emi.emi.api.stack.EmiIngredient;
+-//import dev.emi.emi.api.stack.EmiStack;
+-//import dev.emi.emi.api.widget.WidgetHolder;
+-//import net.minecraft.core.RegistryAccess;
+-//import net.minecraft.resources.ResourceLocation;
+-//
+-//import java.util.function.Supplier;
+-//
+-//public class BrewingRecipe extends BasicEmiRecipe {
+-//    public static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath("brewery", "textures/gui/brewingstation.png");
+-//    protected static final Supplier<RegistryAccess> REGISTRY_ACCESS =
+-//            EnvExecutor.getEnvSpecific(() -> () -> () -> GameInstance.getClient().player.level().registryAccess(),
+-//                    () -> () -> () -> GameInstance.getServer().registryAccess());
+-//
+-//    public BrewingRecipe(EmiRecipeCategory category, net.satisfy.brewery.recipe.BrewingRecipe recipe) {
+-//        super(category, MockRecipeIdGenerator.generateRecipeId(), 70, 18);
+-//        var ingredients = recipe.getIngredients();
+-//        for (var ingredient : ingredients) {
+-//            this.inputs.add(EmiIngredient.of(ingredient));
+-//        }
+-//        this.outputs.add(EmiStack.of(recipe.getResultItem(REGISTRY_ACCESS.get())));
+-//    }
+-//
+-//    @Override
+-//    public void addWidgets(WidgetHolder widgets) {
+-//        widgets.addTexture(TEXTURE, -1, -1, 124, 60, 25, 12);
+-//        widgets.addFillingArrow(50, 21, 5000);
+-//
+-//        if (this.inputs.size() > 0) {
+-//            widgets.addSlot(this.inputs.get(0), 23, 3).drawBack(false);
+-//        }
+-//        if (this.inputs.size() > 1) {
+-//            widgets.addSlot(this.inputs.get(1), 23, 21).drawBack(false);
+-//        }
+-//        if (this.inputs.size() > 2) {
+-//            widgets.addSlot(this.inputs.get(2), 23, 39).drawBack(false);
+-//        }
+-//        if (this.outputs.size() > 0) {
+-//            widgets.addSlot(this.outputs.get(0), 83, 21).drawBack(false);
+-//        }
+-//    }
+-//
+-//    @Override
+-//    public int getDisplayHeight() {
+-//        return 60;
+-//    }
+-//
+-//    @Override
+-//    public int getDisplayWidth() {
+-//        return 124;
+-//    }
+-//}
+\ No newline at end of file
+diff --git 1/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/brewery/DryingRecipe.java 2/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/brewery/DryingRecipe.java
+deleted file mode 100644
+index c848cb9..0000000
+--- 1/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/brewery/DryingRecipe.java
++++ /dev/null
+@@ -1,54 +0,0 @@
+-//package com.pandaismyname1.emiletsdocompat.brewery;
+-//
+-//import com.pandaismyname1.emiletsdocompat.MockRecipeIdGenerator;
+-//import dev.architectury.utils.EnvExecutor;
+-//import dev.architectury.utils.GameInstance;
+-//import dev.emi.emi.api.recipe.BasicEmiRecipe;
+-//import dev.emi.emi.api.recipe.EmiRecipeCategory;
+-//import dev.emi.emi.api.stack.EmiIngredient;
+-//import dev.emi.emi.api.stack.EmiStack;
+-//import dev.emi.emi.api.widget.WidgetHolder;
+-//import net.minecraft.core.RegistryAccess;
+-//import net.minecraft.resources.ResourceLocation;
+-//import net.satisfy.brewery.recipe.SiloRecipe;
+-//
+-//import java.util.function.Supplier;
+-//
+-//public class DryingRecipe extends BasicEmiRecipe {
+-//    public static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath("brewery", "textures/gui/silo.png");
+-//    protected static final Supplier<RegistryAccess> REGISTRY_ACCESS =
+-//            EnvExecutor.getEnvSpecific(() -> () -> () -> GameInstance.getClient().player.level().registryAccess(),
+-//                    () -> () -> () -> GameInstance.getServer().registryAccess());
+-//
+-//    public DryingRecipe(EmiRecipeCategory category, SiloRecipe recipe) {
+-//        super(category, MockRecipeIdGenerator.generateRecipeId(), 70, 18);
+-//        var ingredients = recipe.getIngredients();
+-//        for (var ingredient : ingredients) {
+-//            this.inputs.add(EmiIngredient.of(ingredient));
+-//        }
+-//        this.outputs.add(EmiStack.of(recipe.getResultItem(REGISTRY_ACCESS.get())));
+-//    }
+-//
+-//    @Override
+-//    public void addWidgets(WidgetHolder widgets) {
+-//        widgets.addTexture(TEXTURE, -1, -1, 124, 60, 25, 12);
+-//        widgets.addFillingArrow(50, 21, 5000);
+-//
+-//        if (this.inputs.size() > 0) {
+-//            widgets.addSlot(this.inputs.get(0), 23, 21).drawBack(false);
+-//        }
+-//        if (this.outputs.size() > 0) {
+-//            widgets.addSlot(this.outputs.get(0), 83, 21).drawBack(false);
+-//        }
+-//    }
+-//
+-//    @Override
+-//    public int getDisplayHeight() {
+-//        return 60;
+-//    }
+-//
+-//    @Override
+-//    public int getDisplayWidth() {
+-//        return 124;
+-//    }
+-//}
+\ No newline at end of file
+diff --git 1/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/brewery_fc/BreweryFCCompat.java 2/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/brewery_fc/BreweryFCCompat.java
+deleted file mode 100644
+index 97823d8..0000000
+--- 1/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/brewery_fc/BreweryFCCompat.java
++++ /dev/null
+@@ -1,31 +0,0 @@
+-package com.pandaismyname1.emiletsdocompat.brewery_fc;
+-
+-import com.pandaismyname1.emiletsdocompat.IEmiModCompat;
+-import dev.emi.emi.api.EmiRegistry;
+-import dev.emi.emi.api.recipe.EmiRecipeCategory;
+-import dev.emi.emi.api.stack.EmiStack;
+-import net.minecraft.resources.ResourceLocation;
+-import net.minecraft.world.item.crafting.RecipeManager;
+-import net.satisfy.brewery.Brewery;
+-
+-public class BreweryFCCompat implements IEmiModCompat {
+-
+-    @Override
+-    public void init(EmiRegistry registry, RecipeManager manager) throws NoSuchFieldException {
+-        try {
+-            var recipeCategory = new EmiRecipeCategory(ResourceLocation.fromNamespaceAndPath(Brewery.MOD_ID, "brewing"),
+-                    EmiStack.of(net.satisfy.brewery.core.registry.ObjectRegistry.WOODEN_BREWINGSTATION.get()));
+-            registerRecipeType(registry, manager,
+-                    recipeCategory,
+-                    (recipe) -> {
+-                        registry.addRecipe(new BrewingRecipe(recipeCategory, (net.satisfy.brewery.core.recipe.BrewingRecipe) recipe));
+-                    },
+-                    net.satisfy.brewery.core.registry.RecipeTypeRegistry.BREWING_RECIPE_TYPE.get(),
+-                    EmiStack.of(net.satisfy.brewery.core.registry.ObjectRegistry.WOODEN_BREWINGSTATION.get()),
+-                    EmiStack.of(net.satisfy.brewery.core.registry.ObjectRegistry.COPPER_BREWINGSTATION.get()),
+-                    EmiStack.of(net.satisfy.brewery.core.registry.ObjectRegistry.NETHERITE_BREWINGSTATION.get()));
+-        } catch (NoSuchFieldError | NoSuchFieldException | ClassNotFoundException e) {
+-            // Recipe not found
+-        }
+-    }
+-}
+\ No newline at end of file
+diff --git 1/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/brewery_fc/BrewingRecipe.java 2/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/brewery_fc/BrewingRecipe.java
+deleted file mode 100644
+index aa57483..0000000
+--- 1/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/brewery_fc/BrewingRecipe.java
++++ /dev/null
+@@ -1,59 +0,0 @@
+-package com.pandaismyname1.emiletsdocompat.brewery_fc;
+-
+-import com.pandaismyname1.emiletsdocompat.MockRecipeIdGenerator;
+-import dev.architectury.utils.EnvExecutor;
+-import dev.architectury.utils.GameInstance;
+-import dev.emi.emi.api.recipe.BasicEmiRecipe;
+-import dev.emi.emi.api.recipe.EmiRecipeCategory;
+-import dev.emi.emi.api.stack.EmiIngredient;
+-import dev.emi.emi.api.stack.EmiStack;
+-import dev.emi.emi.api.widget.WidgetHolder;
+-import net.minecraft.core.RegistryAccess;
+-import net.minecraft.resources.ResourceLocation;
+-
+-import java.util.function.Supplier;
+-
+-public class BrewingRecipe extends BasicEmiRecipe {
+-    public static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath("brewery", "textures/gui/brewingstation.png");
+-    protected static final Supplier<RegistryAccess> REGISTRY_ACCESS =
+-            EnvExecutor.getEnvSpecific(() -> () -> () -> GameInstance.getClient().player.level().registryAccess(),
+-                    () -> () -> () -> GameInstance.getServer().registryAccess());
+-
+-    public BrewingRecipe(EmiRecipeCategory category, net.satisfy.brewery.core.recipe.BrewingRecipe recipe) {
+-        super(category, MockRecipeIdGenerator.generateRecipeId(), 70, 18);
+-        var ingredients = recipe.getIngredients();
+-        for (var ingredient : ingredients) {
+-            this.inputs.add(EmiIngredient.of(ingredient));
+-        }
+-        this.outputs.add(EmiStack.of(recipe.getResultItem(REGISTRY_ACCESS.get())));
+-    }
+-
+-    @Override
+-    public void addWidgets(WidgetHolder widgets) {
+-        widgets.addTexture(TEXTURE, -1, -1, 124, 60, 25, 12);
+-        widgets.addFillingArrow(50, 21, 5000);
+-
+-        if (this.inputs.size() > 0) {
+-            widgets.addSlot(this.inputs.get(0), 23, 3).drawBack(false);
+-        }
+-        if (this.inputs.size() > 1) {
+-            widgets.addSlot(this.inputs.get(1), 23, 21).drawBack(false);
+-        }
+-        if (this.inputs.size() > 2) {
+-            widgets.addSlot(this.inputs.get(2), 23, 39).drawBack(false);
+-        }
+-        if (this.outputs.size() > 0) {
+-            widgets.addSlot(this.outputs.get(0), 83, 21).drawBack(false);
+-        }
+-    }
+-
+-    @Override
+-    public int getDisplayHeight() {
+-        return 60;
+-    }
+-
+-    @Override
+-    public int getDisplayWidth() {
+-        return 124;
+-    }
+-}
+\ No newline at end of file
+diff --git 1/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/candlelight/CandlelightCompat.java 2/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/candlelight/CandlelightCompat.java
+deleted file mode 100644
+index 0f675e4..0000000
+--- 1/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/candlelight/CandlelightCompat.java
++++ /dev/null
+@@ -1,41 +0,0 @@
+-//package com.pandaismyname1.emiletsdocompat.candlelight;
+-//
+-//import com.pandaismyname1.emiletsdocompat.IEmiModCompat;
+-//import dev.emi.emi.api.EmiRegistry;
+-//import dev.emi.emi.api.recipe.EmiRecipeCategory;
+-//import dev.emi.emi.api.stack.EmiStack;
+-//import net.minecraft.resources.ResourceLocation;
+-//import net.minecraft.world.item.crafting.RecipeManager;
+-//import net.satisfy.candlelight.Candlelight;
+-//import net.satisfy.candlelight.registry.ObjectRegistry;
+-//
+-//public class CandlelightCompat implements IEmiModCompat {
+-//    @Override
+-//    public void init(EmiRegistry registry, RecipeManager manager) throws NoSuchFieldException {
+-//        try {
+-//            var recipeCategory = new EmiRecipeCategory(ResourceLocation.fromNamespaceAndPath(Candlelight.MOD_ID, "pan_cooking"),
+-//                    EmiStack.of(ObjectRegistry.COOKING_PAN.get()));
+-//            registerRecipeType(registry, manager,
+-//                    recipeCategory,
+-//                    (recipe) -> {
+-//                        registry.addRecipe(new PanCookingRecipe(recipeCategory, (net.satisfy.candlelight.recipe.CookingPanRecipe) recipe));
+-//                    },
+-//                    net.satisfy.candlelight.registry.RecipeTypeRegistry.COOKING_PAN_RECIPE_TYPE.get(),
+-//                    EmiStack.of(ObjectRegistry.COOKING_PAN.get()));
+-//        } catch (NoSuchFieldError | NoSuchFieldException | ClassNotFoundException e) {
+-//        }
+-//
+-//        try {
+-//            var recipeCategory = new EmiRecipeCategory(ResourceLocation.fromNamespaceAndPath(Candlelight.MOD_ID, "pot_cooking"),
+-//                    EmiStack.of(ObjectRegistry.COOKING_POT.get()));
+-//            registerRecipeType(registry, manager,
+-//                    recipeCategory,
+-//                    (recipe) -> {
+-//                        registry.addRecipe(new PotCookingRecipe(recipeCategory, (net.satisfy.candlelight.recipe.CookingPotRecipe) recipe));
+-//                    },
+-//                    net.satisfy.candlelight.registry.RecipeTypeRegistry.COOKING_POT_RECIPE_TYPE.get(),
+-//                    EmiStack.of(ObjectRegistry.COOKING_POT.get()));
+-//        } catch (NoSuchFieldError | NoSuchFieldException | ClassNotFoundException e) {
+-//        }
+-//    }
+-//}
+diff --git 1/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/candlelight/PanCookingRecipe.java 2/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/candlelight/PanCookingRecipe.java
+deleted file mode 100644
+index 155a0c1..0000000
+--- 1/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/candlelight/PanCookingRecipe.java
++++ /dev/null
+@@ -1,91 +0,0 @@
+-//package com.pandaismyname1.emiletsdocompat.candlelight;
+-//
+-//import com.pandaismyname1.emiletsdocompat.MockRecipeIdGenerator;
+-//import dev.architectury.utils.EnvExecutor;
+-//import dev.architectury.utils.GameInstance;
+-//import dev.emi.emi.api.recipe.BasicEmiRecipe;
+-//import dev.emi.emi.api.recipe.EmiRecipeCategory;
+-//import dev.emi.emi.api.stack.EmiIngredient;
+-//import dev.emi.emi.api.stack.EmiStack;
+-//import dev.emi.emi.api.widget.WidgetHolder;
+-//import net.minecraft.core.RegistryAccess;
+-//import net.minecraft.resources.ResourceLocation;
+-//import net.minecraft.world.item.ItemStack;
+-//
+-//import java.util.function.Supplier;
+-//
+-//public class PanCookingRecipe extends BasicEmiRecipe {
+-//    public static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath("candlelight", "textures/gui/pan_gui.png");
+-//    protected static final Supplier<RegistryAccess> REGISTRY_ACCESS =
+-//            EnvExecutor.getEnvSpecific(() -> () -> () -> GameInstance.getClient().player.level().registryAccess(),
+-//                    () -> () -> () -> GameInstance.getServer().registryAccess());
+-//    protected final ItemStack CONTAINER_ITEM;
+-//
+-//    public PanCookingRecipe(EmiRecipeCategory category, net.satisfy.candlelight.recipe.CookingPanRecipe recipe) {
+-//        super(category, MockRecipeIdGenerator.generateRecipeId(), 70, 18);
+-//        CONTAINER_ITEM = recipe.getContainer();
+-//        var ingredients = recipe.getIngredients();
+-//        for (var ingredient : ingredients) {
+-//            this.inputs.add(EmiIngredient.of(ingredient));
+-//        }
+-//        this.outputs.add(EmiStack.of(recipe.getResultItem(REGISTRY_ACCESS.get())));
+-//    }
+-//
+-//    @Override
+-//    public void addWidgets(WidgetHolder widgets) {
+-//        widgets.addTexture(TEXTURE, 0, 0, 124, 60, 26, 12);
+-//        widgets.addAnimatedTexture(TEXTURE, 67, 3, 19, 29, 176, 16, 5000, true, false, false);
+-//        widgets.addAnimatedTexture(TEXTURE, 98, 44, 16, 14, 176, 0, 5000, false, true, false);
+-//
+-//
+-//        if (!this.inputs.isEmpty()) {
+-//            var s = widgets.addSlot(this.inputs.get(0), 3, 4);
+-//            s.drawBack(false);
+-//        }
+-//
+-//        if (this.inputs.size() > 1) {
+-//            var s = widgets.addSlot(this.inputs.get(1), 21, 4);
+-//            s.drawBack(false);
+-//        }
+-//
+-//        if (this.inputs.size() > 2) {
+-//            var s = widgets.addSlot(this.inputs.get(2), 39, 4);
+-//            s.drawBack(false);
+-//        }
+-//
+-//        if (this.inputs.size() > 3) {
+-//            var s = widgets.addSlot(this.inputs.get(3), 3, 22);
+-//            s.drawBack(false);
+-//        }
+-//
+-//        if (this.inputs.size() > 4) {
+-//            var s = widgets.addSlot(this.inputs.get(4), 21, 22);
+-//            s.drawBack(false);
+-//        }
+-//
+-//        if (this.inputs.size() > 5) {
+-//            var s = widgets.addSlot(this.inputs.get(5), 39, 22);
+-//            s.drawBack(false);
+-//        }
+-//
+-//        if (CONTAINER_ITEM != null) {
+-//            var s = widgets.addSlot(EmiStack.of(CONTAINER_ITEM), 68, 43);
+-//            s.drawBack(false);
+-//        }
+-//
+-//        if (!this.outputs.isEmpty()) {
+-//            var s = widgets.addSlot(this.outputs.get(0), 97, 15);
+-//            s.drawBack(false);
+-//        }
+-//    }
+-//
+-//    @Override
+-//    public int getDisplayHeight() {
+-//        return 60;
+-//    }
+-//
+-//    @Override
+-//    public int getDisplayWidth() {
+-//        return 124;
+-//    }
+-//}
+\ No newline at end of file
+diff --git 1/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/candlelight/PotCookingRecipe.java 2/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/candlelight/PotCookingRecipe.java
+deleted file mode 100644
+index 9de42a6..0000000
+--- 1/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/candlelight/PotCookingRecipe.java
++++ /dev/null
+@@ -1,91 +0,0 @@
+-//package com.pandaismyname1.emiletsdocompat.candlelight;
+-//
+-//import com.pandaismyname1.emiletsdocompat.MockRecipeIdGenerator;
+-//import dev.architectury.utils.EnvExecutor;
+-//import dev.architectury.utils.GameInstance;
+-//import dev.emi.emi.api.recipe.BasicEmiRecipe;
+-//import dev.emi.emi.api.recipe.EmiRecipeCategory;
+-//import dev.emi.emi.api.stack.EmiIngredient;
+-//import dev.emi.emi.api.stack.EmiStack;
+-//import dev.emi.emi.api.widget.WidgetHolder;
+-//import net.minecraft.core.RegistryAccess;
+-//import net.minecraft.resources.ResourceLocation;
+-//import net.minecraft.world.item.ItemStack;
+-//
+-//import java.util.function.Supplier;
+-//
+-//public class PotCookingRecipe extends BasicEmiRecipe {
+-//    public static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath("candlelight", "textures/gui/pot_gui.png");
+-//    protected static final Supplier<RegistryAccess> REGISTRY_ACCESS =
+-//            EnvExecutor.getEnvSpecific(() -> () -> () -> GameInstance.getClient().player.level().registryAccess(),
+-//                    () -> () -> () -> GameInstance.getServer().registryAccess());
+-//    protected final ItemStack CONTAINER_ITEM;
+-//
+-//    public PotCookingRecipe(EmiRecipeCategory category, net.satisfy.candlelight.recipe.CookingPotRecipe recipe) {
+-//        super(category, MockRecipeIdGenerator.generateRecipeId(), 70, 18);
+-//        CONTAINER_ITEM = recipe.getContainer();
+-//        var ingredients = recipe.getIngredients();
+-//        for (var ingredient : ingredients) {
+-//            this.inputs.add(EmiIngredient.of(ingredient));
+-//        }
+-//        this.outputs.add(EmiStack.of(recipe.getResultItem(REGISTRY_ACCESS.get())));
+-//    }
+-//
+-//    @Override
+-//    public void addWidgets(WidgetHolder widgets) {
+-//        widgets.addTexture(TEXTURE, 0, 0, 124, 60, 26, 12);
+-//        widgets.addAnimatedTexture(TEXTURE, 67, 3, 19, 29, 176, 16, 5000, true, false, false);
+-//        widgets.addAnimatedTexture(TEXTURE, 98, 44, 16, 14, 176, 0, 5000, false, true, false);
+-//
+-//
+-//        if (!this.inputs.isEmpty()) {
+-//            var s = widgets.addSlot(this.inputs.get(0), 3, 4);
+-//            s.drawBack(false);
+-//        }
+-//
+-//        if (this.inputs.size() > 1) {
+-//            var s = widgets.addSlot(this.inputs.get(1), 21, 4);
+-//            s.drawBack(false);
+-//        }
+-//
+-//        if (this.inputs.size() > 2) {
+-//            var s = widgets.addSlot(this.inputs.get(2), 39, 4);
+-//            s.drawBack(false);
+-//        }
+-//
+-//        if (this.inputs.size() > 3) {
+-//            var s = widgets.addSlot(this.inputs.get(3), 3, 22);
+-//            s.drawBack(false);
+-//        }
+-//
+-//        if (this.inputs.size() > 4) {
+-//            var s = widgets.addSlot(this.inputs.get(4), 21, 22);
+-//            s.drawBack(false);
+-//        }
+-//
+-//        if (this.inputs.size() > 5) {
+-//            var s = widgets.addSlot(this.inputs.get(5), 39, 22);
+-//            s.drawBack(false);
+-//        }
+-//
+-//        if (CONTAINER_ITEM != null) {
+-//            var s = widgets.addSlot(EmiStack.of(CONTAINER_ITEM), 68, 43);
+-//            s.drawBack(false);
+-//        }
+-//
+-//        if (!this.outputs.isEmpty()) {
+-//            var s = widgets.addSlot(this.outputs.get(0), 97, 15);
+-//            s.drawBack(false);
+-//        }
+-//    }
+-//
+-//    @Override
+-//    public int getDisplayHeight() {
+-//        return 60;
+-//    }
+-//
+-//    @Override
+-//    public int getDisplayWidth() {
+-//        return 124;
+-//    }
+-//}
+\ No newline at end of file
+diff --git 1/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/farm_and_charm/CraftingBowlRecipe.java 2/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/farm_and_charm/CraftingBowlRecipe.java
+deleted file mode 100644
+index 78356e1..0000000
+--- 1/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/farm_and_charm/CraftingBowlRecipe.java
++++ /dev/null
+@@ -1,72 +0,0 @@
+-package com.pandaismyname1.emiletsdocompat.farm_and_charm;
+-
+-import com.pandaismyname1.emiletsdocompat.MockRecipeIdGenerator;
+-import dev.architectury.utils.EnvExecutor;
+-import dev.architectury.utils.GameInstance;
+-import dev.emi.emi.api.recipe.BasicEmiRecipe;
+-import dev.emi.emi.api.recipe.EmiRecipeCategory;
+-import dev.emi.emi.api.stack.EmiIngredient;
+-import dev.emi.emi.api.stack.EmiStack;
+-import dev.emi.emi.api.widget.WidgetHolder;
+-import net.minecraft.core.RegistryAccess;
+-import net.minecraft.resources.ResourceLocation;
+-
+-import java.util.function.Supplier;
+-
+-public class CraftingBowlRecipe extends BasicEmiRecipe {
+-    public static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath("farm_and_charm", "textures/gui/crafting_bowl.png");
+-    protected static final Supplier<RegistryAccess> REGISTRY_ACCESS =
+-            EnvExecutor.getEnvSpecific(() -> () -> () -> GameInstance.getClient().player.level().registryAccess(),
+-                    () -> () -> () -> GameInstance.getServer().registryAccess());
+-
+-    public CraftingBowlRecipe(EmiRecipeCategory category, net.satisfy.farm_and_charm.core.recipe.CraftingBowlRecipe recipe) {
+-        super(category, MockRecipeIdGenerator.generateRecipeId(), 70, 18);
+-        var ingredients = recipe.getIngredients();
+-        for (var ingredient : ingredients) {
+-            this.inputs.add(EmiIngredient.of(ingredient));
+-        }
+-        this.outputs.add(EmiStack.of(recipe.getResultItem(REGISTRY_ACCESS.get())));
+-    }
+-
+-    @Override
+-    public void addWidgets(WidgetHolder widgets) {
+-        widgets.addTexture(TEXTURE, 0, 0, 124, 60, 16, 12);
+-        widgets.addFillingArrow(62, 24, 5000);
+-
+-
+-        if (!this.inputs.isEmpty()) {
+-            var s = widgets.addSlot(this.inputs.get(0), 13, 12);
+-            s.drawBack(false);
+-        }
+-
+-        if (this.inputs.size() > 1) {
+-            var s = widgets.addSlot(this.inputs.get(1), 33, 12);
+-            s.drawBack(false);
+-        }
+-
+-        if (this.inputs.size() > 2) {
+-            var s = widgets.addSlot(this.inputs.get(2), 13, 30);
+-            s.drawBack(false);
+-        }
+-
+-        if (this.inputs.size() > 3) {
+-            var s = widgets.addSlot(this.inputs.get(3), 33, 30);
+-            s.drawBack(false);
+-        }
+-
+-        if (!this.outputs.isEmpty()) {
+-            var s = widgets.addSlot(this.outputs.get(0), 93, 22);
+-            s.drawBack(false);
+-        }
+-    }
+-
+-    @Override
+-    public int getDisplayHeight() {
+-        return 60;
+-    }
+-
+-    @Override
+-    public int getDisplayWidth() {
+-        return 124;
+-    }
+-}
+diff --git 1/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/farm_and_charm/FarmAndCharmCompat.java 2/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/farm_and_charm/FarmAndCharmCompat.java
+deleted file mode 100644
+index 3758062..0000000
+--- 1/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/farm_and_charm/FarmAndCharmCompat.java
++++ /dev/null
+@@ -1,95 +0,0 @@
+-package com.pandaismyname1.emiletsdocompat.farm_and_charm;
+-
+-import com.pandaismyname1.emiletsdocompat.IEmiModCompat;
+-import dev.emi.emi.api.EmiRegistry;
+-import dev.emi.emi.api.recipe.EmiRecipeCategory;
+-import dev.emi.emi.api.stack.EmiStack;
+-import net.minecraft.resources.ResourceLocation;
+-import net.minecraft.world.item.crafting.RecipeManager;
+-import net.satisfy.farm_and_charm.FarmAndCharm;
+-import net.satisfy.farm_and_charm.core.registry.ObjectRegistry;
+-
+-public class FarmAndCharmCompat implements IEmiModCompat {
+-    @Override
+-    public void init(EmiRegistry registry, RecipeManager manager) throws NoSuchFieldException {
+-
+-        try {
+-            var recipeCategory = new EmiRecipeCategory(ResourceLocation.fromNamespaceAndPath(FarmAndCharm.MOD_ID, "pot_cooking"),
+-                    EmiStack.of(ObjectRegistry.COOKING_POT.get()));
+-            registerRecipeType(registry, manager,
+-                    recipeCategory,
+-                    (recipe) -> {
+-                        registry.addRecipe(new PotCookingRecipe(recipeCategory, (net.satisfy.farm_and_charm.core.recipe.CookingPotRecipe) recipe));
+-                    },
+-                    net.satisfy.farm_and_charm.core.registry.RecipeTypeRegistry.COOKING_POT_RECIPE_TYPE.get(),
+-                    EmiStack.of(ObjectRegistry.COOKING_POT.get()));
+-        } catch (NoSuchFieldError | NoSuchFieldException | ClassNotFoundException e) {
+-        }
+-
+-        try {
+-            var recipeCategory = new EmiRecipeCategory(ResourceLocation.fromNamespaceAndPath(FarmAndCharm.MOD_ID, "crafting_bowl"),
+-                    EmiStack.of(ObjectRegistry.CRAFTING_BOWL.get()));
+-            registerRecipeType(registry, manager,
+-                    recipeCategory,
+-                    (recipe) -> {
+-                        registry.addRecipe(new CraftingBowlRecipe(recipeCategory, (net.satisfy.farm_and_charm.core.recipe.CraftingBowlRecipe) recipe));
+-                    },
+-                    net.satisfy.farm_and_charm.core.registry.RecipeTypeRegistry.CRAFTING_BOWL_RECIPE_TYPE.get(),
+-                    EmiStack.of(ObjectRegistry.CRAFTING_BOWL.get()));
+-        } catch (NoSuchFieldError | NoSuchFieldException | ClassNotFoundException e) {
+-        }
+-
+-        try {
+-            var recipeCategory = new EmiRecipeCategory(ResourceLocation.fromNamespaceAndPath(FarmAndCharm.MOD_ID, "mincer"),
+-                    EmiStack.of(ObjectRegistry.MINCER.get()));
+-            registerRecipeType(registry, manager,
+-                    recipeCategory,
+-                    (recipe) -> {
+-                        registry.addRecipe(new MincerRecipe(recipeCategory, (net.satisfy.farm_and_charm.core.recipe.MincerRecipe) recipe));
+-                    },
+-                    net.satisfy.farm_and_charm.core.registry.RecipeTypeRegistry.MINCER_RECIPE_TYPE.get(),
+-                    EmiStack.of(ObjectRegistry.MINCER.get()));
+-        } catch (NoSuchFieldError | NoSuchFieldException | ClassNotFoundException e) {
+-        }
+-
+-        try {
+-            var recipeCategory = new EmiRecipeCategory(ResourceLocation.fromNamespaceAndPath(FarmAndCharm.MOD_ID, "roaster"),
+-                    EmiStack.of(ObjectRegistry.ROASTER.get()));
+-            registerRecipeType(registry, manager,
+-                    recipeCategory,
+-                    (recipe) -> {
+-                        registry.addRecipe(new RoasterRecipe(recipeCategory, (net.satisfy.farm_and_charm.core.recipe.RoasterRecipe) recipe));
+-                    },
+-                    net.satisfy.farm_and_charm.core.registry.RecipeTypeRegistry.ROASTER_RECIPE_TYPE.get(),
+-                    EmiStack.of(ObjectRegistry.ROASTER.get()));
+-        } catch (NoSuchFieldError | NoSuchFieldException | ClassNotFoundException e) {
+-        }
+-
+-        try {
+-            var recipeCategory = new EmiRecipeCategory(ResourceLocation.fromNamespaceAndPath(FarmAndCharm.MOD_ID, "drying"),
+-                    EmiStack.of(ObjectRegistry.SILO_WOOD.get()));
+-            registerRecipeType(registry, manager,
+-                    recipeCategory,
+-                    (recipe) -> {
+-                        registry.addRecipe(new SiloRecipe(recipeCategory, (net.satisfy.farm_and_charm.core.recipe.SiloRecipe) recipe));
+-                    },
+-                    net.satisfy.farm_and_charm.core.registry.RecipeTypeRegistry.SILO_RECIPE_TYPE.get(),
+-                    EmiStack.of(ObjectRegistry.SILO_WOOD.get()),
+-                    EmiStack.of(ObjectRegistry.SILO_COPPER.get()));
+-        } catch (NoSuchFieldError | NoSuchFieldException | ClassNotFoundException e) {
+-        }
+-
+-        try {
+-            var recipeCategory = new EmiRecipeCategory(ResourceLocation.fromNamespaceAndPath(FarmAndCharm.MOD_ID, "stove"),
+-                    EmiStack.of(ObjectRegistry.STOVE.get()));
+-            registerRecipeType(registry, manager,
+-                    recipeCategory,
+-                    (recipe) -> {
+-                        registry.addRecipe(new StoveRecipe(recipeCategory, (net.satisfy.farm_and_charm.core.recipe.StoveRecipe) recipe));
+-                    },
+-                    net.satisfy.farm_and_charm.core.registry.RecipeTypeRegistry.STOVE_RECIPE_TYPE.get(),
+-                    EmiStack.of(ObjectRegistry.STOVE.get()));
+-        } catch (NoSuchFieldError | NoSuchFieldException | ClassNotFoundException e) {
+-        }
+-    }
+-}
+diff --git 1/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/farm_and_charm/MincerRecipe.java 2/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/farm_and_charm/MincerRecipe.java
+deleted file mode 100644
+index 819e3b6..0000000
+--- 1/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/farm_and_charm/MincerRecipe.java
++++ /dev/null
+@@ -1,54 +0,0 @@
+-package com.pandaismyname1.emiletsdocompat.farm_and_charm;
+-
+-import com.pandaismyname1.emiletsdocompat.MockRecipeIdGenerator;
+-import dev.architectury.utils.EnvExecutor;
+-import dev.architectury.utils.GameInstance;
+-import dev.emi.emi.api.recipe.BasicEmiRecipe;
+-import dev.emi.emi.api.recipe.EmiRecipeCategory;
+-import dev.emi.emi.api.stack.EmiIngredient;
+-import dev.emi.emi.api.stack.EmiStack;
+-import dev.emi.emi.api.widget.WidgetHolder;
+-import net.minecraft.core.RegistryAccess;
+-import net.minecraft.resources.ResourceLocation;
+-
+-import java.util.function.Supplier;
+-
+-public class MincerRecipe extends BasicEmiRecipe {
+-    public static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath("farm_and_charm", "textures/gui/mincer.png");
+-    protected static final Supplier<RegistryAccess> REGISTRY_ACCESS =
+-            EnvExecutor.getEnvSpecific(() -> () -> () -> GameInstance.getClient().player.level().registryAccess(),
+-                    () -> () -> () -> GameInstance.getServer().registryAccess());
+-
+-
+-    public MincerRecipe(EmiRecipeCategory category, net.satisfy.farm_and_charm.core.recipe.MincerRecipe recipe) {
+-        super(category, MockRecipeIdGenerator.generateRecipeId(), 70, 18);
+-        var ingredients = recipe.getIngredients();
+-        for (var ingredient : ingredients) {
+-            this.inputs.add(EmiIngredient.of(ingredient));
+-        }
+-        this.outputs.add(EmiStack.of(recipe.getResultItem(REGISTRY_ACCESS.get())));
+-    }
+-
+-    @Override
+-    public void addWidgets(WidgetHolder widgets) {
+-        widgets.addTexture(TEXTURE, -1, -1, 124, 60, 25, 12);
+-        widgets.addFillingArrow(50, 21, 5000);
+-
+-        if (this.inputs.size() > 0) {
+-            widgets.addSlot(this.inputs.get(0), 23, 21).drawBack(false);
+-        }
+-        if (this.outputs.size() > 0) {
+-            widgets.addSlot(this.outputs.get(0), 83, 21).drawBack(false);
+-        }
+-    }
+-
+-    @Override
+-    public int getDisplayHeight() {
+-        return 60;
+-    }
+-
+-    @Override
+-    public int getDisplayWidth() {
+-        return 124;
+-    }
+-}
+diff --git 1/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/farm_and_charm/PotCookingRecipe.java 2/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/farm_and_charm/PotCookingRecipe.java
+deleted file mode 100644
+index 11dce3d..0000000
+--- 1/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/farm_and_charm/PotCookingRecipe.java
++++ /dev/null
+@@ -1,94 +0,0 @@
+-package com.pandaismyname1.emiletsdocompat.farm_and_charm;
+-
+-
+-import com.pandaismyname1.emiletsdocompat.MockRecipeIdGenerator;
+-import dev.architectury.utils.EnvExecutor;
+-import dev.architectury.utils.GameInstance;
+-import dev.emi.emi.api.recipe.BasicEmiRecipe;
+-import dev.emi.emi.api.recipe.EmiRecipeCategory;
+-import dev.emi.emi.api.stack.EmiIngredient;
+-import dev.emi.emi.api.stack.EmiStack;
+-import dev.emi.emi.api.widget.WidgetHolder;
+-import net.minecraft.core.RegistryAccess;
+-import net.minecraft.resources.ResourceLocation;
+-import net.minecraft.world.item.ItemStack;
+-
+-import java.util.function.Supplier;
+-
+-public class PotCookingRecipe extends BasicEmiRecipe {
+-    public static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath("farm_and_charm", "textures/gui/pot_gui.png");
+-    protected static final Supplier<RegistryAccess> REGISTRY_ACCESS =
+-            EnvExecutor.getEnvSpecific(() -> () -> () -> GameInstance.getClient().player.level().registryAccess(),
+-                    () -> () -> () -> GameInstance.getServer().registryAccess());
+-    protected final ItemStack CONTAINER_ITEM;
+-
+-    public PotCookingRecipe(EmiRecipeCategory category, net.satisfy.farm_and_charm.core.recipe.CookingPotRecipe recipe) {
+-        super(category, MockRecipeIdGenerator.generateRecipeId(), 70, 18);
+-        CONTAINER_ITEM = recipe.getContainerItem();
+-        var ingredients = recipe.getIngredients();
+-        for (var ingredient : ingredients) {
+-            this.inputs.add(EmiIngredient.of(ingredient));
+-        }
+-        this.outputs.add(EmiStack.of(recipe.getResultItem(REGISTRY_ACCESS.get())));
+-    }
+-
+-    @Override
+-    public void addWidgets(WidgetHolder widgets) {
+-        widgets.addTexture(TEXTURE, 0, 0, 124, 60, 26, 12);
+-        widgets.addAnimatedTexture(TEXTURE, 67, 3, 19, 29, 176, 16, 5000, true, false, false);
+-        widgets.addAnimatedTexture(TEXTURE, 98, 44, 16, 14, 176, 0, 5000, false, true, false);
+-
+-
+-        if (!this.inputs.isEmpty()) {
+-            var s = widgets.addSlot(this.inputs.get(0), 3, 4);
+-            s.drawBack(false);
+-        }
+-
+-        if (this.inputs.size() > 1) {
+-            var s = widgets.addSlot(this.inputs.get(1), 21, 4);
+-            s.drawBack(false);
+-        }
+-
+-        if (this.inputs.size() > 2) {
+-            var s = widgets.addSlot(this.inputs.get(2), 39, 4);
+-            s.drawBack(false);
+-        }
+-
+-        if (this.inputs.size() > 3) {
+-            var s = widgets.addSlot(this.inputs.get(3), 3, 22);
+-            s.drawBack(false);
+-        }
+-
+-        if (this.inputs.size() > 4) {
+-            var s = widgets.addSlot(this.inputs.get(4), 21, 22);
+-            s.drawBack(false);
+-        }
+-
+-        if (this.inputs.size() > 5) {
+-            var s = widgets.addSlot(this.inputs.get(5), 39, 22);
+-            s.drawBack(false);
+-        }
+-
+-        if (CONTAINER_ITEM != null) {
+-            var s = widgets.addSlot(EmiStack.of(CONTAINER_ITEM), 68, 43);
+-            s.drawBack(false);
+-        }
+-
+-        if (!this.outputs.isEmpty()) {
+-            var s = widgets.addSlot(this.outputs.get(0), 97, 15);
+-            s.drawBack(false);
+-        }
+-    }
+-
+-    @Override
+-    public int getDisplayHeight() {
+-        return 60;
+-    }
+-
+-    @Override
+-    public int getDisplayWidth() {
+-        return 124;
+-    }
+-}
+-
+-
+diff --git 1/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/farm_and_charm/RoasterRecipe.java 2/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/farm_and_charm/RoasterRecipe.java
+deleted file mode 100644
+index c5285f0..0000000
+--- 1/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/farm_and_charm/RoasterRecipe.java
++++ /dev/null
+@@ -1,91 +0,0 @@
+-package com.pandaismyname1.emiletsdocompat.farm_and_charm;
+-
+-import com.pandaismyname1.emiletsdocompat.MockRecipeIdGenerator;
+-import dev.architectury.utils.EnvExecutor;
+-import dev.architectury.utils.GameInstance;
+-import dev.emi.emi.api.recipe.BasicEmiRecipe;
+-import dev.emi.emi.api.recipe.EmiRecipeCategory;
+-import dev.emi.emi.api.stack.EmiIngredient;
+-import dev.emi.emi.api.stack.EmiStack;
+-import dev.emi.emi.api.widget.WidgetHolder;
+-import net.minecraft.core.RegistryAccess;
+-import net.minecraft.resources.ResourceLocation;
+-import net.minecraft.world.item.ItemStack;
+-
+-import java.util.function.Supplier;
+-
+-public class RoasterRecipe extends BasicEmiRecipe {
+-    public static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath("farm_and_charm", "textures/gui/roaster_gui.png");
+-    protected static final Supplier<RegistryAccess> REGISTRY_ACCESS =
+-            EnvExecutor.getEnvSpecific(() -> () -> () -> GameInstance.getClient().player.level().registryAccess(),
+-                    () -> () -> () -> GameInstance.getServer().registryAccess());
+-    protected final ItemStack CONTAINER_ITEM;
+-
+-    public RoasterRecipe(EmiRecipeCategory category, net.satisfy.farm_and_charm.core.recipe.RoasterRecipe recipe) {
+-        super(category, MockRecipeIdGenerator.generateRecipeId(), 70, 18);
+-        CONTAINER_ITEM = recipe.getContainer();
+-        var ingredients = recipe.getIngredients();
+-        for (var ingredient : ingredients) {
+-            this.inputs.add(EmiIngredient.of(ingredient));
+-        }
+-        this.outputs.add(EmiStack.of(recipe.getResultItem(REGISTRY_ACCESS.get())));
+-    }
+-
+-    @Override
+-    public void addWidgets(WidgetHolder widgets) {
+-        widgets.addTexture(TEXTURE, 0, 0, 124, 60, 26, 12);
+-        widgets.addAnimatedTexture(TEXTURE, 67, 3, 19, 29, 176, 16, 5000, true, false, false);
+-        widgets.addAnimatedTexture(TEXTURE, 98, 44, 16, 14, 176, 0, 5000, false, true, false);
+-
+-
+-        if (!this.inputs.isEmpty()) {
+-            var s = widgets.addSlot(this.inputs.get(0), 3, 4);
+-            s.drawBack(false);
+-        }
+-
+-        if (this.inputs.size() > 1) {
+-            var s = widgets.addSlot(this.inputs.get(1), 21, 4);
+-            s.drawBack(false);
+-        }
+-
+-        if (this.inputs.size() > 2) {
+-            var s = widgets.addSlot(this.inputs.get(2), 39, 4);
+-            s.drawBack(false);
+-        }
+-
+-        if (this.inputs.size() > 3) {
+-            var s = widgets.addSlot(this.inputs.get(3), 3, 22);
+-            s.drawBack(false);
+-        }
+-
+-        if (this.inputs.size() > 4) {
+-            var s = widgets.addSlot(this.inputs.get(4), 21, 22);
+-            s.drawBack(false);
+-        }
+-
+-        if (this.inputs.size() > 5) {
+-            var s = widgets.addSlot(this.inputs.get(5), 39, 22);
+-            s.drawBack(false);
+-        }
+-
+-        if (CONTAINER_ITEM != null) {
+-            var s = widgets.addSlot(EmiStack.of(CONTAINER_ITEM), 68, 43);
+-            s.drawBack(false);
+-        }
+-
+-        if (!this.outputs.isEmpty()) {
+-            var s = widgets.addSlot(this.outputs.get(0), 97, 15);
+-            s.drawBack(false);
+-        }
+-    }
+-
+-    @Override
+-    public int getDisplayHeight() {
+-        return 60;
+-    }
+-
+-    @Override
+-    public int getDisplayWidth() {
+-        return 124;
+-    }
+-}
+diff --git 1/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/farm_and_charm/SiloRecipe.java 2/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/farm_and_charm/SiloRecipe.java
+deleted file mode 100644
+index 9abef99..0000000
+--- 1/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/farm_and_charm/SiloRecipe.java
++++ /dev/null
+@@ -1,54 +0,0 @@
+-package com.pandaismyname1.emiletsdocompat.farm_and_charm;
+-
+-import com.pandaismyname1.emiletsdocompat.MockRecipeIdGenerator;
+-import dev.architectury.utils.EnvExecutor;
+-import dev.architectury.utils.GameInstance;
+-import dev.emi.emi.api.recipe.BasicEmiRecipe;
+-import dev.emi.emi.api.recipe.EmiRecipeCategory;
+-import dev.emi.emi.api.stack.EmiIngredient;
+-import dev.emi.emi.api.stack.EmiStack;
+-import dev.emi.emi.api.widget.WidgetHolder;
+-import net.minecraft.core.RegistryAccess;
+-import net.minecraft.resources.ResourceLocation;
+-
+-import java.util.function.Supplier;
+-
+-public class SiloRecipe extends BasicEmiRecipe {
+-    public static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath("farm_and_charm", "textures/gui/silo.png");
+-    protected static final Supplier<RegistryAccess> REGISTRY_ACCESS =
+-            EnvExecutor.getEnvSpecific(() -> () -> () -> GameInstance.getClient().player.level().registryAccess(),
+-                    () -> () -> () -> GameInstance.getServer().registryAccess());
+-
+-
+-    public SiloRecipe(EmiRecipeCategory category, net.satisfy.farm_and_charm.core.recipe.SiloRecipe recipe) {
+-        super(category, MockRecipeIdGenerator.generateRecipeId(), 70, 18);
+-        var ingredients = recipe.getIngredients();
+-        for (var ingredient : ingredients) {
+-            this.inputs.add(EmiIngredient.of(ingredient));
+-        }
+-        this.outputs.add(EmiStack.of(recipe.getResultItem(REGISTRY_ACCESS.get())));
+-    }
+-
+-    @Override
+-    public void addWidgets(WidgetHolder widgets) {
+-        widgets.addTexture(TEXTURE, -1, -1, 124, 60, 25, 12);
+-        widgets.addFillingArrow(50, 21, 5000);
+-
+-        if (this.inputs.size() > 0) {
+-            widgets.addSlot(this.inputs.get(0), 23, 21).drawBack(false);
+-        }
+-        if (this.outputs.size() > 0) {
+-            widgets.addSlot(this.outputs.get(0), 83, 21).drawBack(false);
+-        }
+-    }
+-
+-    @Override
+-    public int getDisplayHeight() {
+-        return 60;
+-    }
+-
+-    @Override
+-    public int getDisplayWidth() {
+-        return 124;
+-    }
+-}
+diff --git 1/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/farm_and_charm/StoveRecipe.java 2/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/farm_and_charm/StoveRecipe.java
+deleted file mode 100644
+index d50c54e..0000000
+--- 1/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/farm_and_charm/StoveRecipe.java
++++ /dev/null
+@@ -1,84 +0,0 @@
+-package com.pandaismyname1.emiletsdocompat.farm_and_charm;
+-
+-import com.pandaismyname1.emiletsdocompat.MockRecipeIdGenerator;
+-import dev.architectury.utils.EnvExecutor;
+-import dev.architectury.utils.GameInstance;
+-import dev.emi.emi.api.recipe.BasicEmiRecipe;
+-import dev.emi.emi.api.recipe.EmiRecipeCategory;
+-import dev.emi.emi.api.stack.EmiIngredient;
+-import dev.emi.emi.api.stack.EmiStack;
+-import dev.emi.emi.api.widget.WidgetHolder;
+-import net.minecraft.core.RegistryAccess;
+-import net.minecraft.resources.ResourceLocation;
+-
+-import java.util.function.Supplier;
+-
+-public class StoveRecipe extends BasicEmiRecipe {
+-    public static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath("farm_and_charm", "textures/gui/stove_gui.png");
+-    protected static final Supplier<RegistryAccess> REGISTRY_ACCESS =
+-            EnvExecutor.getEnvSpecific(() -> () -> () -> GameInstance.getClient().player.level().registryAccess(),
+-                    () -> () -> () -> GameInstance.getServer().registryAccess());
+-
+-
+-    public StoveRecipe(EmiRecipeCategory category, net.satisfy.farm_and_charm.core.recipe.StoveRecipe recipe) {
+-        super(category, MockRecipeIdGenerator.generateRecipeId(), 70, 18);
+-        var ingredients = recipe.getIngredients();
+-        for (var ingredient : ingredients) {
+-            this.inputs.add(EmiIngredient.of(ingredient));
+-        }
+-        this.outputs.add(EmiStack.of(recipe.getResultItem(REGISTRY_ACCESS.get())));
+-    }
+-
+-    @Override
+-    public void addWidgets(WidgetHolder widgets) {
+-        widgets.addTexture(TEXTURE, 0, 0, 124, 60, 25, 13);
+-        widgets.addAnimatedTexture(TEXTURE, 66, 15, 19, 29, 176, 16, 5000, true, false, false);
+-        widgets.addAnimatedTexture(TEXTURE, 37, 36, 17, 14, 176, 0, 5000, false, true, false);
+-
+-
+-        if (!this.inputs.isEmpty()) {
+-            var s = widgets.addSlot(this.inputs.get(0), 3, 4);
+-            s.drawBack(false);
+-        }
+-
+-        if (this.inputs.size() > 1) {
+-            var s = widgets.addSlot(this.inputs.get(1), 21, 4);
+-            s.drawBack(false);
+-        }
+-
+-        if (this.inputs.size() > 2) {
+-            var s = widgets.addSlot(this.inputs.get(2), 39, 4);
+-            s.drawBack(false);
+-        }
+-
+-        if (this.inputs.size() > 3) {
+-            var s = widgets.addSlot(this.inputs.get(3), 3, 22);
+-            s.drawBack(false);
+-        }
+-
+-        if (this.inputs.size() > 4) {
+-            var s = widgets.addSlot(this.inputs.get(4), 21, 22);
+-            s.drawBack(false);
+-        }
+-
+-        if (this.inputs.size() > 5) {
+-            var s = widgets.addSlot(this.inputs.get(5), 39, 22);
+-            s.drawBack(false);
+-        }
+-
+-        if (!this.outputs.isEmpty()) {
+-            var s = widgets.addSlot(this.outputs.get(0), 100, 29);
+-            s.drawBack(false);
+-        }
+-    }
+-
+-    @Override
+-    public int getDisplayHeight() {
+-        return 60;
+-    }
+-
+-    @Override
+-    public int getDisplayWidth() {
+-        return 124;
+-    }
+-}
+diff --git 1/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/meadow/CheeseFormRecipe.java 2/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/meadow/CheeseFormRecipe.java
+deleted file mode 100644
+index 45337d1..0000000
+--- 1/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/meadow/CheeseFormRecipe.java
++++ /dev/null
+@@ -1,63 +0,0 @@
+-package com.pandaismyname1.emiletsdocompat.meadow;
+-
+-import com.pandaismyname1.emiletsdocompat.MockRecipeIdGenerator;
+-import dev.architectury.utils.EnvExecutor;
+-import dev.architectury.utils.GameInstance;
+-import dev.emi.emi.api.recipe.BasicEmiRecipe;
+-import dev.emi.emi.api.recipe.EmiRecipeCategory;
+-import dev.emi.emi.api.stack.EmiIngredient;
+-import dev.emi.emi.api.stack.EmiStack;
+-import dev.emi.emi.api.widget.WidgetHolder;
+-import net.minecraft.core.RegistryAccess;
+-import net.minecraft.resources.ResourceLocation;
+-
+-import java.util.function.Supplier;
+-
+-public class CheeseFormRecipe extends BasicEmiRecipe {
+-    public static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath("meadow", "textures/gui/cheese_form_gui.png");
+-    protected static final Supplier<RegistryAccess> REGISTRY_ACCESS =
+-            EnvExecutor.getEnvSpecific(() -> () -> () -> GameInstance.getClient().player.level().registryAccess(),
+-                    () -> () -> () -> GameInstance.getServer().registryAccess());
+-
+-    public CheeseFormRecipe(EmiRecipeCategory category, net.satisfy.meadow.core.recipes.CheeseFormRecipe recipe) {
+-        super(category, MockRecipeIdGenerator.generateRecipeId(), 70, 18);
+-        var ingredients = recipe.getIngredients();
+-        for (var ingredient : ingredients) {
+-            this.inputs.add(EmiIngredient.of(ingredient));
+-        }
+-        this.outputs.add(EmiStack.of(recipe.getResultItem(REGISTRY_ACCESS.get())));
+-    }
+-
+-    @Override
+-    public void addWidgets(WidgetHolder widgets) {
+-        widgets.addTexture(TEXTURE, 0, 0, 124, 60, 26, 6);
+-        widgets.addAnimatedTexture(TEXTURE, 51, 30, 26, 10, 175, 4, 5000, true, false, false);
+-        widgets.addAnimatedTexture(TEXTURE, 50, 2, 26, 32, 175, 22, 5000, false, true, false);
+-
+-
+-        if (!this.inputs.isEmpty()) {
+-            var s = widgets.addSlot(this.inputs.get(0), 6, 26);
+-            s.drawBack(false);
+-        }
+-
+-        if (this.inputs.size() > 1) {
+-            var s = widgets.addSlot(this.inputs.get(1), 24, 26);
+-            s.drawBack(false);
+-        }
+-
+-        if (!this.outputs.isEmpty()) {
+-            var s = widgets.addSlot(this.outputs.get(0), 96, 26);
+-            s.drawBack(false);
+-        }
+-    }
+-
+-    @Override
+-    public int getDisplayHeight() {
+-        return 60;
+-    }
+-
+-    @Override
+-    public int getDisplayWidth() {
+-        return 124;
+-    }
+-}
+\ No newline at end of file
+diff --git 1/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/meadow/CookingCauldronRecipe.java 2/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/meadow/CookingCauldronRecipe.java
+deleted file mode 100644
+index 1bb8d34..0000000
+--- 1/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/meadow/CookingCauldronRecipe.java
++++ /dev/null
+@@ -1,83 +0,0 @@
+-package com.pandaismyname1.emiletsdocompat.meadow;
+-
+-import com.pandaismyname1.emiletsdocompat.MockRecipeIdGenerator;
+-import dev.architectury.utils.EnvExecutor;
+-import dev.architectury.utils.GameInstance;
+-import dev.emi.emi.api.recipe.BasicEmiRecipe;
+-import dev.emi.emi.api.recipe.EmiRecipeCategory;
+-import dev.emi.emi.api.stack.EmiIngredient;
+-import dev.emi.emi.api.stack.EmiStack;
+-import dev.emi.emi.api.widget.WidgetHolder;
+-import net.minecraft.core.RegistryAccess;
+-import net.minecraft.resources.ResourceLocation;
+-
+-import java.util.function.Supplier;
+-
+-public class CookingCauldronRecipe extends BasicEmiRecipe {
+-    public static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath("meadow", "textures/gui/cooking_cauldron_gui.png");
+-    protected static final Supplier<RegistryAccess> REGISTRY_ACCESS =
+-            EnvExecutor.getEnvSpecific(() -> () -> () -> GameInstance.getClient().player.level().registryAccess(),
+-                    () -> () -> () -> GameInstance.getServer().registryAccess());
+-
+-    public CookingCauldronRecipe(EmiRecipeCategory category, net.satisfy.meadow.core.recipes.CookingCauldronRecipe recipe) {
+-        super(category, MockRecipeIdGenerator.generateRecipeId(), 70, 18);
+-        var ingredients = recipe.getIngredients();
+-        for (var ingredient : ingredients) {
+-            this.inputs.add(EmiIngredient.of(ingredient));
+-        }
+-        this.outputs.add(EmiStack.of(recipe.getResultItem(REGISTRY_ACCESS.get())));
+-    }
+-
+-    @Override
+-    public void addWidgets(WidgetHolder widgets) {
+-        widgets.addTexture(TEXTURE, 0, 0, 124, 60, 7, 6);
+-        widgets.addAnimatedTexture(TEXTURE, 64, 20, 24, 17, 176, 14, 5000, true, false, false);
+-        widgets.addAnimatedTexture(TEXTURE, 102, 47, 16, 14, 176, 0, 5000, false, true, false);
+-
+-
+-        if (!this.inputs.isEmpty()) {
+-            var s = widgets.addSlot(this.inputs.get(0), 3, 10);
+-            s.drawBack(false);
+-        }
+-
+-        if (this.inputs.size() > 1) {
+-            var s = widgets.addSlot(this.inputs.get(1), 21, 10);
+-            s.drawBack(false);
+-        }
+-
+-        if (this.inputs.size() > 2) {
+-            var s = widgets.addSlot(this.inputs.get(2), 39, 10);
+-            s.drawBack(false);
+-        }
+-
+-        if (this.inputs.size() > 3) {
+-            var s = widgets.addSlot(this.inputs.get(3), 3, 28);
+-            s.drawBack(false);
+-        }
+-
+-        if (this.inputs.size() > 4) {
+-            var s = widgets.addSlot(this.inputs.get(4), 21, 28);
+-            s.drawBack(false);
+-        }
+-
+-        if (this.inputs.size() > 5) {
+-            var s = widgets.addSlot(this.inputs.get(5), 39, 28);
+-            s.drawBack(false);
+-        }
+-
+-        if (!this.outputs.isEmpty()) {
+-            var s = widgets.addSlot(this.outputs.get(0), 97, 19);
+-            s.drawBack(false);
+-        }
+-    }
+-
+-    @Override
+-    public int getDisplayHeight() {
+-        return 60;
+-    }
+-
+-    @Override
+-    public int getDisplayWidth() {
+-        return 124;
+-    }
+-}
+\ No newline at end of file
+diff --git 1/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/meadow/CustomFondueFillRecipe.java 2/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/meadow/CustomFondueFillRecipe.java
+deleted file mode 100644
+index fcde745..0000000
+--- 1/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/meadow/CustomFondueFillRecipe.java
++++ /dev/null
+@@ -1,51 +0,0 @@
+-package com.pandaismyname1.emiletsdocompat.meadow;
+-
+-import com.pandaismyname1.emiletsdocompat.MockRecipeIdGenerator;
+-import com.pandaismyname1.emiletsdocompat.meadow.internal.FondueFillRecipe;
+-import dev.architectury.utils.EnvExecutor;
+-import dev.architectury.utils.GameInstance;
+-import dev.emi.emi.api.recipe.BasicEmiRecipe;
+-import dev.emi.emi.api.recipe.EmiRecipeCategory;
+-import dev.emi.emi.api.stack.EmiIngredient;
+-import dev.emi.emi.api.stack.EmiStack;
+-import dev.emi.emi.api.widget.WidgetHolder;
+-import net.minecraft.core.RegistryAccess;
+-import net.minecraft.resources.ResourceLocation;
+-import net.minecraft.world.item.crafting.Ingredient;
+-import net.satisfy.meadow.core.registry.ObjectRegistry;
+-
+-import java.util.function.Supplier;
+-
+-public class CustomFondueFillRecipe extends BasicEmiRecipe {
+-    public static final ResourceLocation TOAST_TEXTURE = ResourceLocation.fromNamespaceAndPath("minecraft", "textures/gui/sprites/toast/right_click.png");
+-    protected static final Supplier<RegistryAccess> REGISTRY_ACCESS =
+-            EnvExecutor.getEnvSpecific(() -> () -> () -> GameInstance.getClient().player.level().registryAccess(),
+-                    () -> () -> () -> GameInstance.getServer().registryAccess());
+-
+-    public CustomFondueFillRecipe(EmiRecipeCategory category, FondueFillRecipe recipe) {
+-        super(category, MockRecipeIdGenerator.generateRecipeId(), 70, 18);
+-        var ingredients = recipe.getIngredients();
+-        for (var ingredient : ingredients) {
+-            this.inputs.add(EmiIngredient.of(ingredient));
+-        }
+-        this.outputs.add(EmiStack.of(recipe.getResultItem(REGISTRY_ACCESS.get())));
+-    }
+-
+-    @Override
+-    public void addWidgets(WidgetHolder widgets) {
+-        var input = widgets.addSlot(this.inputs.get(0), 5, 5);
+-        var rightClick = widgets.addTexture(TOAST_TEXTURE, 25, 3, 20, 20, 0, 0, 20, 20, 20, 20);
+-        var arrow = widgets.addFillingArrow(45, 5, 5000);
+-        var fondue = widgets.addSlot(EmiIngredient.of(Ingredient.of(ObjectRegistry.FONDUE.get())), 75, 5);
+-    }
+-
+-    @Override
+-    public int getDisplayHeight() {
+-        return 28;
+-    }
+-
+-    @Override
+-    public int getDisplayWidth() {
+-        return 98;
+-    }
+-}
+\ No newline at end of file
+diff --git 1/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/meadow/CustomFondueUseRecipe.java 2/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/meadow/CustomFondueUseRecipe.java
+deleted file mode 100644
+index 4c3f7d9..0000000
+--- 1/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/meadow/CustomFondueUseRecipe.java
++++ /dev/null
+@@ -1,52 +0,0 @@
+-package com.pandaismyname1.emiletsdocompat.meadow;
+-
+-import com.pandaismyname1.emiletsdocompat.MockRecipeIdGenerator;
+-import com.pandaismyname1.emiletsdocompat.meadow.internal.FondueUseRecipe;
+-import dev.architectury.utils.EnvExecutor;
+-import dev.architectury.utils.GameInstance;
+-import dev.emi.emi.api.recipe.BasicEmiRecipe;
+-import dev.emi.emi.api.recipe.EmiRecipeCategory;
+-import dev.emi.emi.api.stack.EmiIngredient;
+-import dev.emi.emi.api.stack.EmiStack;
+-import dev.emi.emi.api.widget.WidgetHolder;
+-import net.minecraft.core.RegistryAccess;
+-import net.minecraft.resources.ResourceLocation;
+-import net.minecraft.world.item.crafting.Ingredient;
+-import net.satisfy.meadow.core.registry.ObjectRegistry;
+-
+-import java.util.function.Supplier;
+-
+-public class CustomFondueUseRecipe extends BasicEmiRecipe {
+-    public static final ResourceLocation TOAST_TEXTURE = ResourceLocation.fromNamespaceAndPath("minecraft", "textures/gui/sprites/toast/right_click.png");
+-    protected static final Supplier<RegistryAccess> REGISTRY_ACCESS =
+-            EnvExecutor.getEnvSpecific(() -> () -> () -> GameInstance.getClient().player.level().registryAccess(),
+-                    () -> () -> () -> GameInstance.getServer().registryAccess());
+-
+-    public CustomFondueUseRecipe(EmiRecipeCategory category, FondueUseRecipe recipe) {
+-        super(category, MockRecipeIdGenerator.generateRecipeId(), 70, 18);
+-        var ingredients = recipe.getIngredients();
+-        for (var ingredient : ingredients) {
+-            this.inputs.add(EmiIngredient.of(ingredient));
+-        }
+-        this.outputs.add(EmiStack.of(recipe.getResultItem(REGISTRY_ACCESS.get())));
+-    }
+-
+-    @Override
+-    public void addWidgets(WidgetHolder widgets) {
+-        widgets.addSlot(this.inputs.get(0), 5, 5);
+-        widgets.addTexture(TOAST_TEXTURE, 25, 3, 20, 20, 0, 0, 20, 20, 20, 20);
+-        widgets.addSlot(EmiIngredient.of(Ingredient.of(ObjectRegistry.FONDUE.get())), 45, 5);
+-        widgets.addFillingArrow(65, 5, 5000);
+-        widgets.addSlot(this.outputs.get(0), 95, 5);
+-    }
+-
+-    @Override
+-    public int getDisplayHeight() {
+-        return 28;
+-    }
+-
+-    @Override
+-    public int getDisplayWidth() {
+-        return 118;
+-    }
+-}
+diff --git 1/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/meadow/MeadowCompat.java 2/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/meadow/MeadowCompat.java
+deleted file mode 100644
+index f5cce5c..0000000
+--- 1/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/meadow/MeadowCompat.java
++++ /dev/null
+@@ -1,84 +0,0 @@
+-package com.pandaismyname1.emiletsdocompat.meadow;
+-
+-import com.pandaismyname1.emiletsdocompat.Emi_letsdo_compat;
+-import com.pandaismyname1.emiletsdocompat.IEmiModCompat;
+-import com.pandaismyname1.emiletsdocompat.meadow.internal.FondueFillRecipe;
+-import com.pandaismyname1.emiletsdocompat.meadow.internal.FondueUseRecipe;
+-import com.pandaismyname1.emiletsdocompat.meadow.internal.Registry;
+-import dev.emi.emi.api.EmiRegistry;
+-import dev.emi.emi.api.recipe.EmiRecipeCategory;
+-import dev.emi.emi.api.stack.EmiStack;
+-import net.minecraft.resources.ResourceLocation;
+-import net.minecraft.world.item.crafting.RecipeManager;
+-import net.satisfy.meadow.Meadow;
+-import net.satisfy.meadow.core.registry.ObjectRegistry;
+-
+-public class MeadowCompat implements IEmiModCompat {
+-    @Override
+-    public void init(EmiRegistry registry, RecipeManager manager) throws NoSuchFieldException {
+-        try {
+-            var recipeCategory = new EmiRecipeCategory(ResourceLocation.fromNamespaceAndPath(Emi_letsdo_compat.MOD_ID, "fondue_fill"),
+-                    EmiStack.of(ObjectRegistry.FONDUE.get()));
+-            registerRecipeType(registry, manager,
+-                    recipeCategory,
+-                    (recipe) -> {
+-                        registry.addRecipe(new CustomFondueFillRecipe(recipeCategory, (FondueFillRecipe) recipe));
+-                    },
+-                    Registry.FONDUE_FILL.get(),
+-                    EmiStack.of(ObjectRegistry.FONDUE.get()));
+-        } catch (NoSuchFieldError | NoSuchFieldException | ClassNotFoundException e) {
+-        }
+-
+-        try {
+-            var recipeCategory = new EmiRecipeCategory(ResourceLocation.fromNamespaceAndPath(Emi_letsdo_compat.MOD_ID, "fondue_use"),
+-                    EmiStack.of(ObjectRegistry.FONDUE.get()));
+-            registerRecipeType(registry, manager,
+-                    recipeCategory,
+-                    (recipe) -> {
+-                        registry.addRecipe(new CustomFondueUseRecipe(recipeCategory, (FondueUseRecipe) recipe));
+-                    },
+-                    Registry.FONDUE_USE.get(),
+-                    EmiStack.of(ObjectRegistry.FONDUE.get()));
+-        } catch (NoSuchFieldError | NoSuchFieldException | ClassNotFoundException e) {
+-        }
+-
+-        try {
+-            var recipeCategory = new EmiRecipeCategory(ResourceLocation.fromNamespaceAndPath(Meadow.MOD_ID, "cheese"),
+-                    EmiStack.of(ObjectRegistry.CHEESE_FORM.get()));
+-            registerRecipeType(registry, manager,
+-                    recipeCategory,
+-                    (recipe) -> {
+-                        registry.addRecipe(new CheeseFormRecipe(recipeCategory, (net.satisfy.meadow.core.recipes.CheeseFormRecipe) recipe));
+-                    },
+-                    net.satisfy.meadow.core.registry.RecipeRegistry.CHEESE.get(),
+-                    EmiStack.of(ObjectRegistry.CHEESE_FORM.get()));
+-        } catch (NoSuchFieldError | NoSuchFieldException | ClassNotFoundException e) {
+-        }
+-
+-        try {
+-            var recipeCategory = new EmiRecipeCategory(ResourceLocation.fromNamespaceAndPath(Meadow.MOD_ID, "cooking"),
+-                    EmiStack.of(ObjectRegistry.COOKING_CAULDRON.get()));
+-            registerRecipeType(registry, manager,
+-                    recipeCategory,
+-                    (recipe) -> {
+-                        registry.addRecipe(new CookingCauldronRecipe(recipeCategory, (net.satisfy.meadow.core.recipes.CookingCauldronRecipe) recipe));
+-                    },
+-                    net.satisfy.meadow.core.registry.RecipeRegistry.COOKING.get(),
+-                    EmiStack.of(ObjectRegistry.COOKING_CAULDRON.get()));
+-        } catch (NoSuchFieldError | NoSuchFieldException | ClassNotFoundException e) {
+-        }
+-
+-        try {
+-            var recipeCategory = new EmiRecipeCategory(ResourceLocation.fromNamespaceAndPath(Meadow.MOD_ID, "woodcutting"),
+-                    EmiStack.of(ObjectRegistry.WOODCUTTER.get()));
+-            registerRecipeType(registry, manager,
+-                    recipeCategory,
+-                    (recipe) -> {
+-                        registry.addRecipe(new WoodcuttingRecipe(recipeCategory, (net.satisfy.meadow.core.recipes.WoodcuttingRecipe) recipe));
+-                    },
+-                    net.satisfy.meadow.core.registry.RecipeRegistry.WOODCUTTING.get(),
+-                    EmiStack.of(ObjectRegistry.WOODCUTTER.get()));
+-        } catch (NoSuchFieldError | NoSuchFieldException | ClassNotFoundException e) {
+-        }
+-    }
+-}
+diff --git 1/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/meadow/WoodcuttingRecipe.java 2/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/meadow/WoodcuttingRecipe.java
+deleted file mode 100644
+index 9bd163f..0000000
+--- 1/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/meadow/WoodcuttingRecipe.java
++++ /dev/null
+@@ -1,50 +0,0 @@
+-package com.pandaismyname1.emiletsdocompat.meadow;
+-
+-import com.pandaismyname1.emiletsdocompat.MockRecipeIdGenerator;
+-import dev.architectury.utils.EnvExecutor;
+-import dev.architectury.utils.GameInstance;
+-import dev.emi.emi.api.recipe.BasicEmiRecipe;
+-import dev.emi.emi.api.recipe.EmiRecipeCategory;
+-import dev.emi.emi.api.stack.EmiIngredient;
+-import dev.emi.emi.api.stack.EmiStack;
+-import dev.emi.emi.api.widget.WidgetHolder;
+-import net.minecraft.core.RegistryAccess;
+-
+-import java.util.function.Supplier;
+-
+-public class WoodcuttingRecipe extends BasicEmiRecipe {
+-    protected static final Supplier<RegistryAccess> REGISTRY_ACCESS =
+-            EnvExecutor.getEnvSpecific(() -> () -> () -> GameInstance.getClient().player.level().registryAccess(),
+-                    () -> () -> () -> GameInstance.getServer().registryAccess());
+-
+-    public WoodcuttingRecipe(EmiRecipeCategory category, net.satisfy.meadow.core.recipes.WoodcuttingRecipe recipe) {
+-        super(category, MockRecipeIdGenerator.generateRecipeId(), 70, 18);
+-        var ingredients = recipe.getIngredients();
+-        for (var ingredient : ingredients) {
+-            this.inputs.add(EmiIngredient.of(ingredient));
+-        }
+-        this.outputs.add(EmiStack.of(recipe.getResultItem(REGISTRY_ACCESS.get())));
+-    }
+-
+-    @Override
+-    public void addWidgets(WidgetHolder widgets) {
+-        widgets.addFillingArrow(50, 21, 5000);
+-
+-        if (this.inputs.size() > 0) {
+-            widgets.addSlot(this.inputs.get(0), 23, 21);
+-        }
+-        if (this.outputs.size() > 0) {
+-            widgets.addSlot(this.outputs.get(0), 83, 21);
+-        }
+-    }
+-
+-    @Override
+-    public int getDisplayHeight() {
+-        return 60;
+-    }
+-
+-    @Override
+-    public int getDisplayWidth() {
+-        return 124;
+-    }
+-}
+\ No newline at end of file
+diff --git 1/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/meadow/internal/FondueFillRecipe.java 2/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/meadow/internal/FondueFillRecipe.java
+deleted file mode 100644
+index 957a5d8..0000000
+--- 1/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/meadow/internal/FondueFillRecipe.java
++++ /dev/null
+@@ -1,100 +0,0 @@
+-package com.pandaismyname1.emiletsdocompat.meadow.internal;
+-
+-import com.mojang.serialization.MapCodec;
+-import com.mojang.serialization.codecs.RecordCodecBuilder;
+-import net.minecraft.core.HolderLookup;
+-import net.minecraft.core.NonNullList;
+-import net.minecraft.network.RegistryFriendlyByteBuf;
+-import net.minecraft.network.codec.StreamCodec;
+-import net.minecraft.resources.ResourceLocation;
+-import net.minecraft.world.item.ItemStack;
+-import net.minecraft.world.item.crafting.Ingredient;
+-import net.minecraft.world.item.crafting.Recipe;
+-import net.minecraft.world.item.crafting.RecipeInput;
+-import net.minecraft.world.item.crafting.RecipeSerializer;
+-import net.minecraft.world.item.crafting.RecipeType;
+-import net.minecraft.world.level.Level;
+-import org.jetbrains.annotations.NotNull;
+-
+-public class FondueFillRecipe implements Recipe<RecipeInput> {
+-    private final Ingredient ingredient;
+-    private final float fillAmount;
+-
+-    public FondueFillRecipe(Ingredient ingredient, float fillAmount) {
+-        this.ingredient = ingredient;
+-        this.fillAmount = fillAmount;
+-    }
+-
+-    @Override
+-    public NonNullList<Ingredient> getIngredients() {
+-        NonNullList<Ingredient> list = NonNullList.create();
+-        list.add(this.ingredient);
+-        return list;
+-    }
+-
+-    @Override
+-    public boolean matches(RecipeInput recipeInput, Level level) {
+-        return false;
+-    }
+-
+-    @Override
+-    public @NotNull ItemStack assemble(RecipeInput recipeInput, HolderLookup.Provider provider) {
+-        return ItemStack.EMPTY;
+-    }
+-
+-    @Override
+-    public boolean canCraftInDimensions(int i, int j) {
+-        return true;
+-    }
+-
+-    @Override
+-    public @NotNull ItemStack getResultItem(HolderLookup.Provider provider) {
+-        return ItemStack.EMPTY;
+-    }
+-
+-    @Override
+-    public @NotNull RecipeSerializer<?> getSerializer() {
+-        return Registry.FONDUE_FILL_SERIALIZER.get();
+-    }
+-
+-    @Override
+-    public @NotNull RecipeType<?> getType() {
+-        return Registry.FONDUE_FILL.get();
+-    }
+-
+-    public Ingredient getIngredient() {
+-        return ingredient;
+-    }
+-
+-    public float getFillAmount() {
+-        return fillAmount;
+-    }
+-
+-    public static class Serializer implements RecipeSerializer<FondueFillRecipe> {
+-        @Override
+-        public @NotNull MapCodec<FondueFillRecipe> codec() {
+-            return RecordCodecBuilder.mapCodec(inst -> inst.group(
+-                    Ingredient.CODEC.fieldOf("ingredient").forGetter(FondueFillRecipe::getIngredient),
+-                    com.mojang.serialization.Codec.FLOAT.fieldOf("fillAmount").forGetter(FondueFillRecipe::getFillAmount)
+-            ).apply(inst, FondueFillRecipe::new));
+-        }
+-
+-        @Override
+-        public @NotNull StreamCodec<RegistryFriendlyByteBuf, FondueFillRecipe> streamCodec() {
+-            return new StreamCodec<>() {
+-                @Override
+-                public void encode(RegistryFriendlyByteBuf buf, FondueFillRecipe recipe) {
+-                    Ingredient.CONTENTS_STREAM_CODEC.encode(buf, recipe.getIngredient());
+-                    buf.writeFloat(recipe.getFillAmount());
+-                }
+-
+-                @Override
+-                public @NotNull FondueFillRecipe decode(RegistryFriendlyByteBuf buf) {
+-                    Ingredient ingredient = Ingredient.CONTENTS_STREAM_CODEC.decode(buf);
+-                    float fill = buf.readFloat();
+-                    return new FondueFillRecipe(ingredient, fill);
+-                }
+-            };
+-        }
+-    }
+-}
+\ No newline at end of file
+diff --git 1/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/meadow/internal/FondueUseRecipe.java 2/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/meadow/internal/FondueUseRecipe.java
+deleted file mode 100644
+index 786514b..0000000
+--- 1/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/meadow/internal/FondueUseRecipe.java
++++ /dev/null
+@@ -1,112 +0,0 @@
+-package com.pandaismyname1.emiletsdocompat.meadow.internal;
+-
+-import com.mojang.serialization.MapCodec;
+-import com.mojang.serialization.codecs.RecordCodecBuilder;
+-import net.minecraft.core.HolderLookup;
+-import net.minecraft.core.NonNullList;
+-import net.minecraft.network.RegistryFriendlyByteBuf;
+-import net.minecraft.network.codec.StreamCodec;
+-import net.minecraft.world.item.ItemStack;
+-import net.minecraft.world.item.crafting.Ingredient;
+-import net.minecraft.world.item.crafting.Recipe;
+-import net.minecraft.world.item.crafting.RecipeInput;
+-import net.minecraft.world.item.crafting.RecipeSerializer;
+-import net.minecraft.world.item.crafting.RecipeType;
+-import net.minecraft.world.level.Level;
+-import org.jetbrains.annotations.NotNull;
+-
+-/**
+- * A recipe representing right-click use on the Fondue block that consumes an input item,
+- * outputs another item, and consumes cheese from the fondue.
+- */
+-public class FondueUseRecipe implements Recipe<RecipeInput> {
+-    private final Ingredient ingredient;
+-    private final ItemStack result;
+-    private final float cheeseCost;
+-
+-    public FondueUseRecipe(Ingredient ingredient, ItemStack result, float cheeseCost) {
+-        this.ingredient = ingredient;
+-        this.result = result;
+-        this.cheeseCost = cheeseCost;
+-    }
+-
+-    @Override
+-    public NonNullList<Ingredient> getIngredients() {
+-        NonNullList<Ingredient> list = NonNullList.create();
+-        list.add(this.ingredient);
+-        return list;
+-    }
+-
+-    @Override
+-    public boolean matches(RecipeInput recipeInput, Level level) {
+-        return false;
+-    }
+-
+-    @Override
+-    public @NotNull ItemStack assemble(RecipeInput recipeInput, HolderLookup.Provider provider) {
+-        return this.result.copy();
+-    }
+-
+-    @Override
+-    public boolean canCraftInDimensions(int width, int height) {
+-        return true;
+-    }
+-
+-    @Override
+-    public @NotNull ItemStack getResultItem(HolderLookup.Provider provider) {
+-        return this.result.copy();
+-    }
+-
+-    public Ingredient getIngredient() {
+-        return ingredient;
+-    }
+-
+-    public ItemStack getResult() {
+-        return result;
+-    }
+-
+-    public float getCheeseCost() {
+-        return cheeseCost;
+-    }
+-
+-    @Override
+-    public @NotNull RecipeSerializer<?> getSerializer() {
+-        return Registry.FONDUE_USE_SERIALIZER.get();
+-    }
+-
+-    @Override
+-    public @NotNull RecipeType<?> getType() {
+-        return Registry.FONDUE_USE.get();
+-    }
+-
+-    public static class Serializer implements RecipeSerializer<FondueUseRecipe> {
+-        @Override
+-        public @NotNull MapCodec<FondueUseRecipe> codec() {
+-            return RecordCodecBuilder.mapCodec(inst -> inst.group(
+-                    Ingredient.CODEC.fieldOf("ingredient").forGetter(FondueUseRecipe::getIngredient),
+-                    ItemStack.CODEC.fieldOf("result").forGetter(FondueUseRecipe::getResult),
+-                    com.mojang.serialization.Codec.FLOAT.fieldOf("cheeseCost").forGetter(FondueUseRecipe::getCheeseCost)
+-            ).apply(inst, FondueUseRecipe::new));
+-        }
+-
+-        @Override
+-        public @NotNull StreamCodec<RegistryFriendlyByteBuf, FondueUseRecipe> streamCodec() {
+-            return new StreamCodec<>() {
+-                @Override
+-                public void encode(RegistryFriendlyByteBuf buf, FondueUseRecipe recipe) {
+-                    Ingredient.CONTENTS_STREAM_CODEC.encode(buf, recipe.getIngredient());
+-                    ItemStack.STREAM_CODEC.encode(buf, recipe.getResult());
+-                    buf.writeFloat(recipe.getCheeseCost());
+-                }
+-
+-                @Override
+-                public @NotNull FondueUseRecipe decode(RegistryFriendlyByteBuf buf) {
+-                    Ingredient ingredient = Ingredient.CONTENTS_STREAM_CODEC.decode(buf);
+-                    ItemStack result = ItemStack.STREAM_CODEC.decode(buf);
+-                    float cheese = buf.readFloat();
+-                    return new FondueUseRecipe(ingredient, result, cheese);
+-                }
+-            };
+-        }
+-    }
+-}
+diff --git 1/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/meadow/internal/Registry.java 2/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/meadow/internal/Registry.java
+deleted file mode 100644
+index a23c8f0..0000000
+--- 1/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/meadow/internal/Registry.java
++++ /dev/null
+@@ -1,40 +0,0 @@
+-package com.pandaismyname1.emiletsdocompat.meadow.internal;
+-
+-import com.pandaismyname1.emiletsdocompat.Emi_letsdo_compat;
+-import dev.architectury.registry.registries.DeferredRegister;
+-import dev.architectury.registry.registries.RegistrySupplier;
+-import net.minecraft.core.registries.Registries;
+-import net.minecraft.world.item.crafting.Recipe;
+-import net.minecraft.world.item.crafting.RecipeSerializer;
+-import net.minecraft.world.item.crafting.RecipeType;
+-
+-import java.util.function.Supplier;
+-
+-public class Registry {
+-    private static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZERS = DeferredRegister.create(Emi_letsdo_compat.MOD_ID, Registries.RECIPE_SERIALIZER);
+-    private static final DeferredRegister<RecipeType<?>> RECIPE_TYPES = DeferredRegister.create(Emi_letsdo_compat.MOD_ID, Registries.RECIPE_TYPE);
+-
+-    public static final RegistrySupplier<RecipeType<FondueFillRecipe>> FONDUE_FILL = create("fondue_fill");
+-    public static final RegistrySupplier<RecipeSerializer<FondueFillRecipe>> FONDUE_FILL_SERIALIZER = create("fondue_fill", FondueFillRecipe.Serializer::new);
+-
+-    public static final RegistrySupplier<RecipeType<FondueUseRecipe>> FONDUE_USE = create("fondue_use");
+-    public static final RegistrySupplier<RecipeSerializer<FondueUseRecipe>> FONDUE_USE_SERIALIZER = create("fondue_use", FondueUseRecipe.Serializer::new);
+-
+-    private static <T extends Recipe<?>> RegistrySupplier<RecipeSerializer<T>> create(String name, Supplier<RecipeSerializer<T>> serializer) {
+-        return RECIPE_SERIALIZERS.register(name, serializer);
+-    }
+-
+-    private static <T extends Recipe<?>> RegistrySupplier<RecipeType<T>> create(String name) {
+-        Supplier<RecipeType<T>> type = () -> new RecipeType<T>() {
+-            public String toString() {
+-                return name;
+-            }
+-        };
+-        return RECIPE_TYPES.register(name, type);
+-    }
+-
+-    public static void init() {
+-        RECIPE_SERIALIZERS.register();
+-        RECIPE_TYPES.register();
+-    }
+-}
+diff --git 1/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/vinery/AppleFermentationRecipe.java 2/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/vinery/AppleFermentationRecipe.java
+deleted file mode 100644
+index 0f0acc1..0000000
+--- 1/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/vinery/AppleFermentationRecipe.java
++++ /dev/null
+@@ -1,69 +0,0 @@
+-package com.pandaismyname1.emiletsdocompat.vinery;
+-
+-import com.pandaismyname1.emiletsdocompat.MockRecipeIdGenerator;
+-import dev.architectury.utils.EnvExecutor;
+-import dev.architectury.utils.GameInstance;
+-import dev.emi.emi.api.recipe.BasicEmiRecipe;
+-import dev.emi.emi.api.recipe.EmiRecipeCategory;
+-import dev.emi.emi.api.stack.EmiIngredient;
+-import dev.emi.emi.api.stack.EmiStack;
+-import dev.emi.emi.api.widget.WidgetHolder;
+-import net.minecraft.core.RegistryAccess;
+-import net.minecraft.resources.ResourceLocation;
+-import net.minecraft.world.item.crafting.Ingredient;
+-
+-import java.util.function.Supplier;
+-
+-public class AppleFermentationRecipe extends BasicEmiRecipe {
+-    public static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath("vinery", "textures/gui/apple_press_gui.png");
+-    protected static final Supplier<RegistryAccess> REGISTRY_ACCESS =
+-            EnvExecutor.getEnvSpecific(() -> () -> () -> GameInstance.getClient().player.level().registryAccess(),
+-                    () -> () -> () -> GameInstance.getServer().registryAccess());
+-
+-    public AppleFermentationRecipe(EmiRecipeCategory category, net.satisfy.vinery.core.recipe.ApplePressFermentingRecipe recipe) {
+-        super(category, MockRecipeIdGenerator.generateRecipeId(), 70, 18);
+-        var ingredients = recipe.getIngredients();
+-        var requiresBottle = recipe.requiresBottle();
+-        for (var ingredient : ingredients) {
+-            this.inputs.add(EmiIngredient.of(ingredient));
+-        }
+-        if (requiresBottle) {
+-            var ingredient = Ingredient.of(net.satisfy.vinery.core.registry.ObjectRegistry.WINE_BOTTLE.get());
+-            this.inputs.add(EmiIngredient.of(ingredient));
+-        }
+-        this.outputs.add(EmiStack.of(recipe.getResultItem(REGISTRY_ACCESS.get())));
+-    }
+-
+-    @Override
+-    public void addWidgets(WidgetHolder widgets) {
+-        widgets.addTexture(TEXTURE, 15, 20, 36, 18, 100, 49);
+-        widgets.addTexture(TEXTURE, 66, 15, 10, 28, 101, 17);
+-        widgets.addAnimatedTexture(TEXTURE, 66, 15, 10, 28, 176, 47, 10000, false, true, false);
+-        widgets.addTexture(TEXTURE, 89, 20, 18, 18, 118, 17);
+-
+-
+-        if (!this.inputs.isEmpty()) {
+-            var s = widgets.addSlot(this.inputs.get(0), 15, 20);
+-            s.drawBack(false);
+-        }
+-        if (this.inputs.size() > 1) {
+-            var s = widgets.addSlot(this.inputs.get(1), 33, 20);
+-            s.drawBack(false);
+-        }
+-
+-        if (!this.outputs.isEmpty()) {
+-            var s = widgets.addSlot(this.outputs.get(0), 89, 20);
+-            s.drawBack(false);
+-        }
+-    }
+-
+-    @Override
+-    public int getDisplayHeight() {
+-        return 60;
+-    }
+-
+-    @Override
+-    public int getDisplayWidth() {
+-        return 124;
+-    }
+-}
+diff --git 1/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/vinery/ApplePressingRecipe.java 2/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/vinery/ApplePressingRecipe.java
+deleted file mode 100644
+index b5e4ba3..0000000
+--- 1/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/vinery/ApplePressingRecipe.java
++++ /dev/null
+@@ -1,59 +0,0 @@
+-package com.pandaismyname1.emiletsdocompat.vinery;
+-
+-import com.pandaismyname1.emiletsdocompat.MockRecipeIdGenerator;
+-import dev.architectury.utils.EnvExecutor;
+-import dev.architectury.utils.GameInstance;
+-import dev.emi.emi.api.recipe.BasicEmiRecipe;
+-import dev.emi.emi.api.recipe.EmiRecipeCategory;
+-import dev.emi.emi.api.stack.EmiIngredient;
+-import dev.emi.emi.api.stack.EmiStack;
+-import dev.emi.emi.api.widget.WidgetHolder;
+-import net.minecraft.core.RegistryAccess;
+-import net.minecraft.resources.ResourceLocation;
+-
+-import java.util.function.Supplier;
+-
+-public class ApplePressingRecipe extends BasicEmiRecipe {
+-    public static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath("vinery", "textures/gui/apple_press_gui.png");
+-    protected static final Supplier<RegistryAccess> REGISTRY_ACCESS =
+-            EnvExecutor.getEnvSpecific(() -> () -> () -> GameInstance.getClient().player.level().registryAccess(),
+-                    () -> () -> () -> GameInstance.getServer().registryAccess());
+-
+-    public ApplePressingRecipe(EmiRecipeCategory category, net.satisfy.vinery.core.recipe.ApplePressMashingRecipe recipe) {
+-        super(category, MockRecipeIdGenerator.generateRecipeId(), 70, 18);
+-        var ingredients = recipe.getIngredients();
+-        for (var ingredient : ingredients) {
+-            this.inputs.add(EmiIngredient.of(ingredient));
+-        }
+-        this.outputs.add(EmiStack.of(recipe.getResultItem(REGISTRY_ACCESS.get())));
+-    }
+-
+-    @Override
+-    public void addWidgets(WidgetHolder widgets) {
+-        widgets.addTexture(TEXTURE, 13, 3, 28, 54, 38, 15);
+-        widgets.addAnimatedTexture(TEXTURE, 15, 5, 25, 38, 176, 0, 5000, false, false, false);
+-        widgets.addFillingArrow(48, 25, 5000);
+-        widgets.addTexture(TEXTURE, 80, 25, 36, 18, 100, 49);
+-
+-
+-        if (!this.inputs.isEmpty()) {
+-            var s = widgets.addSlot(this.inputs.get(0), 18, 21);
+-            s.drawBack(false);
+-        }
+-
+-        if (!this.outputs.isEmpty()) {
+-            var s = widgets.addSlot(this.outputs.get(0), 80, 25);
+-            s.drawBack(false);
+-        }
+-    }
+-
+-    @Override
+-    public int getDisplayHeight() {
+-        return 60;
+-    }
+-
+-    @Override
+-    public int getDisplayWidth() {
+-        return 124;
+-    }
+-}
+\ No newline at end of file
+diff --git 1/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/vinery/CustomGrapeMashingRecipe.java 2/clean-A/common/src/main/java/com/pandaismyname1/emiletsdocompat/vinery/CustomGrapeMashingRecipe.java
+index 3d07cfe..dde936b 100644
+--- 1/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/vinery/CustomGrapeMashingRecipe.java
++++ 2/clean-A/common/src/main/java/com/pandaismyname1/emiletsdocompat/vinery/CustomGrapeMashingRecipe.java
+@@ -1,49 +1,38 @@
+ package com.pandaismyname1.emiletsdocompat.vinery;
+ 
+ import com.pandaismyname1.emiletsdocompat.Emi_letsdo_compat;
+-import com.pandaismyname1.emiletsdocompat.MockRecipeIdGenerator;
+-import com.pandaismyname1.emiletsdocompat.vinery.internal.GrapeMashingRecipe;
+-import dev.architectury.utils.EnvExecutor;
+-import dev.architectury.utils.GameInstance;
+ import dev.emi.emi.api.recipe.BasicEmiRecipe;
+ import dev.emi.emi.api.recipe.EmiRecipeCategory;
+-import dev.emi.emi.api.stack.EmiIngredient;
+ import dev.emi.emi.api.stack.EmiStack;
+ import dev.emi.emi.api.widget.WidgetHolder;
+-import net.minecraft.core.RegistryAccess;
+ import net.minecraft.network.chat.Component;
+ import net.minecraft.resources.ResourceLocation;
++import net.satisfy.vinery.core.block.GrapevinePotBlock;
+ import net.satisfy.vinery.core.registry.ObjectRegistry;
++import net.satisfy.vinery.core.wine.GrapeType;
+ 
+ import java.util.List;
+-import java.util.function.Supplier;
+ 
+ 
+ public class CustomGrapeMashingRecipe extends BasicEmiRecipe {
+-    public static final ResourceLocation TOAST_TEXTURE = ResourceLocation.fromNamespaceAndPath("minecraft", "textures/gui/sprites/toast/right_click.png");
+-    protected static final Supplier<RegistryAccess> REGISTRY_ACCESS =
+-            EnvExecutor.getEnvSpecific(() -> () -> () -> GameInstance.getClient().player.level().registryAccess(),
+-                    () -> () -> () -> GameInstance.getServer().registryAccess());
+-
+-    public CustomGrapeMashingRecipe(EmiRecipeCategory category, GrapeMashingRecipe recipe) {
+-        super(category, MockRecipeIdGenerator.generateRecipeId(), 70, 18);
+-        recipe.getIngredients().forEach(ing -> this.inputs.add(EmiIngredient.of(ing)));
+-        this.outputs.add(EmiStack.of(recipe.getResultItem(REGISTRY_ACCESS.get())));
++    public CustomGrapeMashingRecipe(EmiRecipeCategory category, GrapeType grapeType) {
++        super(category, ResourceLocation.fromNamespaceAndPath(Emi_letsdo_compat.MOD_ID,
++                "grape_mashing/" + grapeType.getId()), 132, 42);
++        inputs.add(EmiStack.of(grapeType.getFruit(), GrapevinePotBlock.GRAPES_PER_BOTTLE));
++        inputs.add(EmiStack.of(ObjectRegistry.WINE_BOTTLE.get()));
++        catalysts.add(EmiStack.of(ObjectRegistry.GRAPEVINE_POT.get()));
++        outputs.add(EmiStack.of(grapeType.getBottle()));
+     }
+ 
+     @Override
+     public void addWidgets(WidgetHolder widgets) {
+-        widgets.addSlot(this.inputs.get(0), 5, 5);
+-        widgets.addTexture(TOAST_TEXTURE, 25, 3, 20, 20, 0, 0, 20, 20, 20, 20);
+-        widgets.addSlot(EmiStack.of(ObjectRegistry.GRAPEVINE_POT.get()), 45, 5);
++        widgets.addSlot(inputs.get(0), 0, 0);
++        widgets.addSlot(inputs.get(1), 0, 22);
++        widgets.addSlot(catalysts.get(0), 40, 5);
+         widgets.addFillingArrow(65, 5, 5000);
+-        widgets.addSlot(this.outputs.get(0), 95, 5);
+-        widgets.addTooltipText(List.of(Component.translatable("emi_letsdo_compat.jump_on_pot")), 65, 5, 28, 20);
++        widgets.addSlot(outputs.get(0), 105, 5).recipeContext(this);
++        widgets.addTooltipText(List.of(Component.translatable("emi_letsdo_compat.jump_on_pot",
++                GrapevinePotBlock.MAX_GRAPES, GrapevinePotBlock.GRAPES_PER_BOTTLE)), 65, 5, 28, 20);
+     }
+ 
+-    @Override
+-    public int getDisplayHeight() { return 28; }
+-
+-    @Override
+-    public int getDisplayWidth() { return 118; }
+ }
+diff --git 1/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/vinery/FermentationRecipe.java 2/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/vinery/FermentationRecipe.java
+deleted file mode 100644
+index e53e961..0000000
+--- 1/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/vinery/FermentationRecipe.java
++++ /dev/null
+@@ -1,122 +0,0 @@
+-package com.pandaismyname1.emiletsdocompat.vinery;
+-
+-import com.pandaismyname1.emiletsdocompat.MockRecipeIdGenerator;
+-import com.pandaismyname1.emiletsdocompat.vinery.internal.JuiceIngredients;
+-import dev.architectury.utils.EnvExecutor;
+-import dev.architectury.utils.GameInstance;
+-import dev.emi.emi.api.recipe.BasicEmiRecipe;
+-import dev.emi.emi.api.recipe.EmiRecipeCategory;
+-import dev.emi.emi.api.stack.EmiIngredient;
+-import dev.emi.emi.api.stack.EmiStack;
+-import dev.emi.emi.api.widget.WidgetHolder;
+-import net.minecraft.core.RegistryAccess;
+-import net.minecraft.network.chat.Component;
+-import net.minecraft.resources.ResourceLocation;
+-import net.minecraft.world.item.crafting.Ingredient;
+-import net.satisfy.vinery.platform.PlatformHelper;
+-
+-import java.util.ArrayList;
+-import java.util.List;
+-import java.util.function.Supplier;
+-
+-public class FermentationRecipe extends BasicEmiRecipe {
+-    public static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath("vinery", "textures/gui/fermentation_barrel_gui.png");
+-    protected static final Supplier<RegistryAccess> REGISTRY_ACCESS =
+-            EnvExecutor.getEnvSpecific(() -> () -> () -> GameInstance.getClient().player.level().registryAccess(),
+-                    () -> () -> () -> GameInstance.getServer().registryAccess());
+-    private final String juiceType;
+-    private final int fluidLevel;
+-    private final boolean requiresBottle;
+-    /**
+-     * The juice the barrel has to be filled with. Vinery treats it like a fuel rather than an
+-     * ingredient, so it is tracked separately from {@link #inputs} indices used by the item slots.
+-     */
+-    private final EmiIngredient juice;
+-    /** The three ingredient slots along the bottom of the barrel, without the juice. */
+-    private final List<EmiIngredient> itemInputs = new ArrayList<>();
+-
+-    public FermentationRecipe(EmiRecipeCategory category, net.satisfy.vinery.core.recipe.FermentationBarrelRecipe recipe) {
+-        super(category, MockRecipeIdGenerator.generateRecipeId(), 70, 18);
+-        this.juiceType = recipe.getJuiceData().type();
+-        this.fluidLevel = recipe.getJuiceData().amount();
+-        this.requiresBottle = recipe.isWineBottleRequired();
+-        this.juice = JuiceIngredients.of(this.juiceType,
+-                JuiceIngredients.bottlesFor(this.fluidLevel, PlatformHelper.getMaxFluidIncrease()));
+-        var ingredients = recipe.getIngredients();
+-        for (var ingredient : ingredients) {
+-            this.itemInputs.add(EmiIngredient.of(ingredient));
+-        }
+-        this.inputs.addAll(this.itemInputs);
+-        // Listed as an input so that "Uses" on a grapejuice finds this recipe.
+-        if (!this.juice.isEmpty()) {
+-            this.inputs.add(this.juice);
+-        }
+-        this.outputs.add(EmiStack.of(recipe.getResultItem(REGISTRY_ACCESS.get())));
+-    }
+-
+-    private Component getFluidTooltip(String juiceType, int fluidLevel) {
+-        int maxFluidLevel = PlatformHelper.getMaxFluidLevel();
+-        double percentage = (double) fluidLevel / (double) maxFluidLevel * (double) 100.0F;
+-        String percentageStr = String.format("%.2f", percentage);
+-        if (juiceType.startsWith("red")) {
+-            String region = juiceType.substring(4);
+-            return Component.translatable("tooltip.vinery.fermentation_barrel.red_" + region + "_juice_with_percentage", new Object[]{percentageStr});
+-        } else if (juiceType.startsWith("white")) {
+-            String region = juiceType.substring(6);
+-            return Component.translatable("tooltip.vinery.fermentation_barrel.white_" + region + "_juice_with_percentage", new Object[]{percentageStr});
+-        } else {
+-            return juiceType.equals("apple") ? Component.translatable("tooltip.vinery.fermentation_barrel.apple_juice_with_percentage", new Object[]{percentageStr}) : Component.translatable("tooltip.vinery.fermentation_barrel.empty");
+-        }
+-    }
+-
+-    @Override
+-    public void addWidgets(WidgetHolder widgets) {
+-        widgets.addTexture(TEXTURE, 0, 0, 124, 72, 26, 6);
+-        widgets.addAnimatedTexture(TEXTURE, 96, 14, 10, 28, 176, 0, 20000, false, true, false);
+-        widgets.addAnimatedTexture(TEXTURE, 56, 38, 20, 4, 176, 37, 30000, true, false, true);
+-
+-        var ttList = new ArrayList<Component>();
+-        ttList.add(getFluidTooltip(juiceType, fluidLevel));
+-        widgets.addTooltipText(ttList, 56, 38, 20, 4);
+-
+-        // The barrel's juice input slot, above the pipe feeding the fluid bar.
+-        if (!this.juice.isEmpty()) {
+-            var s = widgets.addSlot(this.juice, 12, 10);
+-            s.drawBack(false);
+-            s.appendTooltip(getFluidTooltip(juiceType, fluidLevel));
+-        }
+-
+-        if (!this.itemInputs.isEmpty()) {
+-            var s = widgets.addSlot(this.itemInputs.get(0), 40, 51);
+-            s.drawBack(false);
+-        }
+-        if (this.itemInputs.size() > 1) {
+-            var s = widgets.addSlot(this.itemInputs.get(1), 58, 51);
+-            s.drawBack(false);
+-        }
+-        if (this.itemInputs.size() > 2) {
+-            var s = widgets.addSlot(this.itemInputs.get(2), 76, 51);
+-            s.drawBack(false);
+-        }
+-
+-        if (requiresBottle) {
+-            var s = widgets.addSlot(EmiIngredient.of(Ingredient.of(net.satisfy.vinery.core.registry.ObjectRegistry.WINE_BOTTLE.get())), 96, 51);
+-            s.drawBack(false);
+-        }
+-
+-        if (!this.outputs.isEmpty()) {
+-            var s = widgets.addSlot(this.outputs.get(0), 76, 10);
+-            s.drawBack(false);
+-        }
+-    }
+-
+-    @Override
+-    public int getDisplayHeight() {
+-        return 75;
+-    }
+-
+-    @Override
+-    public int getDisplayWidth() {
+-        return 124;
+-    }
+-}
+\ No newline at end of file
+diff --git 1/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/vinery/VineryCompat.java 2/clean-A/common/src/main/java/com/pandaismyname1/emiletsdocompat/vinery/VineryCompat.java
+index 0dbc926..84b673d 100644
+--- 1/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/vinery/VineryCompat.java
++++ 2/clean-A/common/src/main/java/com/pandaismyname1/emiletsdocompat/vinery/VineryCompat.java
+@@ -1,76 +1,24 @@
+ package com.pandaismyname1.emiletsdocompat.vinery;
+ 
+ import com.pandaismyname1.emiletsdocompat.Emi_letsdo_compat;
+-import com.pandaismyname1.emiletsdocompat.IEmiModCompat;
+-import com.pandaismyname1.emiletsdocompat.vinery.internal.GrapeMashingRecipe;
+ import dev.emi.emi.api.EmiRegistry;
+ import dev.emi.emi.api.recipe.EmiRecipeCategory;
+ import dev.emi.emi.api.stack.EmiStack;
+ import net.minecraft.resources.ResourceLocation;
+-import net.minecraft.world.item.ItemStack;
+-import net.minecraft.world.item.crafting.Ingredient;
+-import net.minecraft.world.item.crafting.RecipeManager;
+-import net.satisfy.vinery.core.Vinery;
+ import net.satisfy.vinery.core.registry.GrapeTypeRegistry;
+ import net.satisfy.vinery.core.registry.ObjectRegistry;
+-import net.satisfy.vinery.core.registry.RecipeTypesRegistry;
+ 
+-public class VineryCompat implements IEmiModCompat {
+-    @Override
+-    public void init(EmiRegistry registry, RecipeManager manager) throws NoSuchFieldException {
+-        try {
+-            var recipeCategory = new EmiRecipeCategory(ResourceLocation.fromNamespaceAndPath(Vinery.MOD_ID, "wine_fermentation"),
+-                    EmiStack.of(ObjectRegistry.FERMENTATION_BARREL.get()));
+-            registerRecipeType(registry, manager,
+-                    recipeCategory,
+-                    (recipe) -> {
+-                        registry.addRecipe(new FermentationRecipe(recipeCategory, (net.satisfy.vinery.core.recipe.FermentationBarrelRecipe) (Object) recipe));
+-                    },
+-                    RecipeTypesRegistry.FERMENTATION_BARREL_RECIPE_TYPE.get(),
+-                    EmiStack.of(ObjectRegistry.FERMENTATION_BARREL.get()));
+-        } catch (NoSuchFieldError | NoSuchFieldException | ClassNotFoundException e) {
+-        }
+-
+-        try {
+-            var recipeCategory = new EmiRecipeCategory(ResourceLocation.fromNamespaceAndPath(Vinery.MOD_ID, "apple_mashing"),
+-                    EmiStack.of(ObjectRegistry.APPLE_PRESS.get()));
+-            registerRecipeType(registry, manager,
+-                    recipeCategory,
+-                    (recipe) -> {
+-                        registry.addRecipe(new ApplePressingRecipe(recipeCategory, (net.satisfy.vinery.core.recipe.ApplePressMashingRecipe) (Object) recipe));
+-                    },
+-                    RecipeTypesRegistry.APPLE_PRESS_MASHING_RECIPE_TYPE.get(),
+-                    EmiStack.of(ObjectRegistry.APPLE_PRESS.get()));
+-        } catch (NoSuchFieldError | NoSuchFieldException | ClassNotFoundException e) {
+-        }
+-
+-        try {
+-            var recipeCategory = new EmiRecipeCategory(ResourceLocation.fromNamespaceAndPath(Vinery.MOD_ID, "apple_fermenting"),
+-                    EmiStack.of(ObjectRegistry.APPLE_PRESS.get()));
+-            registerRecipeType(registry, manager,
+-                    recipeCategory,
+-                    (recipe) -> {
+-                        registry.addRecipe(new AppleFermentationRecipe(recipeCategory, (net.satisfy.vinery.core.recipe.ApplePressFermentingRecipe) (Object) recipe));
+-                    },
+-                    RecipeTypesRegistry.APPLE_PRESS_FERMENTING_RECIPE_TYPE.get(),
+-                    EmiStack.of(ObjectRegistry.APPLE_PRESS.get()));
+-        } catch (NoSuchFieldError | NoSuchFieldException | ClassNotFoundException e) {
+-        }
+-
+-        try {
+-            var recipeCategory = new EmiRecipeCategory(ResourceLocation.fromNamespaceAndPath(Emi_letsdo_compat.MOD_ID, "grape_mashing"),
+-                    EmiStack.of(ObjectRegistry.GRAPEVINE_POT.get()));
+-            registry.addCategory(recipeCategory);
+-            registry.addWorkstation(recipeCategory, EmiStack.of(ObjectRegistry.GRAPEVINE_POT.get()));
+-            var index = 0;
+-            for (var grapeType : GrapeTypeRegistry.GRAPE_TYPE_TYPES) {
+-                registry.addRecipe(new CustomGrapeMashingRecipe(recipeCategory, new GrapeMashingRecipe(
+-                        Ingredient.of(grapeType.getFruit()),
+-                        new ItemStack(grapeType.getBottle())
+-                )));
+-                index++;
++public class VineryCompat {
++    public void init(EmiRegistry registry) {
++        var category = new EmiRecipeCategory(
++                ResourceLocation.fromNamespaceAndPath(Emi_letsdo_compat.MOD_ID, "grape_mashing"),
++                EmiStack.of(ObjectRegistry.GRAPEVINE_POT.get()));
++        registry.addCategory(category);
++        registry.addWorkstation(category, EmiStack.of(ObjectRegistry.GRAPEVINE_POT.get()));
++        for (var grapeType : GrapeTypeRegistry.GRAPE_TYPE_TYPES) {
++            if (grapeType != GrapeTypeRegistry.NONE) {
++                registry.addRecipe(new CustomGrapeMashingRecipe(category, grapeType));
+             }
+-        } catch (NoSuchFieldError e) {
+         }
+     }
+ }
+\ No newline at end of file
+diff --git 1/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/vinery/internal/GrapeMashingRecipe.java 2/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/vinery/internal/GrapeMashingRecipe.java
+deleted file mode 100644
+index c04170d..0000000
+--- 1/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/vinery/internal/GrapeMashingRecipe.java
++++ /dev/null
+@@ -1,97 +0,0 @@
+-package com.pandaismyname1.emiletsdocompat.vinery.internal;
+-
+-import com.mojang.serialization.MapCodec;
+-import com.mojang.serialization.codecs.RecordCodecBuilder;
+-import net.minecraft.core.HolderLookup;
+-import net.minecraft.core.NonNullList;
+-import net.minecraft.network.RegistryFriendlyByteBuf;
+-import net.minecraft.network.codec.StreamCodec;
+-import net.minecraft.world.item.ItemStack;
+-import net.minecraft.world.item.crafting.Ingredient;
+-import net.minecraft.world.item.crafting.Recipe;
+-import net.minecraft.world.item.crafting.RecipeInput;
+-import net.minecraft.world.item.crafting.RecipeSerializer;
+-import net.minecraft.world.item.crafting.RecipeType;
+-import net.minecraft.world.level.Level;
+-import org.jetbrains.annotations.NotNull;
+-
+-public class GrapeMashingRecipe implements Recipe<RecipeInput> {
+-    private final Ingredient ingredient;
+-    private final ItemStack result;
+-
+-    public GrapeMashingRecipe(Ingredient ingredient, ItemStack result) {
+-        this.ingredient = ingredient;
+-        this.result = result;
+-    }
+-
+-    @Override
+-    public NonNullList<Ingredient> getIngredients() {
+-        NonNullList<Ingredient> list = NonNullList.create();
+-        list.add(this.ingredient);
+-        return list;
+-    }
+-
+-    @Override
+-    public boolean matches(RecipeInput recipeInput, Level level) {
+-        return false;
+-    }
+-
+-    @Override
+-    public @NotNull ItemStack assemble(RecipeInput recipeInput, HolderLookup.Provider provider) {
+-        return this.result.copy();
+-    }
+-
+-    @Override
+-    public boolean canCraftInDimensions(int width, int height) {
+-        return true;
+-    }
+-
+-    @Override
+-    public @NotNull ItemStack getResultItem(HolderLookup.Provider provider) {
+-        return this.result.copy();
+-    }
+-
+-    public Ingredient getIngredient() {
+-        return ingredient;
+-    }
+-
+-    public ItemStack getResult() {
+-        return result;
+-    }
+-
+-    @Override
+-    public @NotNull RecipeSerializer<?> getSerializer() {
+-        return Registry.GRAPE_MASHING_SERIALIZER.get();
+-    }
+-
+-    @Override
+-    public @NotNull RecipeType<?> getType() {
+-        return Registry.GRAPE_MASHING.get();
+-    }
+-
+-    public static class Serializer implements RecipeSerializer<GrapeMashingRecipe> {
+-        @Override
+-        public @NotNull MapCodec<GrapeMashingRecipe> codec() {
+-            return RecordCodecBuilder.mapCodec(inst -> inst.group(
+-                    Ingredient.CODEC.fieldOf("ingredient").forGetter(GrapeMashingRecipe::getIngredient),
+-                    ItemStack.CODEC.fieldOf("result").forGetter(GrapeMashingRecipe::getResult)
+-            ).apply(inst, GrapeMashingRecipe::new));
+-        }
+-
+-        @Override
+-        public @NotNull StreamCodec<RegistryFriendlyByteBuf, GrapeMashingRecipe> streamCodec() {
+-            return new StreamCodec<>() {
+-                @Override
+-                public void encode(RegistryFriendlyByteBuf buf, GrapeMashingRecipe recipe) {
+-                    Ingredient.CONTENTS_STREAM_CODEC.encode(buf, recipe.getIngredient());
+-                    ItemStack.STREAM_CODEC.encode(buf, recipe.getResult());
+-                }
+-
+-                @Override
+-                public @NotNull GrapeMashingRecipe decode(RegistryFriendlyByteBuf buf) {
+-                    return new GrapeMashingRecipe(Ingredient.CONTENTS_STREAM_CODEC.decode(buf), ItemStack.STREAM_CODEC.decode(buf));
+-                }
+-            };
+-        }
+-    }
+-}
+diff --git 1/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/vinery/internal/JuiceIngredients.java 2/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/vinery/internal/JuiceIngredients.java
+deleted file mode 100644
+index 4748bc3..0000000
+--- 1/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/vinery/internal/JuiceIngredients.java
++++ /dev/null
+@@ -1,70 +0,0 @@
+-package com.pandaismyname1.emiletsdocompat.vinery.internal;
+-
+-import dev.emi.emi.api.stack.EmiIngredient;
+-import dev.emi.emi.api.stack.EmiStack;
+-import net.minecraft.tags.TagKey;
+-import net.minecraft.world.item.Item;
+-import net.minecraft.world.item.crafting.Ingredient;
+-import net.satisfy.vinery.core.util.JuiceUtil;
+-
+-import java.util.ArrayList;
+-import java.util.Map;
+-
+-/**
+- * Resolves the juice type string stored on a fermentation barrel recipe back into the items that
+- * can produce it. Vinery consumes juice like a fuel (the item fills a tank, the recipe only names
+- * the resulting fluid), so the juice never shows up as a recipe ingredient on its own.
+- * <p>
+- * The mapping mirrors {@link JuiceUtil#getJuiceType} and is derived from the same maps, so juices
+- * contributed by other mods resolve too.
+- */
+-public final class JuiceIngredients {
+-    private JuiceIngredients() {
+-    }
+-
+-    /**
+-     * @return the juices matching {@code juiceType}, or {@link EmiStack#EMPTY} if nothing matches.
+-     */
+-    public static EmiIngredient of(String juiceType, long amount) {
+-        if (juiceType == null || juiceType.isEmpty()) {
+-            return EmiStack.EMPTY;
+-        }
+-
+-        var tag = findTag(JuiceUtil.RED_JUICE_TAGS, "red_", juiceType);
+-        if (tag == null) {
+-            tag = findTag(JuiceUtil.WHITE_JUICE_TAGS, "white_", juiceType);
+-        }
+-        if (tag != null) {
+-            var ingredient = EmiIngredient.of(tag, amount);
+-            // EMI only resolves tags it indexed itself; fall back to the vanilla tag contents.
+-            return ingredient.isEmpty() ? EmiIngredient.of(Ingredient.of(tag), amount) : ingredient;
+-        }
+-
+-        var items = new ArrayList<EmiIngredient>();
+-        for (var entry : JuiceUtil.APPLE_JUICES.entrySet()) {
+-            if (juiceType.equals(entry.getValue())) {
+-                items.add(EmiStack.of(entry.getKey()));
+-            }
+-        }
+-        return items.isEmpty() ? EmiStack.EMPTY : EmiIngredient.of(items, amount);
+-    }
+-
+-    private static TagKey<Item> findTag(Map<TagKey<Item>, String> tags, String prefix, String juiceType) {
+-        for (var entry : tags.entrySet()) {
+-            if (juiceType.equals(prefix + entry.getValue())) {
+-                return entry.getKey();
+-            }
+-        }
+-        return null;
+-    }
+-
+-    /**
+-     * @return how many juice items have to be inserted to reach {@code juiceAmount} tank units.
+-     */
+-    public static int bottlesFor(int juiceAmount, int unitsPerItem) {
+-        if (juiceAmount <= 0 || unitsPerItem <= 0) {
+-            return 1;
+-        }
+-        return Math.max(1, (juiceAmount + unitsPerItem - 1) / unitsPerItem);
+-    }
+-}
+diff --git 1/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/vinery/internal/Registry.java 2/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/vinery/internal/Registry.java
+deleted file mode 100644
+index 6773ae1..0000000
+--- 1/letsdo-original/common/src/main/java/com/pandaismyname1/emiletsdocompat/vinery/internal/Registry.java
++++ /dev/null
+@@ -1,35 +0,0 @@
+-package com.pandaismyname1.emiletsdocompat.vinery.internal;
+-
+-import com.pandaismyname1.emiletsdocompat.Emi_letsdo_compat;
+-import dev.architectury.registry.registries.DeferredRegister;
+-import dev.architectury.registry.registries.RegistrySupplier;
+-import net.minecraft.core.registries.Registries;
+-import net.minecraft.world.item.crafting.Recipe;
+-import net.minecraft.world.item.crafting.RecipeSerializer;
+-import net.minecraft.world.item.crafting.RecipeType;
+-
+-import java.util.function.Supplier;
+-
+-public class Registry {
+-    private static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZERS = DeferredRegister.create(Emi_letsdo_compat.MOD_ID, Registries.RECIPE_SERIALIZER);
+-    private static final DeferredRegister<RecipeType<?>> RECIPE_TYPES = DeferredRegister.create(Emi_letsdo_compat.MOD_ID, Registries.RECIPE_TYPE);
+-
+-    public static final RegistrySupplier<RecipeType<GrapeMashingRecipe>> GRAPE_MASHING = create("grape_mashing");
+-    public static final RegistrySupplier<RecipeSerializer<GrapeMashingRecipe>> GRAPE_MASHING_SERIALIZER = create("grape_mashing", GrapeMashingRecipe.Serializer::new);
+-
+-    private static <T extends Recipe<?>> RegistrySupplier<RecipeSerializer<T>> create(String name, Supplier<RecipeSerializer<T>> serializer) {
+-        return RECIPE_SERIALIZERS.register(name, serializer);
+-    }
+-
+-    private static <T extends Recipe<?>> RegistrySupplier<RecipeType<T>> create(String name) {
+-        Supplier<RecipeType<T>> type = () -> new RecipeType<T>() {
+-            public String toString() { return name; }
+-        };
+-        return RECIPE_TYPES.register(name, type);
+-    }
+-
+-    public static void init() {
+-        RECIPE_SERIALIZERS.register();
+-        RECIPE_TYPES.register();
+-    }
+-}
+diff --git 1/letsdo-original/common/src/main/resources/assets/emi_letsdo_compat/lang/en_us.json 2/clean-A/common/src/main/resources/assets/emi_letsdo_compat/lang/en_us.json
+index abd583c..31302c2 100644
+--- 1/letsdo-original/common/src/main/resources/assets/emi_letsdo_compat/lang/en_us.json
++++ 2/clean-A/common/src/main/resources/assets/emi_letsdo_compat/lang/en_us.json
+@@ -1,32 +1,9 @@
+ {
+-  "emi.category.vinery.wine_fermentation": "Barrel Fermentation",
+-  "emi.category.vinery.apple_mashing": "Apple Press Mashing",
+-  "emi.category.vinery.apple_fermenting": "Apple Press Fermenting",
+-  "emi.category.bakery.caking": "Baking Station",
+-  "emi.category.bakery.doughing": "Crafting Bowl",
+-  "emi.category.bakery.stove": "Stove",
+-  "emi.category.bakery.pot_cooking": "Pot Cooking",
+   "emi.category.beachparty.mini_fridge_mixing": "Mini Fridge Mixing",
+   "emi.category.beachparty.tiki_bar_mixing": "Tiki Bar Mixing",
+-  "emi.category.brewery.brewing": "Brewing",
+-  "emi.category.brewery.drying": "Drying",
+-  "emi.category.candlelight.pan_cooking": "Pan Cooking",
+-  "emi.category.candlelight.pot_cooking": "Pot Cooking",
+   "emi.category.herbalbrews.cauldron_brewing": "Cauldron Brewing",
+   "emi.category.herbalbrews.cooking": "Kettle Brewing",
+-  "emi.category.meadow.cheese": "Cheese Forming",
+-  "emi.category.meadow.cooking": "Cooking Cauldron",
+-  "emi.category.meadow.fondue": "Fondue",
+-  "emi.category.meadow.woodcutting": "Woodcutting",
+-  "emi.category.farm_and_charm.pot_cooking": "Pot Cooking",
+-  "emi.category.farm_and_charm.crafting_bowl": "Crafting Bowl",
+-  "emi.category.farm_and_charm.mincer": "Mincer",
+-  "emi.category.farm_and_charm.roaster": "Roaster",
+-  "emi.category.farm_and_charm.drying": "Drying",
+-  "emi.category.farm_and_charm.stove": "Stove",
+-  "emi.category.emi_letsdo_compat.fondue_fill": "Fill Fondue with Cheese",
+-  "emi.category.emi_letsdo_compat.fondue_use": "Filled Fondue Use",
+   "emi.category.emi_letsdo_compat.cake_cut": "Cutting Cake",
+   "emi.category.emi_letsdo_compat.grape_mashing": "Grape Mashing",
+-  "emi_letsdo_compat.jump_on_pot": "§e§l[RIGHT CLICK]§r§r the pot while holding §5§ngrapes§r§r in your hand .\n\n §e§l[JUMP]§r§r on the pot to crush the §5§ngrapes§r§r.\n §e§l[USE]§r§r a bottle to grab the §5§njuice§r§r."
++  "emi_letsdo_compat.jump_on_pot": "Fill the pot with %s grapes of one variety, then jump on it to crush them. Use empty Wine Bottles to collect the juice. Each bottle consumes %s grapes; the quantities shown are per bottle."
+ }
+\ No newline at end of file
+diff --git 1/letsdo-original/common/src/main/resources/assets/emi_letsdo_compat/lang/zh_cn.json 2/clean-A/common/src/main/resources/assets/emi_letsdo_compat/lang/zh_cn.json
+index 7de5a88..f489d30 100644
+--- 1/letsdo-original/common/src/main/resources/assets/emi_letsdo_compat/lang/zh_cn.json
++++ 2/clean-A/common/src/main/resources/assets/emi_letsdo_compat/lang/zh_cn.json
+@@ -1,26 +1,9 @@
+ {
+-  "emi.category.vinery.fermentation": "陈酿",
+-  "emi.category.vinery.apple_mashing": "压榨苹果",
+-  "emi.category.bakery.baking_station": "烘焙台",
+-  "emi.category.bakery.crafting_bowl": "料理碗",
+-  "emi.category.bakery.stove": "烤炉",
+-  "emi.category.bakery.pot_cooking": "烹饪锅料理",
+   "emi.category.beachparty.mini_fridge_mixing": "小冰箱调配",
+   "emi.category.beachparty.tiki_bar_mixing": "提基吧台调配",
+-  "emi.category.brewery.brewing": "酿造",
+-  "emi.category.brewery.drying": "烘干",
+-  "emi.category.candlelight.pan_cooking": "平底锅料理",
+-  "emi.category.candlelight.pot_cooking": "汤锅料理",
+   "emi.category.herbalbrews.cauldron_brewing": "酿煮锅熬制",
+-  "emi.category.herbalbrews.kettle_brewing": "茶壶熬制",
+-  "emi.category.meadow.cheese": "奶酪成型",
+-  "emi.category.meadow.cooking": "烹饪锅",
+-  "emi.category.meadow.fondue": "奶酪火锅",
+-  "emi.category.meadow.woodcutting": "切木台",
+-  "emi.category.farm_and_charm.pot_cooking": "烹饪锅",
+-  "emi.category.farm_and_charm.crafting_bowl": "混合碗",
+-  "emi.category.farm_and_charm.mincer": "绞肉机",
+-  "emi.category.farm_and_charm.roaster": "烘焙机",
+-  "emi.category.farm_and_charm.drying": "风干",
+-  "emi.category.farm_and_charm.stove": "火炉"
++  "emi.category.herbalbrews.cooking": "茶壶熬制",
++  "emi.category.emi_letsdo_compat.cake_cut": "切蛋糕",
++  "emi.category.emi_letsdo_compat.grape_mashing": "葡萄压榨",
++  "emi_letsdo_compat.jump_on_pot": "在桶中放入 %s 颗同品种葡萄，然后跳跃踩碎。用空葡萄酒瓶收集果汁。每瓶消耗 %s 颗葡萄；配方显示的是每瓶所需数量。"
+ }
+diff --git 1/letsdo-original/common/src/main/resources/data/emi_letsdo_compat/recipe/bread_to_cheese_stick.json 2/letsdo-original/common/src/main/resources/data/emi_letsdo_compat/recipe/bread_to_cheese_stick.json
+deleted file mode 100644
+index 40f4a62..0000000
+--- 1/letsdo-original/common/src/main/resources/data/emi_letsdo_compat/recipe/bread_to_cheese_stick.json
++++ /dev/null
+@@ -1,11 +0,0 @@
+-{
+-  "type": "emi_letsdo_compat:fondue_use",
+-  "ingredient": {
+-    "item": "minecraft:bread"
+-  },
+-  "result": {
+-    "id": "meadow:cheese_stick",
+-    "count": 1
+-  },
+-  "cheeseCost": 0.33
+-}
+diff --git 1/letsdo-original/common/src/main/resources/data/emi_letsdo_compat/recipe/cheese_blocks_fondue_fill.json 2/letsdo-original/common/src/main/resources/data/emi_letsdo_compat/recipe/cheese_blocks_fondue_fill.json
+deleted file mode 100644
+index d9b7668..0000000
+--- 1/letsdo-original/common/src/main/resources/data/emi_letsdo_compat/recipe/cheese_blocks_fondue_fill.json
++++ /dev/null
+@@ -1,7 +0,0 @@
+-{
+-  "type": "emi_letsdo_compat:fondue_fill",
+-  "ingredient": {
+-    "tag": "meadow:cheese_blocks"
+-  },
+-  "fillAmount": 1
+-}
+\ No newline at end of file
+diff --git 1/letsdo-original/common/src/main/resources/data/emi_letsdo_compat/recipe/cheese_fondue_fill.json 2/letsdo-original/common/src/main/resources/data/emi_letsdo_compat/recipe/cheese_fondue_fill.json
+deleted file mode 100644
+index 4dc6025..0000000
+--- 1/letsdo-original/common/src/main/resources/data/emi_letsdo_compat/recipe/cheese_fondue_fill.json
++++ /dev/null
+@@ -1,7 +0,0 @@
+-{
+-  "type": "emi_letsdo_compat:fondue_fill",
+-  "ingredient": {
+-    "tag": "meadow:cheese"
+-  },
+-  "fillAmount": 0.33
+-}
+\ No newline at end of file
+diff --git 1/letsdo-original/fabric/src/main/resources/fabric.mod.json 2/clean-A/fabric/src/main/resources/fabric.mod.json
+index 6d7b0b5..a98f98c 100644
+--- 1/letsdo-original/fabric/src/main/resources/fabric.mod.json
++++ 2/clean-A/fabric/src/main/resources/fabric.mod.json
+@@ -3,11 +3,10 @@
+   "id": "emi_letsdo_compat",
+   "version": "${version}",
+   "name": "emi-letsdo-compat",
+-  "description": "",
++  "description": "Private pinned repair: unique Beachparty, HerbalBrews, cake cutting and grape-pot EMI guidance.",
+   "authors": [],
+   "contact": {},
+   "license": "MIT",
+-  "icon": "icon.png",
+   "environment": "*",
+   "entrypoints": {
+     "main": [
+diff --git 1/letsdo-original/gradle/wrapper/gradle-wrapper.properties 2/clean-A/gradle/wrapper/gradle-wrapper.properties
+index 56c13af..40c5723 100644
+--- 1/letsdo-original/gradle/wrapper/gradle-wrapper.properties
++++ 2/clean-A/gradle/wrapper/gradle-wrapper.properties
+@@ -1 +1,2 @@
+-distributionUrl=https\://services.gradle.org/distributions/gradle-8.12.1-bin.zip
++distributionUrl=https\://services.gradle.org/distributions/gradle-9.4.1-bin.zip
++distributionSha256Sum=2ab2958f2a1e51120c326cad6f385153bb11ee93b3c216c5fccebfdfbb7ec6cb
+diff --git 1/letsdo-original/settings.gradle 2/clean-A/settings.gradle
+index 1a1e0a2..4e5d5d9 100644
+--- 1/letsdo-original/settings.gradle
++++ 2/clean-A/settings.gradle
+@@ -1,21 +1,9 @@
+ pluginManagement {
+     repositories {
+-        // Central first: maven.neoforged.net serves a POM for kotlin-metadata-jvm but no jar, and
+-        // Gradle will not fall through to another repository once it has taken metadata from one.
+         mavenCentral()
+-
+         maven { url "https://maven.fabricmc.net/" }
+-        maven { url "https://maven.architectury.dev/" }
+-        maven { url "https://maven.neoforged.net" }
+-        // Loom pulls installertools, DiffPatch and mcinjector from here.
+-        maven { url "https://maven.minecraftforge.net/" }
+-
+         gradlePluginPortal()
+     }
+ }
+ 
+ rootProject.name = 'emi_letsdo_compat'
+-
+-include("common")
+-include("fabric")
+-include("neoforge")
+\ No newline at end of file

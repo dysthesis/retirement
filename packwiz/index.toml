@@ -166,6 +166,10 @@ hash = "1f9cd4e83ced98ba9f8ccff164ce108990e1e8f8f8205b6c549f7db26f1d8c11"
 metafile = true
 
 [[files]]
+file = "mods/emi-letsdo-compat-2.0.3+retirement.1.jar"
+hash = "8a738e66a6a57f9e90dbf50d985085f4df71d1eb2d9120cfc6e5db8dc8da5945"
+
+[[files]]
 file = "mods/emi-loot.pw.toml"
 hash = "7432e9e9aa7b43042a6fa6a52f6a231450535e98b0e4e4670f0c7427e76d4ba1"
 metafile = true
@@ -328,11 +332,6 @@ metafile = true
 [[files]]
 file = "mods/lets-do-brewery-farmcharm-compat.pw.toml"
 hash = "b5702793237642efb51faf87da8e26d0b9b33cdc4c9a293678c6aa3dc59d6925"
-metafile = true
-
-[[files]]
-file = "mods/lets-do-emi-compat.pw.toml"
-hash = "fb79d9a898755d25aa68c7ab9a73027085b4d3825f2f7734b3946593858790cd"
 metafile = true
 
 [[files]]

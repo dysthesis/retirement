@@ -25,3 +25,7 @@ build-voxy:
 # Rebuild the pinned EMI empty-repair-tag fix; refresh pack metadata separately.
 build-emi:
 	scripts/build-emi.sh
+
+# Rebuild unique food recipe views without duplicating the mods' native EMI plugins.
+build-emi-compat:
+	scripts/build-emi-compat.sh packwiz/mods
