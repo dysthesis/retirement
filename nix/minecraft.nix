@@ -23,7 +23,7 @@
   };
 
   flake.nixosModules.default = {pkgs, ...}: let
-    modpack = self.packages.${pkgs.stdenv.hostPlatform.system}.modpacks.server;
+    modpack = self.packages.${pkgs.stdenv.hostPlatform.system}.modpack-server;
   in {
     imports = [
       inputs.nix-minecraft.nixosModules.minecraft-servers

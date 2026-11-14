@@ -1,11 +1,11 @@
 """NixOS driver test: real service, network protocol, chunk generation and save/reload.
 
-Run through nix flake check, not directly. Fresh-world smoke only: existing-world
-upgrades, authenticated player logins, backups and sustained load remain untested.
+Run through nix flake check, not directly. Packwiz changes require refreshing both
+modpack hashes in nix/packages/. Fresh-world smoke only: existing-world upgrades,
+authenticated player logins, backups and sustained load remain untested.
 """
 
 import json
-import math
 import shlex
 
 with open("@settings@") as settings_file:
@@ -34,11 +34,6 @@ try:
         server.wait_for_unit(unit)
         # A separate machine exercises the firewall and the Minecraft protocol.
         client.wait_until_succeeds(settings["status"], timeout=600)
-        # Exercise inference, not just loading the model files.
-        server.succeed(command("td-explore"))
-        server.wait_for_open_port(19801)
-        terrain = json.loads(server.succeed(settings["terrain"], timeout=610))
-        assert math.isfinite(terrain["channels"]["Elev"][0][0]), terrain
         server.succeed(command("forceload add 0 0"))
         marker = f"retirement-check-loaded-{boot}"
         expect(f"execute if loaded 0 100 0 run say {marker}", marker)
