@@ -1,0 +1,13 @@
+name = "End's Delight"
+filename = "ends_delight-2.6+refabricated.1.21.1.jar"
+side = "both"
+
+[download]
+url = "https://cdn.modrinth.com/data/yHN0njMr/versions/VkP67Q42/ends_delight-2.6%2Brefabricated.1.21.1.jar"
+hash-format = "sha512"
+hash = "b1c7d19e95d73fb4ae3b462971789e25d9bc3babc277b66093826b31c164445fb15201b0ba900846610838707c8409d70f2e5ffe1a4a06edfc36ac3ef38af1cd"
+
+[update]
+[update.modrinth]
+mod-id = "yHN0njMr"
+version = "VkP67Q42"
