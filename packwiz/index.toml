@@ -325,6 +325,16 @@ hash = "a17763690bb43a875602809d78127c96482bebd5e4eebdc2889f625cc9460e96"
 metafile = true
 
 [[files]]
+file = "mods/vb-compat.pw.toml"
+hash = "19305224fb7e261381a1fbbd32e4a00cf8d9f13f151208006b7b4adbfcd195aa"
+metafile = true
+
+[[files]]
+file = "mods/vb-mob-variants-compat.pw.toml"
+hash = "ce2c77ea4776ab4945d50f8eb286d673abb946320d2aa8a3b956b58e4353fc50"
+metafile = true
+
+[[files]]
 file = "mods/vmp-fabric.pw.toml"
 hash = "53e01bde67391ead9e5bcf1e86479aebd9ddb0345f871ce4b49afd655b238523"
 metafile = true
