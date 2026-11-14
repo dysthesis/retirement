@@ -5,7 +5,7 @@
   cacert,
   ...
 }:
-runCommand "retirement.mrpack" {
+runCommand "retirement-${builtins.hashFile "sha256" ../../packwiz/pack.toml}.mrpack" {
   nativeBuildInputs = [packwiz];
 
   outputHashMode = "flat";

@@ -14,11 +14,16 @@
         overlays = [inputs.nix-minecraft.overlay];
       };
 
-      mkModpack = side: packHash:
-        pkgs.fetchPackwizModpack {
+      mkModpack = side: packHash: let
+        pack = builtins.fromTOML (builtins.readFile ../packwiz/pack.toml);
+      in
+        (pkgs.fetchPackwizModpack {
           src = "${self}/packwiz";
           inherit side packHash;
-        };
+        }).overrideAttrs (_: {
+          # Fixed-output cache keys otherwise ignore changed source files.
+          name = "${pack.name}-${pack.version}-${side}-${builtins.hashFile "sha256" ../packwiz/pack.toml}";
+        });
     };
   };
 
