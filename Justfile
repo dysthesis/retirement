@@ -37,3 +37,7 @@ build-emi-compat:
 # Rebuild EMI's chisel conversions from Rechiseled's synchronized recipe registry.
 build-emi-rechiseled:
 	scripts/build-emi-compat.sh packwiz/mods rechiseled
+
+# Rebuild EMI Loot's immutable input snapshots for concurrent network synchronization.
+build-emi-loot:
+	scripts/build-emi-loot.sh

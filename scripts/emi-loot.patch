@@ -1,0 +1,123 @@
+--- a/xplat/src/main/java/fzzyhmstrs/emi_loot/emi/EmiClientPlugin.java
++++ b/xplat/src/main/java/fzzyhmstrs/emi_loot/emi/EmiClientPlugin.java
+@@ -48,9 +48,15 @@
+ 
+     @Override
+     public void initialize(EmiInitRegistry registry) {
++        // A newer network synchronization may replace tables while these workers are still running.
++        var chestLoots = List.copyOf(ClientLootTables.INSTANCE.chestLoots);
++        var blockLoots = List.copyOf(ClientLootTables.INSTANCE.blockLoots);
++        var mobLoots = List.copyOf(ClientLootTables.INSTANCE.mobLoots);
++        var gameplayLoots = List.copyOf(ClientLootTables.INSTANCE.gameplayLoots);
++        var archaeologyLoots = List.copyOf(ClientLootTables.INSTANCE.archaeologyLoots);
+         chestFuture = CompletableFuture.supplyAsync(() -> {
+             try {
+-                return ClientLootTables.INSTANCE.chestLoots.stream().flatMap(lr -> {
++                return chestLoots.stream().flatMap(lr -> {
+                     try {
+                         return Stream.of(ChestLootRecipe.ChestLootRecipeData.of((ClientChestLootTable) lr));
+                     } catch (Throwable e) {
+@@ -67,7 +73,7 @@
+         });
+         blockFuture = CompletableFuture.supplyAsync(() -> {
+             try {
+-                return ClientLootTables.INSTANCE.blockLoots.stream().flatMap(lr -> {
++                return blockLoots.stream().flatMap(lr -> {
+                     try {
+                         return Stream.of(new BlockLootRecipe(BlockLootRecipe.BlockLootRecipeData.of((ClientBlockLootTable) lr)));
+                     } catch (Throwable e) {
+@@ -84,7 +90,7 @@
+         });
+         mobFuture = CompletableFuture.supplyAsync(() -> {
+             try {
+-                return ClientLootTables.INSTANCE.mobLoots.stream().flatMap(lr -> {
++                return mobLoots.stream().flatMap(lr -> {
+                     try {
+                         return Stream.of(MobLootRecipe.MobLootRecipeData.of((ClientMobLootTable) lr));
+                     } catch (Throwable e) {
+@@ -101,7 +107,7 @@
+         });
+         gameplayFuture = CompletableFuture.supplyAsync(() -> {
+             try {
+-                return ClientLootTables.INSTANCE.gameplayLoots.stream().flatMap(lr -> {
++                return gameplayLoots.stream().flatMap(lr -> {
+                     try {
+                         return Stream.of(GameplayLootRecipe.GameplayLootRecipeData.of((ClientGameplayLootTable) lr));
+                     } catch (Throwable e) {
+@@ -118,7 +124,7 @@
+         });
+         archaeologyFuture = CompletableFuture.supplyAsync(() -> {
+             try {
+-                return ClientLootTables.INSTANCE.archaeologyLoots.stream().flatMap(lr -> {
++                return archaeologyLoots.stream().flatMap(lr -> {
+                     try {
+                         return Stream.of(ArchaeologyLootRecipe.ArchaeologyLootRecipeData.of((ClientArchaeologyLootTable) lr));
+                     } catch (Throwable e) {
+--- a/build.gradle
++++ b/build.gradle
+@@ -1,6 +1,6 @@
+ plugins {
+-    id "architectury-plugin" version "3.4-SNAPSHOT"
+-    id "dev.architectury.loom" version "1.9-SNAPSHOT" apply false
++    id "architectury-plugin" version "3.4-20260412.215235-1"
++    id "dev.architectury.loom" version "1.9-20250818.184734-1" apply false
+ }
+ 
+ architectury {
+@@ -63,6 +63,11 @@
+         it.options.release = 21
+     }
+ 
++    tasks.withType(AbstractArchiveTask).configureEach {
++        preserveFileTimestamps = false
++        reproducibleFileOrder = true
++    }
++
+     java {
+         withSourcesJar()
+     }
+--- a/settings.gradle
++++ b/settings.gradle
+@@ -10,6 +10,5 @@
+ 
+ include("xplat")
+ include("fabric")
+-include("neoforge")
+ 
+ rootProject.name = "emi_loot"
+--- a/gradle/wrapper/gradle-wrapper.properties
++++ b/gradle/wrapper/gradle-wrapper.properties
+@@ -1,6 +1,7 @@
+ distributionBase=GRADLE_USER_HOME
+ distributionPath=wrapper/dists
+ distributionUrl=https\://services.gradle.org/distributions/gradle-8.13-bin.zip
++distributionSha256Sum=20f1b1176237254a6fc204d8434196fa11a4cfb387567519c61556e8710aed78
+ networkTimeout=10000
+ validateDistributionUrl=true
+ zipStoreBase=GRADLE_USER_HOME
+--- a/xplat/build.gradle
++++ b/xplat/build.gradle
+@@ -9,7 +9,7 @@
+ dependencies {
+     modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
+ 
+-    modCompileOnly "dev.emi:emi-xplat-intermediary:${project.emi_version}:api"
++    modCompileOnly files(providers.gradleProperty("retirementEmi").get())
+     modCompileOnly "me.fzzyhmstrs:fzzy_config:${fzzy_config_version}"
+     modCompileOnly "me.fzzyhmstrs:sns:${sns_version}"
+ }
+\ No newline at end of file
+--- a/fabric/build.gradle
++++ b/fabric/build.gradle
+@@ -31,9 +31,9 @@
+     modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
+     modImplementation "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}"
+ 
+-    modCompileOnly "dev.emi:emi-fabric:${rootProject.emi_version}:api"
++    modCompileOnly files(providers.gradleProperty("retirementEmi").get())
+ 
+-    modRuntimeOnly "dev.emi:emi-fabric:${rootProject.emi_version}"
++    modRuntimeOnly files(providers.gradleProperty("retirementEmi").get())
+     modRuntimeOnly "me.fzzyhmstrs:fzzy_config:${rootProject.fzzy_config_version}"
+     modRuntimeOnly "maven.modrinth:symbols-n-stuff:${rootProject.sns_version}"
+ 
