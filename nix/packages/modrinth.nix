@@ -10,7 +10,7 @@ runCommand "retirement.mrpack" {
 
   outputHashMode = "flat";
   outputHashAlgo = "sha256";
-  outputHash = "sha256-ay6L5Hr5dIHdosUf7OGI09ocBOOlDzA0iUW2ygZ6Shs=";
+  outputHash = "sha256-Eiwy2xcbcxfY/eUwocoQ/Kf7ciMcu2Za8CffErkNxrQ=";
 
   SSL_CERT_FILE = "${cacert}/etc/ssl/certs/ca-bundle.crt";
 } ''
