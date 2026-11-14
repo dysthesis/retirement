@@ -1,0 +1,286 @@
+diff --git 1/clean-A/build.gradle 2/clean-B/build.gradle
+index 3566de4..1608bd9 100644
+--- 1/clean-A/build.gradle
++++ 2/clean-B/build.gradle
+@@ -1,10 +1,10 @@
+ plugins {
+-    id 'fabric-loom' version '1.16.3'
++    id 'fabric-loom' version '1.17.20'
+ }
+ 
+-version = '2.0.3+retirement.1'
+-group = 'com.pandaismyname1'
+-base.archivesName = 'emi-letsdo-compat'
++version = '1.0.0+retirement.1'
++group = 'dev.retirement'
++base.archivesName = 'emi-rechiseled'
+ 
+ repositories {
+     mavenCentral()
+@@ -21,9 +21,12 @@ dependencies {
+ 
+ sourceSets {
+     main {
+-        java.srcDirs = ['common/src/main/java', 'fabric/src/main/java']
+-        resources.srcDirs = ['common/src/main/resources', 'fabric/src/main/resources']
++        java.srcDirs = ['rechiseled/src/main/java']
++        resources.srcDirs = ['rechiseled/src/main/resources']
+     }
++    test.java.srcDirs = ['rechiseled/src/test/java']
++    test.compileClasspath += main.compileClasspath
++    test.runtimeClasspath += main.compileClasspath
+ }
+ 
+ java {
+@@ -50,3 +53,12 @@ processResources {
+ jar {
+     from('LICENSE.md')
+ }
++
++tasks.register('checkRecipeSemantics', JavaExec) {
++    dependsOn testClasses
++    classpath = sourceSets.test.runtimeClasspath
++    mainClass = 'dev.retirement.emirechiseled.RecipeSemanticsCheck'
++    enableAssertions = true
++}
++
++check.dependsOn checkRecipeSemantics
+diff --git 1/clean-A/gradle/wrapper/gradle-wrapper.properties 2/clean-B/gradle/wrapper/gradle-wrapper.properties
+index 40c5723..efc342f 100644
+--- 1/clean-A/gradle/wrapper/gradle-wrapper.properties
++++ 2/clean-B/gradle/wrapper/gradle-wrapper.properties
+@@ -1,2 +1,2 @@
+-distributionUrl=https\://services.gradle.org/distributions/gradle-9.4.1-bin.zip
+-distributionSha256Sum=2ab2958f2a1e51120c326cad6f385153bb11ee93b3c216c5fccebfdfbb7ec6cb
++distributionUrl=https\://services.gradle.org/distributions/gradle-9.5.1-bin.zip
++distributionSha256Sum=bafc141b619ad6350fd975fc903156dd5c151998cc8b058e8c1044ab5f7b031f
+diff --git 1/clean-B/rechiseled/src/main/java/dev/retirement/emirechiseled/ConversionAmounts.java 2/clean-B/rechiseled/src/main/java/dev/retirement/emirechiseled/ConversionAmounts.java
+new file mode 100644
+index 0000000..1666ccc
+--- /dev/null
++++ 2/clean-B/rechiseled/src/main/java/dev/retirement/emirechiseled/ConversionAmounts.java
+@@ -0,0 +1,16 @@
++package dev.retirement.emirechiseled;
++
++import com.supermartijn642.rechiseled.api.chiseling.ItemWithWorth;
++import com.supermartijn642.rechiseled.api.chiseling.conversion.ChiselingConversionHelper;
++
++record ConversionAmounts(int input, int output) {
++    static ConversionAmounts minimum(ItemWithWorth source, ItemWithWorth target, int maxInput, int maxOutput) {
++        for (int input = 1; input <= maxInput; input++) {
++            var result = ChiselingConversionHelper.convert(input, source, target, maxOutput);
++            if (result.leftover() == 0 && result.numberOfConversions() == input && result.result() > 0) {
++                return new ConversionAmounts(input, result.result());
++            }
++        }
++        return null;
++    }
++}
+diff --git 1/clean-B/rechiseled/src/main/java/dev/retirement/emirechiseled/RechiseledEmiPlugin.java 2/clean-B/rechiseled/src/main/java/dev/retirement/emirechiseled/RechiseledEmiPlugin.java
+new file mode 100644
+index 0000000..81d2788
+--- /dev/null
++++ 2/clean-B/rechiseled/src/main/java/dev/retirement/emirechiseled/RechiseledEmiPlugin.java
+@@ -0,0 +1,122 @@
++package dev.retirement.emirechiseled;
++
++import com.supermartijn642.rechiseled.Rechiseled;
++import com.supermartijn642.rechiseled.api.chiseling.ChiselingBlockShape;
++import com.supermartijn642.rechiseled.api.chiseling.ChiselingRecipe;
++import com.supermartijn642.rechiseled.api.chiseling.ItemWithWorth;
++import com.supermartijn642.rechiseled.api.chiseling.plugin.ChiselingRecipePlugin;
++import com.supermartijn642.rechiseled.api.chiseling.plugin.ChiselingRecipesLoadedContext;
++import dev.emi.emi.api.EmiPlugin;
++import dev.emi.emi.api.EmiRegistry;
++import dev.emi.emi.api.recipe.BasicEmiRecipe;
++import dev.emi.emi.api.recipe.EmiRecipeCategory;
++import dev.emi.emi.api.render.EmiTexture;
++import dev.emi.emi.api.stack.EmiIngredient;
++import dev.emi.emi.api.stack.EmiStack;
++import dev.emi.emi.api.widget.WidgetHolder;
++import dev.emi.emi.runtime.EmiReloadManager;
++import net.fabricmc.api.ClientModInitializer;
++import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
++import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
++import net.minecraft.core.registries.BuiltInRegistries;
++import net.minecraft.network.chat.Component;
++import net.minecraft.resources.ResourceLocation;
++import net.minecraft.world.item.Item;
++
++import java.util.ArrayList;
++import java.util.LinkedHashMap;
++import java.util.List;
++
++public final class RechiseledEmiPlugin implements EmiPlugin, ChiselingRecipePlugin, ClientModInitializer {
++    private static volatile List<ChiselingRecipe> syncedRecipes = List.of();
++    private static volatile List<ChiselingRecipe> registeredRecipes = syncedRecipes;
++
++    @Override
++    public void onInitializeClient() {
++        ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> {
++            syncedRecipes = List.of();
++            registeredRecipes = syncedRecipes;
++        });
++        // Let EMI's ordinary recipe/tag reload consume the update first; only reload if it missed it.
++        ClientTickEvents.END_CLIENT_TICK.register(client -> {
++            if (syncedRecipes != registeredRecipes && EmiReloadManager.isLoaded()) {
++                EmiReloadManager.reload();
++            }
++        });
++    }
++
++    @Override
++    public void onRecipesLoaded(ChiselingRecipesLoadedContext context) {
++        if (context.isClient()) {
++            syncedRecipes = context.getRecipeManager().getAllRecipes();
++        }
++    }
++
++    @Override
++    public void register(EmiRegistry registry) {
++        var snapshot = syncedRecipes;
++        var chisel = EmiStack.of(Rechiseled.chisel);
++        var category = new EmiRecipeCategory(ResourceLocation.fromNamespaceAndPath("rechiseled", "chiseling"), chisel) {
++            @Override
++            public Component getName() {
++                return Component.translatable("rechiseled.recipe_category.title");
++            }
++        };
++        registry.addCategory(category);
++        registry.addWorkstation(category, chisel);
++        for (var family : snapshot) {
++            var items = new LinkedHashMap<Item, ItemWithWorth>();
++            for (var shape : ChiselingBlockShape.values()) {
++                for (var entry : family.entries()) {
++                    var regular = entry.getRegularItem(shape);
++                    if (regular != null) {
++                        items.putIfAbsent(regular.item(), regular);
++                    }
++                    var connecting = entry.getConnectingItem(shape);
++                    if (connecting != null) {
++                        items.putIfAbsent(connecting.item(), connecting);
++                    }
++                }
++            }
++            for (var target : items.values()) {
++                var groups = new LinkedHashMap<ConversionAmounts, List<EmiStack>>();
++                for (var source : items.values()) {
++                    if (source.item() == target.item()) {
++                        continue;
++                    }
++                    var amounts = ConversionAmounts.minimum(source, target,
++                            source.item().getDefaultMaxStackSize(), target.item().getDefaultMaxStackSize());
++                    if (amounts != null) {
++                        groups.computeIfAbsent(amounts, key -> new ArrayList<>()).add(EmiStack.of(source.item()));
++                    }
++                }
++                groups.forEach((amounts, alternatives) -> registry.addRecipe(new ChiselingEmiRecipe(category,
++                        EmiIngredient.of(alternatives, amounts.input()), target.item(), amounts.output())));
++            }
++        }
++        registeredRecipes = snapshot;
++    }
++
++    private static final class ChiselingEmiRecipe extends BasicEmiRecipe {
++        private ChiselingEmiRecipe(EmiRecipeCategory category, EmiIngredient input, Item output, int count) {
++            super(category, recipeId(input, output, count), 96, 18);
++            inputs.add(input);
++            catalysts.add(EmiStack.of(Rechiseled.chisel));
++            outputs.add(EmiStack.of(output, count));
++        }
++
++        private static ResourceLocation recipeId(EmiIngredient input, Item output, int count) {
++            var itemId = BuiltInRegistries.ITEM.getKey(output);
++            return ResourceLocation.fromNamespaceAndPath("emi_rechiseled", "chiseling/" + itemId.getNamespace()
++                    + "/" + itemId.getPath() + "/" + input.getAmount() + "_" + count);
++        }
++
++        @Override
++        public void addWidgets(WidgetHolder widgets) {
++            widgets.addSlot(inputs.getFirst(), 0, 0);
++            widgets.addSlot(catalysts.getFirst(), 22, 0);
++            widgets.addTexture(EmiTexture.EMPTY_ARROW, 44, 0);
++            widgets.addSlot(outputs.getFirst(), 76, 0).recipeContext(this);
++        }
++    }
++}
+diff --git 1/clean-B/rechiseled/src/main/resources/fabric.mod.json 2/clean-B/rechiseled/src/main/resources/fabric.mod.json
+new file mode 100644
+index 0000000..21262eb
+--- /dev/null
++++ 2/clean-B/rechiseled/src/main/resources/fabric.mod.json
+@@ -0,0 +1,22 @@
++{
++  "schemaVersion": 1,
++  "id": "emi_rechiseled",
++  "version": "${version}",
++  "name": "EMI Rechiseled (Retirement)",
++  "description": "Chisel conversions from Rechiseled's synchronized public recipe registry, including connecting variants.",
++  "license": "MIT",
++  "environment": "client",
++  "entrypoints": {
++    "client": ["dev.retirement.emirechiseled.RechiseledEmiPlugin"],
++    "emi": ["dev.retirement.emirechiseled.RechiseledEmiPlugin"],
++    "rechiseled-chiseling-recipe-plugin": ["dev.retirement.emirechiseled.RechiseledEmiPlugin"]
++  },
++  "depends": {
++    "fabricloader": ">=0.17.0",
++    "minecraft": "~1.21.1",
++    "java": ">=21",
++    "fabric-api": ">=0.116.18",
++    "emi": "1.1.24",
++    "rechiseled": "1.2.6"
++  }
++}
+diff --git 1/clean-B/rechiseled/src/test/java/dev/retirement/emirechiseled/RecipeSemanticsCheck.java 2/clean-B/rechiseled/src/test/java/dev/retirement/emirechiseled/RecipeSemanticsCheck.java
+new file mode 100644
+index 0000000..63c9e0a
+--- /dev/null
++++ 2/clean-B/rechiseled/src/test/java/dev/retirement/emirechiseled/RecipeSemanticsCheck.java
+@@ -0,0 +1,46 @@
++package dev.retirement.emirechiseled;
++
++import com.supermartijn642.rechiseled.api.chiseling.ItemWithWorth;
++import com.supermartijn642.rechiseled.api.chiseling.conversion.ChiselingConversionHelper;
++import net.minecraft.world.item.Item;
++
++public final class RecipeSemanticsCheck {
++    public static void main(String[] args) {
++        expect(1, 1, 1, 1);
++        expect(1, 0.5f, 1, 2);
++        expect(0.5f, 1, 2, 1);
++        expect(0.5f, 0.75f, 3, 2);
++        expect(0.75f, 0.5f, 1, 2); // The pinned native helper rounds this conversion up.
++        assert ConversionAmounts.minimum(new Worth(0.5f), new Worth(1), 1, 64) == null;
++        assert ConversionAmounts.minimum(new Worth(1), new Worth(0.5f), 64, 1) == null;
++        for (float source : new float[]{0.5f, 0.75f, 1, 2}) {
++            for (float target : new float[]{0.5f, 0.75f, 1, 2}) {
++                var from = new Worth(source);
++                var to = new Worth(target);
++                var amounts = ConversionAmounts.minimum(from, to, 64, 64);
++                assert amounts != null;
++                var nativeResult = ChiselingConversionHelper.convert(amounts.input(), from, to, 64);
++                assert nativeResult.leftover() == 0;
++                assert nativeResult.numberOfConversions() == amounts.input();
++                assert nativeResult.result() == amounts.output();
++                for (int less = 1; less < amounts.input(); less++) {
++                    var smaller = ChiselingConversionHelper.convert(less, from, to, 64);
++                    assert smaller.leftover() != 0 || smaller.result() == 0;
++                }
++            }
++        }
++        System.out.println("Native chiseling ratios: identity, slab/block, fractional worth, rounding, stack limits and minimal batches passed");
++    }
++
++    private static void expect(float source, float target, int input, int output) {
++        assert new ConversionAmounts(input, output).equals(
++                ConversionAmounts.minimum(new Worth(source), new Worth(target), 64, 64));
++    }
++
++    private record Worth(float worth) implements ItemWithWorth {
++        @Override
++        public Item item() {
++            throw new AssertionError("Quantity calculation must not inspect or initialize Minecraft items");
++        }
++    }
++}

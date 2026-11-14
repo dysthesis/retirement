@@ -1,2 +1,2 @@
 {mkModpack, ...}:
-mkModpack "client" "sha256-s4YTHld6jMrA58fPp7bdmEKSd39IZuRCXWkvMVkF7iI="
+mkModpack "client" "sha256-pegzzLUFVJFWQO8cd3K26XBWIVsioEHSazGuRJHs4gs="

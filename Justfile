@@ -29,3 +29,7 @@ build-emi:
 # Rebuild unique food recipe views without duplicating the mods' native EMI plugins.
 build-emi-compat:
 	scripts/build-emi-compat.sh packwiz/mods
+
+# Rebuild EMI's chisel conversions from Rechiseled's synchronized recipe registry.
+build-emi-rechiseled:
+	scripts/build-emi-compat.sh packwiz/mods rechiseled

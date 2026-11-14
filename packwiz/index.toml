@@ -180,6 +180,10 @@ hash = "fe9b380cd0c833d8eaa01fa859c8d53ad1fbd329d829f43633de3a2b6f0db4cc"
 metafile = true
 
 [[files]]
+file = "mods/emi-rechiseled-1.0.0+retirement.1.jar"
+hash = "8c217357b4cdcf9b5ed2e376a9d1920dac9a81cd8bbd342dc7cbcbad002e7fc1"
+
+[[files]]
 file = "mods/emiffect.pw.toml"
 hash = "8dadb4e8c8b43618f4f06c5e1dcda3309e2c1f33128d6d2f283a877987200ab9"
 metafile = true
