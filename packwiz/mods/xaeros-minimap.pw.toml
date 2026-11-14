@@ -1,3 +1,4 @@
+# Living-entity radar defaults show mob/player icons in config/xaero/minimap/default_radar_categories_client.json.
 name = "Xaero's Minimap"
 filename = "xaerominimap-fabric-1.21.1-26.6.0.jar"
 side = "both"

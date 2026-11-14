@@ -38,6 +38,10 @@ file = "config/tectonic.json"
 hash = "2a3f541c1939b5a67d85634b580db7368564699dd388a2d43ab5645c8ba18780"
 
 [[files]]
+file = "config/xaero/minimap/default_radar_categories_client.json"
+hash = "ffd0dace243e8bd59c5c947b97cf1f42d57f39cc4b163fbb7709f2a597a0b050"
+
+[[files]]
 file = "mods/aether.pw.toml"
 hash = "e71c04679ff75573cd8ef1003eb167830f794b8979f2bdd3c99d28793f2918b0"
 metafile = true
@@ -573,7 +577,7 @@ metafile = true
 
 [[files]]
 file = "mods/xaeros-minimap.pw.toml"
-hash = "3d9b82d9ae5481fb89d2b9ee9078ab07abe7f173c721b5fe305ee61e143d4a51"
+hash = "9b66b9458950fdf3df3d8cae9eb943eadd2ea4fe97285d0fe0934d6c69102aa9"
 metafile = true
 
 [[files]]
