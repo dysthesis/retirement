@@ -178,6 +178,11 @@ hash = "79f1a2c4318020c7809d5f58d3bf8614860ab25df727f0739a287188b91f0f5d"
 metafile = true
 
 [[files]]
+file = "mods/forge-config-api-port.pw.toml"
+hash = "238b3ceb4214a682480ce00eefae5d34efa299ff6ff667e4b2f2ed503c6e76ee"
+metafile = true
+
+[[files]]
 file = "mods/friends-and-foes.pw.toml"
 hash = "5ae16a8a8189527ccd69d1dcf0ef8e684ce96ef1a062ce88fe94b12cd0fa48f0"
 metafile = true
@@ -418,6 +423,16 @@ hash = "869af67848bf3b9ba4384bc9fb0cbe303d35263bd8de75eeabcba796edf4d7c6"
 metafile = true
 
 [[files]]
+file = "mods/sophisticated-backpacks-unoffical-fabric-port.pw.toml"
+hash = "a4eebb2bda9daccc5444b8bd2d91f4ee8ce2325dd51436cb785ca33530b98ecd"
+metafile = true
+
+[[files]]
+file = "mods/sophisticated-core-unofficial-fabric-port.pw.toml"
+hash = "693fdc79c18086a2a939b45de97ca918d895d5a4247d2a0bba94bf53661bc705"
+metafile = true
+
+[[files]]
 file = "mods/sound-physics-remastered.pw.toml"
 hash = "f58afbe79ea14087160830efff055c08955fc7321fc27137810e5da2f548426c"
 metafile = true
@@ -475,6 +490,11 @@ metafile = true
 [[files]]
 file = "mods/towns-and-towers.pw.toml"
 hash = "a9afe82b3d1b4975dd9f8b3272898450aeb29365678b3779059977301f88c101"
+metafile = true
+
+[[files]]
+file = "mods/trinkets.pw.toml"
+hash = "860812150cb54f0d9ee1bce7b72798b6cc5f752bb05709f0c60231d054ec281d"
 metafile = true
 
 [[files]]
