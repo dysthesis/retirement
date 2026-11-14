@@ -166,8 +166,8 @@ hash = "1f9cd4e83ced98ba9f8ccff164ce108990e1e8f8f8205b6c549f7db26f1d8c11"
 metafile = true
 
 [[files]]
-file = "mods/emi-letsdo-compat-2.0.3+retirement.1.jar"
-hash = "8a738e66a6a57f9e90dbf50d985085f4df71d1eb2d9120cfc6e5db8dc8da5945"
+file = "mods/emi-letsdo-compat-2.0.3+retirement.2.jar"
+hash = "b14dfe1eb9de902b2949e869db0e7776bd1836e26074ff476152a2bd0b57ee19"
 
 [[files]]
 file = "mods/emi-ores.pw.toml"

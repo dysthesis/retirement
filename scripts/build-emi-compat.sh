@@ -41,7 +41,9 @@ if [[ "$target" == letsdo ]]; then
         c8548e036590ff418a25b323f582a647add1a3bb1f14ea6a3600259a6ff472744bc73c8a9aa7081742edda4cc55b63ba84705537314671c690383be50e9f48ac
     download Eh11TaTm 43g8sVYA letsdo-herbalbrews-fabric-1.1.4.jar \
         08dc756092b5ffa7bf820761ad43ff4e87cb10b46f4c9fbfe54b4b2dc917c15c5ca98a672ed7f146d956e56b93f3d56d603d307c5b68d5756fca6c9d9f890490
-    artifact=emi-letsdo-compat-2.0.3+retirement.1.jar
+    download ra7o6Sl7 CgcJkvI8 letsdo-meadow-fabric-1.4.10.jar \
+        8bed35990616c29a54141b0f93ab5f5c98040f5f0da6a139bcc9b0d4edb68a7b1c996058dfcf49c2a8e1215bb221fce09b787bf1c0d99e416f9353d43221422d
+    artifact=emi-letsdo-compat-2.0.3+retirement.2.jar
 else
     patch --directory="$source" --strip=2 --batch --fuzz=0 --input="$scripts/rechiseled-emi.patch"
     download B0g2vT6l 7411ZFAs rechiseled-1.2.6-fabric-mc1.21.jar \
@@ -61,9 +63,7 @@ else
 fi
 (
     cd -- "$source"
-    tasks=(remapJar)
-    [[ "$target" != rechiseled ]] || tasks+=(checkRecipeSemantics)
-    bash ./gradlew --no-daemon --max-workers=2 -PretirementDependencies="$dependencies" "${tasks[@]}"
+    bash ./gradlew --no-daemon --max-workers=2 -PretirementDependencies="$dependencies" checkRecipeSemantics remapJar
     cd -- build/libs
     test -s "$artifact"
     sha256sum --check --strict --ignore-missing "$scripts/emi-compat.sha256"

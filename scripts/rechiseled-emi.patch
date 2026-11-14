@@ -1,14 +1,12 @@
-diff --git 1/clean-A/build.gradle 2/clean-B/build.gradle
-index 3566de4..1608bd9 100644
---- 1/clean-A/build.gradle
-+++ 2/clean-B/build.gradle
+--- a/unique-food-A/build.gradle
++++ b/clean-B/build.gradle
 @@ -1,10 +1,10 @@
  plugins {
 -    id 'fabric-loom' version '1.16.3'
 +    id 'fabric-loom' version '1.17.20'
  }
  
--version = '2.0.3+retirement.1'
+-version = '2.0.3+retirement.2'
 -group = 'com.pandaismyname1'
 -base.archivesName = 'emi-letsdo-compat'
 +version = '1.0.0+retirement.1'
@@ -17,48 +15,51 @@ index 3566de4..1608bd9 100644
  
  repositories {
      mavenCentral()
-@@ -21,9 +21,12 @@ dependencies {
+@@ -21,23 +21,10 @@
  
  sourceSets {
      main {
 -        java.srcDirs = ['common/src/main/java', 'fabric/src/main/java']
+-        java {
+-            include 'com/pandaismyname1/emiletsdocompat/*.java'
+-            include 'com/pandaismyname1/emiletsdocompat/fabric/*.java'
+-            include 'com/pandaismyname1/emiletsdocompat/bakery/CustomCakeCutRecipe.java'
+-            include 'com/pandaismyname1/emiletsdocompat/bakery/internal/*.java'
+-            include 'com/pandaismyname1/emiletsdocompat/bakery_fc/BakeryFCCompat.java'
+-            include 'com/pandaismyname1/emiletsdocompat/beachparty/*.java'
+-            include 'com/pandaismyname1/emiletsdocompat/herbalbrews/*.java'
+-            include 'com/pandaismyname1/emiletsdocompat/meadow/MeadowCompat.java'
+-            include 'com/pandaismyname1/emiletsdocompat/meadow/CustomFondue*Recipe.java'
+-            include 'com/pandaismyname1/emiletsdocompat/vinery/VineryCompat.java'
+-            include 'com/pandaismyname1/emiletsdocompat/vinery/CustomGrapeMashingRecipe.java'
+-        }
 -        resources.srcDirs = ['common/src/main/resources', 'fabric/src/main/resources']
 +        java.srcDirs = ['rechiseled/src/main/java']
 +        resources.srcDirs = ['rechiseled/src/main/resources']
      }
+-    test.java.srcDirs = ['common/src/test/java']
 +    test.java.srcDirs = ['rechiseled/src/test/java']
-+    test.compileClasspath += main.compileClasspath
-+    test.runtimeClasspath += main.compileClasspath
+     test.compileClasspath += main.compileClasspath
+     test.runtimeClasspath += main.compileClasspath
+ }
+@@ -70,7 +57,7 @@
+ tasks.register('checkRecipeSemantics', JavaExec) {
+     dependsOn testClasses
+     classpath = sourceSets.test.runtimeClasspath
+-    mainClass = 'com.pandaismyname1.emiletsdocompat.RecipeSemanticsCheck'
++    mainClass = 'dev.retirement.emirechiseled.RecipeSemanticsCheck'
+     enableAssertions = true
  }
  
- java {
-@@ -50,3 +53,12 @@ processResources {
- jar {
-     from('LICENSE.md')
- }
-+
-+tasks.register('checkRecipeSemantics', JavaExec) {
-+    dependsOn testClasses
-+    classpath = sourceSets.test.runtimeClasspath
-+    mainClass = 'dev.retirement.emirechiseled.RecipeSemanticsCheck'
-+    enableAssertions = true
-+}
-+
-+check.dependsOn checkRecipeSemantics
-diff --git 1/clean-A/gradle/wrapper/gradle-wrapper.properties 2/clean-B/gradle/wrapper/gradle-wrapper.properties
-index 40c5723..efc342f 100644
---- 1/clean-A/gradle/wrapper/gradle-wrapper.properties
-+++ 2/clean-B/gradle/wrapper/gradle-wrapper.properties
+--- a/unique-food-A/gradle/wrapper/gradle-wrapper.properties
++++ b/clean-B/gradle/wrapper/gradle-wrapper.properties
 @@ -1,2 +1,2 @@
 -distributionUrl=https\://services.gradle.org/distributions/gradle-9.4.1-bin.zip
 -distributionSha256Sum=2ab2958f2a1e51120c326cad6f385153bb11ee93b3c216c5fccebfdfbb7ec6cb
 +distributionUrl=https\://services.gradle.org/distributions/gradle-9.5.1-bin.zip
 +distributionSha256Sum=bafc141b619ad6350fd975fc903156dd5c151998cc8b058e8c1044ab5f7b031f
-diff --git 1/clean-B/rechiseled/src/main/java/dev/retirement/emirechiseled/ConversionAmounts.java 2/clean-B/rechiseled/src/main/java/dev/retirement/emirechiseled/ConversionAmounts.java
-new file mode 100644
-index 0000000..1666ccc
 --- /dev/null
-+++ 2/clean-B/rechiseled/src/main/java/dev/retirement/emirechiseled/ConversionAmounts.java
++++ b/clean-B/rechiseled/src/main/java/dev/retirement/emirechiseled/ConversionAmounts.java
 @@ -0,0 +1,16 @@
 +package dev.retirement.emirechiseled;
 +
@@ -76,11 +77,8 @@ index 0000000..1666ccc
 +        return null;
 +    }
 +}
-diff --git 1/clean-B/rechiseled/src/main/java/dev/retirement/emirechiseled/RechiseledEmiPlugin.java 2/clean-B/rechiseled/src/main/java/dev/retirement/emirechiseled/RechiseledEmiPlugin.java
-new file mode 100644
-index 0000000..81d2788
 --- /dev/null
-+++ 2/clean-B/rechiseled/src/main/java/dev/retirement/emirechiseled/RechiseledEmiPlugin.java
++++ b/clean-B/rechiseled/src/main/java/dev/retirement/emirechiseled/RechiseledEmiPlugin.java
 @@ -0,0 +1,122 @@
 +package dev.retirement.emirechiseled;
 +
@@ -204,11 +202,8 @@ index 0000000..81d2788
 +        }
 +    }
 +}
-diff --git 1/clean-B/rechiseled/src/main/resources/fabric.mod.json 2/clean-B/rechiseled/src/main/resources/fabric.mod.json
-new file mode 100644
-index 0000000..21262eb
 --- /dev/null
-+++ 2/clean-B/rechiseled/src/main/resources/fabric.mod.json
++++ b/clean-B/rechiseled/src/main/resources/fabric.mod.json
 @@ -0,0 +1,22 @@
 +{
 +  "schemaVersion": 1,
@@ -232,11 +227,8 @@ index 0000000..21262eb
 +    "rechiseled": "1.2.6"
 +  }
 +}
-diff --git 1/clean-B/rechiseled/src/test/java/dev/retirement/emirechiseled/RecipeSemanticsCheck.java 2/clean-B/rechiseled/src/test/java/dev/retirement/emirechiseled/RecipeSemanticsCheck.java
-new file mode 100644
-index 0000000..63c9e0a
 --- /dev/null
-+++ 2/clean-B/rechiseled/src/test/java/dev/retirement/emirechiseled/RecipeSemanticsCheck.java
++++ b/clean-B/rechiseled/src/test/java/dev/retirement/emirechiseled/RecipeSemanticsCheck.java
 @@ -0,0 +1,46 @@
 +package dev.retirement.emirechiseled;
 +
