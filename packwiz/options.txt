@@ -1,0 +1,12 @@
+version:3955
+key_key.wands.wand_menu:key.keyboard.semicolon
+key_key.wands.wand_undo:key.keyboard.apostrophe
+key_key.wands.wand_orientation:key.keyboard.left.bracket
+key_key.wands.inc_sel_block:key.keyboard.equal
+key_key.wands.clear_wand:key.keyboard.backslash
+key_key.wands.wand_mode:key.keyboard.grave.accent
+key_key.wands.wand_action:key.keyboard.minus
+key_key.wands.wand_invert:key.keyboard.f6
+key_key.wands.wand_rotate:key.keyboard.f7
+key_key.wands.wand_fill_circle:key.keyboard.f8
+key_key.wands.wand_palette_mode:key.keyboard.f9

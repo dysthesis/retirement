@@ -1,4 +1,6 @@
 # Minecraft clients require Java 25; the dev shell keeps JDK 21 for reproducible Voxy builds.
+# Fresh profiles get Wands shortcuts from packwiz/options.txt; existing players keep their Controls.
+# Keep preserve = true on its index entry so updates never overwrite player options.
 # General entrypoint for the `packwiz` CLI without having to worry about cd-ing into the correct directory.
 [working-directory: 'packwiz']
 pack *args:
