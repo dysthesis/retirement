@@ -1,6 +1,14 @@
 hash-format = "sha256"
 
 [[files]]
+file = "config/dsurround/dsurround.json"
+hash = "f8b29c4ef11da32c494051f5f4b1471bf09cb70e0efd8fdfad0cce03f91aaaeb"
+
+[[files]]
+file = "config/particle_core_config.toml"
+hash = "621cbc339671bcc38ed846b59a84fb931b980f7abd94747e13feb87069cad201"
+
+[[files]]
 file = "config/tectonic.json"
 hash = "fc5c426db0a123227d9019e34198d1328e41fab7a7c960a87a5bef191743b1d8"
 
@@ -12,6 +20,11 @@ metafile = true
 [[files]]
 file = "mods/aether.pw.toml"
 hash = "e71c04679ff75573cd8ef1003eb167830f794b8979f2bdd3c99d28793f2918b0"
+metafile = true
+
+[[files]]
+file = "mods/architectury-api.pw.toml"
+hash = "5402f5b0393f6468311fbe12cbb2b007ee705e92a63ac1a150436857205667bf"
 metafile = true
 
 [[files]]

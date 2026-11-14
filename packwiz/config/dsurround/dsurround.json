@@ -1,0 +1,20 @@
+{
+  // Photon and Voxy own fog for both nearby and distant terrain.
+  "fogOptions": {
+    "enableFogEffects": false
+  },
+  // Sound Physics Remastered owns reverb and occlusion.
+  "enhancedSounds": {
+    "enableEnhancedSounds": false
+  },
+  // Particular supplies water ripples, waterfall particles and fireflies.
+  "blockEffects": {
+    "waterRippleStyle": "NONE"
+  },
+  "waterfallOptions": {
+    "enableParticles": false
+  },
+  "fireflyOptions": {
+    "enableFireflies": false
+  }
+}

@@ -1,0 +1,3 @@
+# Dynamic Surroundings' shared particle caches require single-threaded ticking.
+version = 1
+asynchronousTicking = false
