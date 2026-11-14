@@ -42,7 +42,8 @@
         autoStart = true;
         openFirewall = true;
 
-        package = pkgs.fabricServers.fabric-1_21_1;
+        # C2ME's bundled native module requires Java 25.
+        package = pkgs.fabricServers.fabric-1_21_1.override {jre_headless = pkgs.jdk25_headless;};
 
         jvmOpts = "-Xms8G -Xmx10G";
 

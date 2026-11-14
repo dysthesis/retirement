@@ -1,3 +1,4 @@
+# Minecraft clients require Java 25; the dev shell keeps JDK 21 for reproducible Voxy builds.
 # General entrypoint for the `packwiz` CLI without having to worry about cd-ing into the correct directory.
 [working-directory: 'packwiz']
 pack *args:
