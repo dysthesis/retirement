@@ -1,5 +1,5 @@
 --- a/unique-food-A/build.gradle
-+++ b/clean-B/build.gradle
++++ b/sync-B/build.gradle
 @@ -1,10 +1,10 @@
  plugins {
 -    id 'fabric-loom' version '1.16.3'
@@ -9,7 +9,7 @@
 -version = '2.0.3+retirement.2'
 -group = 'com.pandaismyname1'
 -base.archivesName = 'emi-letsdo-compat'
-+version = '1.0.0+retirement.1'
++version = '1.0.0+retirement.2'
 +group = 'dev.retirement'
 +base.archivesName = 'emi-rechiseled'
  
@@ -52,14 +52,14 @@
  }
  
 --- a/unique-food-A/gradle/wrapper/gradle-wrapper.properties
-+++ b/clean-B/gradle/wrapper/gradle-wrapper.properties
++++ b/sync-B/gradle/wrapper/gradle-wrapper.properties
 @@ -1,2 +1,2 @@
 -distributionUrl=https\://services.gradle.org/distributions/gradle-9.4.1-bin.zip
 -distributionSha256Sum=2ab2958f2a1e51120c326cad6f385153bb11ee93b3c216c5fccebfdfbb7ec6cb
 +distributionUrl=https\://services.gradle.org/distributions/gradle-9.5.1-bin.zip
 +distributionSha256Sum=bafc141b619ad6350fd975fc903156dd5c151998cc8b058e8c1044ab5f7b031f
 --- /dev/null
-+++ b/clean-B/rechiseled/src/main/java/dev/retirement/emirechiseled/ConversionAmounts.java
++++ b/sync-B/rechiseled/src/main/java/dev/retirement/emirechiseled/ConversionAmounts.java
 @@ -0,0 +1,16 @@
 +package dev.retirement.emirechiseled;
 +
@@ -78,8 +78,8 @@
 +    }
 +}
 --- /dev/null
-+++ b/clean-B/rechiseled/src/main/java/dev/retirement/emirechiseled/RechiseledEmiPlugin.java
-@@ -0,0 +1,122 @@
++++ b/sync-B/rechiseled/src/main/java/dev/retirement/emirechiseled/RechiseledEmiPlugin.java
+@@ -0,0 +1,112 @@
 +package dev.retirement.emirechiseled;
 +
 +import com.supermartijn642.rechiseled.Rechiseled;
@@ -96,9 +96,7 @@
 +import dev.emi.emi.api.stack.EmiIngredient;
 +import dev.emi.emi.api.stack.EmiStack;
 +import dev.emi.emi.api.widget.WidgetHolder;
-+import dev.emi.emi.runtime.EmiReloadManager;
 +import net.fabricmc.api.ClientModInitializer;
-+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 +import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 +import net.minecraft.core.registries.BuiltInRegistries;
 +import net.minecraft.network.chat.Component;
@@ -111,25 +109,18 @@
 +
 +public final class RechiseledEmiPlugin implements EmiPlugin, ChiselingRecipePlugin, ClientModInitializer {
 +    private static volatile List<ChiselingRecipe> syncedRecipes = List.of();
-+    private static volatile List<ChiselingRecipe> registeredRecipes = syncedRecipes;
 +
 +    @Override
 +    public void onInitializeClient() {
 +        ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> {
 +            syncedRecipes = List.of();
-+            registeredRecipes = syncedRecipes;
-+        });
-+        // Let EMI's ordinary recipe/tag reload consume the update first; only reload if it missed it.
-+        ClientTickEvents.END_CLIENT_TICK.register(client -> {
-+            if (syncedRecipes != registeredRecipes && EmiReloadManager.isLoaded()) {
-+                EmiReloadManager.reload();
-+            }
 +        });
 +    }
 +
 +    @Override
 +    public void onRecipesLoaded(ChiselingRecipesLoadedContext context) {
 +        if (context.isClient()) {
++            // Rechiseled 1.2.6 sends this before vanilla recipe/tag sync, which reloads EMI.
 +            syncedRecipes = context.getRecipeManager().getAllRecipes();
 +        }
 +    }
@@ -176,7 +167,6 @@
 +                        EmiIngredient.of(alternatives, amounts.input()), target.item(), amounts.output())));
 +            }
 +        }
-+        registeredRecipes = snapshot;
 +    }
 +
 +    private static final class ChiselingEmiRecipe extends BasicEmiRecipe {
@@ -203,7 +193,7 @@
 +    }
 +}
 --- /dev/null
-+++ b/clean-B/rechiseled/src/main/resources/fabric.mod.json
++++ b/sync-B/rechiseled/src/main/resources/fabric.mod.json
 @@ -0,0 +1,22 @@
 +{
 +  "schemaVersion": 1,
@@ -228,7 +218,7 @@
 +  }
 +}
 --- /dev/null
-+++ b/clean-B/rechiseled/src/test/java/dev/retirement/emirechiseled/RecipeSemanticsCheck.java
++++ b/sync-B/rechiseled/src/test/java/dev/retirement/emirechiseled/RecipeSemanticsCheck.java
 @@ -0,0 +1,46 @@
 +package dev.retirement.emirechiseled;
 +

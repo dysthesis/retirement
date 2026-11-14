@@ -175,8 +175,8 @@ hash = "fe9b380cd0c833d8eaa01fa859c8d53ad1fbd329d829f43633de3a2b6f0db4cc"
 metafile = true
 
 [[files]]
-file = "mods/emi-rechiseled-1.0.0+retirement.1.jar"
-hash = "8c217357b4cdcf9b5ed2e376a9d1920dac9a81cd8bbd342dc7cbcbad002e7fc1"
+file = "mods/emi-rechiseled-1.0.0+retirement.2.jar"
+hash = "363f57191edf4db944a4b3425e46cdc827e34df11480ec10dc0571dffff6ea78"
 
 [[files]]
 file = "mods/emi_loot-0.7.10+1.21+retirement.1+fabric.jar"

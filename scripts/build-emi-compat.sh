@@ -59,7 +59,7 @@ else
             META-INF/jars/fabric-lifecycle-events-v1-0.116.18.jar \
             META-INF/jars/fabric-networking-api-v1-0.116.18.jar
     )
-    artifact=emi-rechiseled-1.0.0+retirement.1.jar
+    artifact=emi-rechiseled-1.0.0+retirement.2.jar
 fi
 (
     cd -- "$source"
