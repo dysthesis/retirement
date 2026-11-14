@@ -10,7 +10,15 @@ hash = "621cbc339671bcc38ed846b59a84fb931b980f7abd94747e13feb87069cad201"
 
 [[files]]
 file = "config/paxi/datapack_load_order.json"
-hash = "f0c62ae27163bf2e2536a5c9132ec4bbd8bfb9df5dbfdd9200c1e4eaff6f1878"
+hash = "e305ca86eb2a550f86e9c608b07e6adba6aff3658b74d85c0adc7eb05d736e84"
+
+[[files]]
+file = "config/paxi/datapacks/retirement-compat/data/wildernature/tags/worldgen/biome/spawns_squirrel.json"
+hash = "b72e0ffa27c6e57b0acf169bcb5e65a9b4d7d85302b64dbf614a3c8eabec646d"
+
+[[files]]
+file = "config/paxi/datapacks/retirement-compat/pack.mcmeta"
+hash = "51a15e3f1c60a806dad152646cd93bea47f03259fc9e4de79f96785389a9f953"
 
 [[files]]
 file = "config/paxi/datapacks/stellarity-x-nullscape.pw.toml"
@@ -212,6 +220,56 @@ hash = "ebf0dae777cc19c354a662dc8144009dff7269b2d05624b4591fcb7de56fc14e"
 metafile = true
 
 [[files]]
+file = "mods/lets-do-bakery-farmcharm-compat.pw.toml"
+hash = "947ac3eeb9ed431cbe6f9c67d7e64828adf156ccf2ace0460d92d6b96ca589dc"
+metafile = true
+
+[[files]]
+file = "mods/lets-do-beachparty.pw.toml"
+hash = "db78a6e236af5b80363959db0e42f7932676335be80e50a28675be0a9d63ff69"
+metafile = true
+
+[[files]]
+file = "mods/lets-do-bloomingnature.pw.toml"
+hash = "5216ddcb01265c4a41aa5291d8025b01211984ff37a9c6c640feb9bf941a263c"
+metafile = true
+
+[[files]]
+file = "mods/lets-do-brewery-farmcharm-compat.pw.toml"
+hash = "b5702793237642efb51faf87da8e26d0b9b33cdc4c9a293678c6aa3dc59d6925"
+metafile = true
+
+[[files]]
+file = "mods/lets-do-farm-charm.pw.toml"
+hash = "3308b8963f2c7ade76ead2da6c647ddacd3335e783cdd5508e8507179adba408"
+metafile = true
+
+[[files]]
+file = "mods/lets-do-furniture.pw.toml"
+hash = "ecff7c7f5189b3a2bf256e30459faa0e1331a26019259021f8cdfaae00b4b236"
+metafile = true
+
+[[files]]
+file = "mods/lets-do-herbalbrews.pw.toml"
+hash = "12019cc107b14fe46af7aad01961045430c688398f30fe4e302f8f65fddb9552"
+metafile = true
+
+[[files]]
+file = "mods/lets-do-meadow.pw.toml"
+hash = "0c9dd00d8b74a7bdfe468effcd5eb8a413bc18f8105b2ad91cc0c3d6da9afb72"
+metafile = true
+
+[[files]]
+file = "mods/lets-do-vinery.pw.toml"
+hash = "d8fb76a3aa851f9b4ab7e63506d06185b60f64476ec8e5463e1f8052dce494f5"
+metafile = true
+
+[[files]]
+file = "mods/lets-do-wildernature.pw.toml"
+hash = "ffe8bafbf574e9a2a1091eda6651f920b5e8b7350d7044c4d9f3dadda3ff569c"
+metafile = true
+
+[[files]]
 file = "mods/lithium.pw.toml"
 hash = "e10e639f71700a67d7f9b9d747e1685f838d703dadd432464b54e31b26f4742b"
 metafile = true
@@ -304,6 +362,11 @@ metafile = true
 [[files]]
 file = "mods/scalablelux.pw.toml"
 hash = "570b0f010c431efcaacf5210d9747ad671df80a67509ed61c5fe18cf4c9730b6"
+metafile = true
+
+[[files]]
+file = "mods/seasonal-lets-do.pw.toml"
+hash = "615fc967ad5384d9233b5a30672dc6d76dea49de2b4d7945672379d35a8c788b"
 metafile = true
 
 [[files]]

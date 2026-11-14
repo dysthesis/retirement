@@ -1,5 +1,6 @@
 {
   "loadOrder": [
-    "Stellarity-5.0.0-alpha10-NSC.zip"
+    "Stellarity-5.0.0-alpha10-NSC.zip",
+    "retirement-compat"
   ]
 }

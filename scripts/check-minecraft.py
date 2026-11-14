@@ -1,4 +1,4 @@
-"""NixOS driver test: real service, terrain height, integrated biomes and save/reload.
+"""NixOS driver test: real service, terrain, mod integration and save/reload.
 
 Run through nix flake check, not directly. Packwiz changes require refreshing the
 modpack and export hashes in nix/packages/. Fresh-world smoke only: existing-world
@@ -42,6 +42,21 @@ try:
         # Above vanilla's height limit: also catches Tectonic falling back to defaults.
         marker = f"retirement-check-persisted-{boot}"
         expect(f"execute if block 0 500 0 minecraft:diamond_block run say {marker}", marker)
+        for biome, accepted in [
+            ("terralith:lavender_forest", True),
+            ("terralith:siberian_taiga", True),
+            ("minecraft:plains", True),
+            ("minecraft:desert", False),
+        ]:
+            # Biome lookup samples neighboring cells, not just the filled cell.
+            server.succeed(command(f"fillbiome 4 496 4 12 504 12 {biome}"))
+            marker = f"retirement-check-squirrel-{biome.split(':')[1]}-{boot}"
+            condition = "if" if accepted else "unless"
+            expect(
+                f"execute {condition} biome 8 500 8 "
+                f"#wildernature:spawns_squirrel run say {marker}",
+                marker,
+            )
         for dimension, biome in [
             ("minecraft:the_end", "nullscape:crystal_peaks"),
             ("minecraft:overworld", "fishofthieves:tropical_island"),
