@@ -113,7 +113,7 @@ metafile = true
 
 [[files]]
 file = "mods/fabric-api.pw.toml"
-hash = "9645e76b2915aa43b0918e1ef20e1c01b64ba9073e35c8bcd70cf34af8ab604e"
+hash = "8c3eee0d25275b9d572d1ce2c7fb2255474a62d57177c8db09f275085c794550"
 metafile = true
 
 [[files]]
@@ -379,6 +379,11 @@ metafile = true
 [[files]]
 file = "mods/voxy-0.2.15-beta+retirement.1.jar"
 hash = "ab34ed4e4862269e34488274eea19be479b7a15f0bdb0148af67ec809f93aa95"
+
+[[files]]
+file = "mods/weather-glass.pw.toml"
+hash = "9dde193526f3a2bd8708938f088573e1ed4483f51c7f1fa09de60298c0c4c8ce"
+metafile = true
 
 [[files]]
 file = "mods/xaeros-minimap.pw.toml"
