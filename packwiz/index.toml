@@ -72,6 +72,11 @@ hash = "c61f06701276fc9c8475ed79e60c13068c1dfb2cdfda887a4ea68f8cd0482cb6"
 metafile = true
 
 [[files]]
+file = "mods/building-wands.pw.toml"
+hash = "9b5593d3506a603628f4222dd9d3b3aa0278517deab4edae0f0f31dbeccfcf11"
+metafile = true
+
+[[files]]
 file = "mods/c2me-fabric.pw.toml"
 hash = "b949add92d8a4c1890c780d24eb8653bd4be8b54240a3066b89f86683653d743"
 metafile = true
@@ -152,6 +157,31 @@ hash = "b3844193b2fd4e3f4075b2334730f5cba2c591be3d382f4ad63cfcbe832074da"
 metafile = true
 
 [[files]]
+file = "mods/emi-enchanting.pw.toml"
+hash = "1f9cd4e83ced98ba9f8ccff164ce108990e1e8f8f8205b6c549f7db26f1d8c11"
+metafile = true
+
+[[files]]
+file = "mods/emi-loot.pw.toml"
+hash = "7432e9e9aa7b43042a6fa6a52f6a231450535e98b0e4e4670f0c7427e76d4ba1"
+metafile = true
+
+[[files]]
+file = "mods/emi-ores.pw.toml"
+hash = "fe9b380cd0c833d8eaa01fa859c8d53ad1fbd329d829f43633de3a2b6f0db4cc"
+metafile = true
+
+[[files]]
+file = "mods/emi.pw.toml"
+hash = "a0a3d38daafb58117aaf29bb0b0520534abb7175e8d98f63cb47a65c75afac79"
+metafile = true
+
+[[files]]
+file = "mods/emiffect.pw.toml"
+hash = "8dadb4e8c8b43618f4f06c5e1dcda3309e2c1f33128d6d2f283a877987200ab9"
+metafile = true
+
+[[files]]
 file = "mods/entity-model-features.pw.toml"
 hash = "90ac6b37b37b05683d8898e9752e2aef840e9b04cc3f2d7c1776cd730c28038e"
 metafile = true
@@ -212,6 +242,11 @@ hash = "5ae16a8a8189527ccd69d1dcf0ef8e684ce96ef1a062ce88fe94b12cd0fa48f0"
 metafile = true
 
 [[files]]
+file = "mods/fusion-connected-textures.pw.toml"
+hash = "26d1d1c0b07979d39ab3d31023edafd3a85bce4a8f21bb5792d372832e14cbe2"
+metafile = true
+
+[[files]]
 file = "mods/fzzy-config.pw.toml"
 hash = "cbeb48d7af1bcb06af49d2b1d443929dc144cd36922006a6a66f3e1d0777cc5c"
 metafile = true
@@ -244,6 +279,16 @@ metafile = true
 [[files]]
 file = "mods/ixeris.pw.toml"
 hash = "dbe159d8930c51b82967996a0aaeb4ef08001b262369d7e784f5698b025f0854"
+metafile = true
+
+[[files]]
+file = "mods/jade-addons-fabric.pw.toml"
+hash = "67d0b675913c729a030e9f37763320f07c263250fc64f2ee304fcabd17c79a49"
+metafile = true
+
+[[files]]
+file = "mods/jade.pw.toml"
+hash = "fd56a0cff0fa0172c35309f52e7bf76731abde661b03977bc8380bba687cbe98"
 metafile = true
 
 [[files]]
@@ -284,6 +329,11 @@ metafile = true
 [[files]]
 file = "mods/lets-do-brewery-farmcharm-compat.pw.toml"
 hash = "b5702793237642efb51faf87da8e26d0b9b33cdc4c9a293678c6aa3dc59d6925"
+metafile = true
+
+[[files]]
+file = "mods/lets-do-emi-compat.pw.toml"
+hash = "fb79d9a898755d25aa68c7ab9a73027085b4d3825f2f7734b3946593858790cd"
 metafile = true
 
 [[files]]
@@ -329,6 +379,16 @@ metafile = true
 [[files]]
 file = "mods/lithostitched.pw.toml"
 hash = "6507abf4b8a62f88641ff236e708e940268844f3c717e4c799c4848077b2f0bf"
+metafile = true
+
+[[files]]
+file = "mods/macaws-bridges.pw.toml"
+hash = "64a76f06453440a51ad0f51a27904144987527dcfede6f186c0eba93e1d92497"
+metafile = true
+
+[[files]]
+file = "mods/macaws-roofs.pw.toml"
+hash = "8d4ecc66f120419b4bc09fdd14151d2a207ddec30b46ae2184300fec0031b092"
 metafile = true
 
 [[files]]
@@ -422,6 +482,11 @@ hash = "989cde9caba6f1b61aae36f9048725335a8da1d90ad33dc57a58ef3c04d6858b"
 metafile = true
 
 [[files]]
+file = "mods/rechiseled.pw.toml"
+hash = "8311ceecf046bb70b1ed83b297c268d2084fcb256ff6dd111f20308b2e780727"
+metafile = true
+
+[[files]]
 file = "mods/resourceful-config.pw.toml"
 hash = "2272f386d6106a691953f80822614643f0a4ef9df1cbff71fcc02caebd8ad45b"
 metafile = true
@@ -482,6 +547,11 @@ hash = "25e292eee7c56c03250edb865982432008d52d1b71e4fa2768ec00bd9843f3f4"
 metafile = true
 
 [[files]]
+file = "mods/status-effect-bars.pw.toml"
+hash = "1fa203fbf7578d4f6fc251b3529cf79935d7e4a573a281241de74e488be639b7"
+metafile = true
+
+[[files]]
 file = "mods/stellarity.pw.toml"
 hash = "2a0794f30a563dc48063728a9b452125c4e45749283f103e396ec1890e518a14"
 metafile = true
@@ -499,6 +569,16 @@ metafile = true
 [[files]]
 file = "mods/structure-layout-optimizer.pw.toml"
 hash = "300bbdd1b2feaef57f228585b73ca8f35909ec247bda36dc9664288bc08b6158"
+metafile = true
+
+[[files]]
+file = "mods/supermartijn642s-config-lib.pw.toml"
+hash = "8e009ac87710fbd8f5990285d36ab2b4755e932664ca1bcb9cdfac116d6e3b6d"
+metafile = true
+
+[[files]]
+file = "mods/supermartijn642s-core-lib.pw.toml"
+hash = "a9846f57e65cb82ed1a70f4be20433c15feef57f3da38ee4de053099d3f04a70"
 metafile = true
 
 [[files]]
