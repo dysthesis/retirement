@@ -81,6 +81,11 @@ hash = "da65b584b0a4c366e83d8acf81824ac1244ddda206c4a202d19ed3b08413e4ae"
 metafile = true
 
 [[files]]
+file = "mods/explorers-compass.pw.toml"
+hash = "def0429c61fc8e6b8f4cc3a8f61d491c99b7682d34be008f213659e0982a74db"
+metafile = true
+
+[[files]]
 file = "mods/fabric-api.pw.toml"
 hash = "9645e76b2915aa43b0918e1ef20e1c01b64ba9073e35c8bcd70cf34af8ab604e"
 metafile = true
@@ -183,6 +188,11 @@ metafile = true
 [[files]]
 file = "mods/naturalist.pw.toml"
 hash = "526c5ab193bb69b5f2a1c660624376e23f44be2377a6b8aaf04178ee300bfdf7"
+metafile = true
+
+[[files]]
+file = "mods/natures-compass.pw.toml"
+hash = "22ca1b774bd7f8e29a672455d8aedc1c4929c79c365cb18116173643cf22e183"
 metafile = true
 
 [[files]]
