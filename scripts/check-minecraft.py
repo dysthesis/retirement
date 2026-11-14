@@ -1,4 +1,4 @@
-"""NixOS driver test: real service, terrain, mod integration and save/reload.
+"""NixOS driver test: shipped building blocks, terrain, integration and save/reload.
 
 Run through nix flake check, not directly. Packwiz changes require refreshing the
 modpack and export hashes in nix/packages/. Fresh-world smoke only: existing-world
@@ -42,6 +42,15 @@ try:
         # Above vanilla's height limit: also catches Tectonic falling back to defaults.
         marker = f"retirement-check-persisted-{boot}"
         expect(f"execute if block 0 500 0 minecraft:diamond_block run say {marker}", marker)
+        for x, block in [
+            (2, "rechiseled:stone_tiles"),
+            (6, "mcwbridges:oak_log_bridge_middle"),
+            (7, "mcwroofs:oak_roof"),
+        ]:
+            if boot == 0:
+                server.succeed(command(f"setblock {x} 500 0 {block}"))
+            marker = f"retirement-check-building-{x}-{boot}"
+            expect(f"execute if block {x} 500 0 {block} run say {marker}", marker)
         server.succeed(command("setblock 1 500 0 minecraft:chest"))
         for item, accepted in [
             ("moredelight:toast", True),
