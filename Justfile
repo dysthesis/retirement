@@ -18,6 +18,6 @@ rm mod: (pack "remove" mod)
 # The unofficial Voxy backport must not be redistributed.
 export: (pack "modrinth export")
 
-# Rebuild the pinned Voxy backport and private mrpack without updating existing mods.
+# Rebuild and verify the pinned private Voxy backport; refresh pack metadata separately.
 build-voxy:
 	scripts/build-voxy.sh

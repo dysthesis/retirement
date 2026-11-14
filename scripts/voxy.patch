@@ -1,5 +1,5 @@
 diff --git i/build.gradle w/build.gradle
-index 25a32f1..35210a0 100644
+index 25a32f1e..c533382a 100644
 --- i/build.gradle
 +++ w/build.gradle
 @@ -1,5 +1,5 @@
@@ -29,7 +29,19 @@ index 25a32f1..35210a0 100644
  
      modImplementation("maven.modrinth:lithium:mc1.21.1-0.15.0-fabric")
  
-@@ -167,7 +167,7 @@ java {
+@@ -153,10 +153,7 @@ tasks.withType(JavaCompile).configureEach {
+ }
+ 
+ java {
+-    def javaVersion = JavaVersion.toVersion(targetJavaVersion)
+-    if (JavaVersion.current() < javaVersion) {
+-        toolchain.languageVersion = JavaLanguageVersion.of(targetJavaVersion)
+-    }
++    toolchain.languageVersion = JavaLanguageVersion.of(targetJavaVersion)
+ 
+     // Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build" task
+     // if it is present.
+@@ -167,11 +164,23 @@ java {
  }
  
  jar {
@@ -38,8 +50,24 @@ index 25a32f1..35210a0 100644
          rename { "${it}_${project.archives_base_name}"}
      }
  }
+ 
++tasks.withType(AbstractArchiveTask).configureEach {
++    preserveFileTimestamps = false
++    reproducibleFileOrder = true
++}
++
++tasks.register('fluidBlockRegression', JavaExec) {
++    dependsOn testClasses
++    classpath = sourceSets.test.runtimeClasspath
++    mainClass = 'me.cortex.voxy.client.core.model.FluidBlockRegression'
++    enableAssertions = true
++}
++
+ 
+ 
+ tasks.register('makeExcludedRocksDB', Zip) {
 diff --git i/gradle/wrapper/gradle-wrapper.properties w/gradle/wrapper/gradle-wrapper.properties
-index c61a118..80d8229 100644
+index c61a118f..80d82296 100644
 --- i/gradle/wrapper/gradle-wrapper.properties
 +++ w/gradle/wrapper/gradle-wrapper.properties
 @@ -1,6 +1,7 @@
@@ -50,8 +78,113 @@ index c61a118..80d8229 100644
  networkTimeout=10000
  validateDistributionUrl=true
  zipStoreBase=GRADLE_USER_HOME
+diff --git i/src/main/java/me/cortex/voxy/client/core/model/ModelFactory.java w/src/main/java/me/cortex/voxy/client/core/model/ModelFactory.java
+index b91da2eb..6d7c65f8 100644
+--- i/src/main/java/me/cortex/voxy/client/core/model/ModelFactory.java
++++ w/src/main/java/me/cortex/voxy/client/core/model/ModelFactory.java
+@@ -63,6 +63,13 @@ public class ModelFactory {
+     public static final int MODEL_TEXTURE_SIZE = 16;
+     public static final int LAYERS = Integer.numberOfTrailingZeros(MODEL_TEXTURE_SIZE);
+ 
++    public static boolean isFluidBlock(BlockState state) {
++        if (state.getBlock() instanceof LiquidBlock) return true;
++        var fluidState = state.getFluidState();
++        // Finite fluids can use a plain Block and a different legacy state of that same block.
++        return !fluidState.isEmpty() && fluidState.createLegacyBlock().getBlock() == state.getBlock();
++    }
++
+     //TODO: replace the fluid BlockState with a client model id integer of the fluidState, requires looking up
+     // the fluid state in the mipper
+     private record ModelEntry(ColourDepthTextureData down, ColourDepthTextureData up, ColourDepthTextureData north, ColourDepthTextureData south, ColourDepthTextureData west, ColourDepthTextureData east, int fluidBlockStateId, int tintingColour) {
+@@ -177,7 +184,7 @@ public class ModelFactory {
+ 
+         //Before we enqueue the baking of this blockstate, we must check if it has a fluid state associated with it
+         // if it does, we must ensure that it is (effectivly) baked BEFORE we bake this blockstate
+-        boolean isFluid = blockState.getBlock() instanceof LiquidBlock;
++        boolean isFluid = isFluidBlock(blockState);
+         if ((!isFluid) && (!blockState.getFluidState().isEmpty())) {
+             //Insert into the fluid LUT
+             var fluidState = blockState.getFluidState().createLegacyBlock();
+@@ -400,7 +407,7 @@ public class ModelFactory {
+ 
+         //TODO: add thing for `blockState.hasEmissiveLighting()` and `blockState.getLuminance()`
+ 
+-        boolean isFluid = blockState.getBlock() instanceof LiquidBlock;
++        boolean isFluid = isFluidBlock(blockState);
+         int modelId = -1;
+ 
+ 
+@@ -418,7 +425,7 @@ public class ModelFactory {
+             }
+         }
+ 
+-        var colourProvider = getColourProvider(blockState.getBlock());
++        var colourProvider = getColourProvider(blockState);
+ 
+         boolean isBiomeColourDependent = false;
+         if (colourProvider != null) {
+@@ -785,7 +792,7 @@ public class ModelFactory {
+         int i = 0;
+         long modelUpPtr = result.modelBiomeIndexPairs.address;
+         for (var entry : this.modelsRequiringBiomeColours) {
+-            var colourProvider = getColourProvider(entry.right().getBlock());
++            var colourProvider = getColourProvider(entry.right());
+             if (colourProvider == null) {
+                 throw new IllegalStateException();
+             }
+@@ -804,10 +811,10 @@ public class ModelFactory {
+         return result;
+     }
+ 
+-    private static BlockColor getColourProvider(Block block) {
+-        BlockState defaultState = block.defaultBlockState();
++    private static BlockColor getColourProvider(BlockState blockState) {
++        BlockState defaultState = blockState.getBlock().defaultBlockState();
+         var blockColors = Minecraft.getInstance().getBlockColors();
+-        if (block instanceof LiquidBlock) {
++        if (isFluidBlock(blockState)) {
+             return (state, world, pos, tintIndex) -> blockColors.getColor(state, world, pos, tintIndex);
+         }
+         int color;
+diff --git i/src/main/java/me/cortex/voxy/client/core/model/bakery/SoftwareModelTextureBakery.java w/src/main/java/me/cortex/voxy/client/core/model/bakery/SoftwareModelTextureBakery.java
+index d1ebc15e..2dc9d648 100644
+--- i/src/main/java/me/cortex/voxy/client/core/model/bakery/SoftwareModelTextureBakery.java
++++ w/src/main/java/me/cortex/voxy/client/core/model/bakery/SoftwareModelTextureBakery.java
+@@ -19,7 +19,6 @@ import net.minecraft.world.level.ColorResolver;
+ import net.minecraft.world.level.LightLayer;
+ import net.minecraft.world.level.block.Blocks;
+ import net.minecraft.world.level.block.LeavesBlock;
+-import net.minecraft.world.level.block.LiquidBlock;
+ import net.minecraft.world.level.block.RenderShape;
+ import net.minecraft.world.level.block.entity.BlockEntity;
+ import net.minecraft.world.level.block.state.BlockState;
+@@ -219,13 +218,10 @@ public class SoftwareModelTextureBakery {
+     public int renderToOutput(BlockState state, long outputBuffer) {
+         MemoryUtil.memSet(outputBuffer, 0, 16 * 16 * 8 * 6);
+ 
+-        boolean isBlock = true;
+-        if (state.getBlock() instanceof LiquidBlock) {
+-            isBlock = false;
+-        }
++        boolean isBlock = !ModelFactory.isFluidBlock(state);
+ 
+         RenderType blockRenderLayer = null;
+-        if (state.getBlock() instanceof LiquidBlock) {
++        if (!isBlock) {
+             blockRenderLayer = ItemBlockRenderTypes.getRenderLayer(state.getFluidState());
+         } else {
+             if (state.getBlock() instanceof LeavesBlock) {
+@@ -268,8 +264,6 @@ public class SoftwareModelTextureBakery {
+             }
+         } else {// Is fluid, slow path :(
+ 
+-            if (!(state.getBlock() instanceof LiquidBlock))
+-                throw new IllegalStateException();
+             for (int i = 0; i < VIEWS.length; i++) {
+                 this.opaqueVC.reset();
+                 this.translucentVC.reset();
 diff --git i/src/main/resources/fabric.mod.json w/src/main/resources/fabric.mod.json
-index 3d8c015..cc923fc 100644
+index 3d8c0154..cc923fc9 100644
 --- i/src/main/resources/fabric.mod.json
 +++ w/src/main/resources/fabric.mod.json
 @@ -14,7 +14,7 @@
@@ -63,3 +196,59 @@ index 3d8c015..cc923fc 100644
    "entrypoints": {
      "client": [
        "me.cortex.voxy.client.VoxyClient"
+diff --git i/src/test/java/me/cortex/voxy/client/core/model/FluidBlockRegression.java w/src/test/java/me/cortex/voxy/client/core/model/FluidBlockRegression.java
+new file mode 100644
+index 00000000..baed037f
+--- /dev/null
++++ w/src/test/java/me/cortex/voxy/client/core/model/FluidBlockRegression.java
+@@ -0,0 +1,50 @@
++package me.cortex.voxy.client.core.model;
++
++import net.minecraft.SharedConstants;
++import net.minecraft.core.registries.BuiltInRegistries;
++import net.minecraft.resources.ResourceLocation;
++import net.minecraft.server.Bootstrap;
++import net.minecraft.world.level.block.Blocks;
++import net.minecraft.world.level.block.LiquidBlock;
++import net.minecraft.world.level.block.state.BlockState;
++import net.minecraft.world.level.block.state.properties.BlockStateProperties;
++
++public final class FluidBlockRegression {
++    public static void main(String[] args) {
++        SharedConstants.tryDetectVersion();
++        Bootstrap.bootStrap();
++        checkVanilla();
++    }
++
++    public static void checkVanilla() {
++        for (var block : new net.minecraft.world.level.block.Block[]{Blocks.WATER, Blocks.LAVA}) {
++            for (var state : block.getStateDefinition().getPossibleStates()) {
++                assert ModelFactory.isFluidBlock(state) : state;
++            }
++        }
++        assert !ModelFactory.isFluidBlock(Blocks.AIR.defaultBlockState());
++        assert !ModelFactory.isFluidBlock(Blocks.STONE.defaultBlockState());
++        var stairs = Blocks.OAK_STAIRS.defaultBlockState();
++        assert !ModelFactory.isFluidBlock(stairs);
++        var waterlogged = stairs.setValue(BlockStateProperties.WATERLOGGED, true);
++        assert !ModelFactory.isFluidBlock(waterlogged) : waterlogged;
++        var dependency = waterlogged.getFluidState().createLegacyBlock();
++        assert dependency.is(Blocks.WATER) : dependency;
++        assert ModelFactory.isFluidBlock(dependency) : dependency;
++    }
++
++    // Run with assertions enabled from the live modded client; vanilla bootstrap has no Supplementaries registry.
++    public static void checkLumisene() {
++        var block = BuiltInRegistries.BLOCK.getOptional(ResourceLocation.fromNamespaceAndPath("supplementaries", "lumisene")).orElseThrow();
++        assert !(block instanceof LiquidBlock);
++        var state = block.defaultBlockState();
++        assert ModelFactory.isFluidBlock(state) : state;
++        var age = block.getStateDefinition().getProperty("age");
++        assert age != null;
++        var aged = state.setValue((net.minecraft.world.level.block.state.properties.IntegerProperty) age, 5);
++        assert aged != state;
++        assert aged.getFluidState().createLegacyBlock().getBlock() == block;
++        assert aged.getFluidState().createLegacyBlock() != aged;
++        assert ModelFactory.isFluidBlock(aged) : aged;
++    }
++}
