@@ -1,2 +1,2 @@
 {mkModpack, ...}:
-mkModpack "server" "sha256-qSF3NR7Qixn8jrUIRo7rrBDOCKyhcs5oSWccM5Uzyo4="
+mkModpack "server" "sha256-b1QcwSXBczDYoxpDeAmhAgiXpX2/IXYpyuqNNKxNqKM="
