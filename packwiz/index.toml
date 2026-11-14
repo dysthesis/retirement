@@ -53,6 +53,11 @@ hash = "0f3729599d048f0d93627ba1c1a3ed4b96df2cbc895a826e6739bec0702beec2"
 metafile = true
 
 [[files]]
+file = "mods/axiom.pw.toml"
+hash = "d583458696a2d7917ecbac06f0455353a95f2d1a38ece9b71f20ed8ff556949d"
+metafile = true
+
+[[files]]
 file = "mods/better-block-entities.pw.toml"
 hash = "82b91651e37e154e82eeedee46044e0d95affd761343f6cca07f3ba3697ef806"
 metafile = true
@@ -303,6 +308,11 @@ hash = "ffe8bafbf574e9a2a1091eda6651f920b5e8b7350d7044c4d9f3dadda3ff569c"
 metafile = true
 
 [[files]]
+file = "mods/litematica.pw.toml"
+hash = "03d3257c38b12c588aae17a8c81b9c5a9da9661b469c667b47f43023a40af10f"
+metafile = true
+
+[[files]]
 file = "mods/lithium.pw.toml"
 hash = "e10e639f71700a67d7f9b9d747e1685f838d703dadd432464b54e31b26f4742b"
 metafile = true
@@ -310,6 +320,11 @@ metafile = true
 [[files]]
 file = "mods/lithostitched.pw.toml"
 hash = "6507abf4b8a62f88641ff236e708e940268844f3c717e4c799c4848077b2f0bf"
+metafile = true
+
+[[files]]
+file = "mods/malilib.pw.toml"
+hash = "4842a349ba8e18407a4e32ef184ad1d2a437ff8e5b0c158391b6225216b4b8ce"
 metafile = true
 
 [[files]]
