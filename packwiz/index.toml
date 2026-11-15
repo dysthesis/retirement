@@ -42,6 +42,10 @@ hash = "7884337803babcd6ccbfaae85318547dd9e3384f3838191942d00c14ff93ffe0"
 metafile = true
 
 [[files]]
+file = "config/streamsreflowing.properties"
+hash = "344ed61452e1ca215a1cf3d254eb8028e025bdec245ead045b87b981d97d0144"
+
+[[files]]
 file = "config/tectonic.json"
 hash = "0d3182b3dbaff0f258efc26c437051add6f658351dcc593ad62e24474cd2047c"
 
