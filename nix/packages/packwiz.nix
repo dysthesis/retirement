@@ -1,5 +1,5 @@
 {packwiz}:
-# shortcut: only loose files are embedded, sort bundled downloads if non-CDN sources are added.
+# Sort loose overrides and keep private client libraries off dedicated servers.
 packwiz.overrideAttrs (old: {
   patches = (old.patches or []) ++ [./packwiz-deterministic-overrides.patch];
 })

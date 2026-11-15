@@ -1,0 +1,13 @@
+name = "CIT Resewn (NeoForge)"
+filename = "CITResewn-1.21.1-neoforge-0.7.22.jar"
+side = "client"
+
+[download]
+hash-format = "sha1"
+hash = "e8bb7a6baeb32271c4f82925d8ea485bb0071157"
+mode = "metadata:curseforge"
+
+[update]
+[update.curseforge]
+file-id = 8484147
+project-id = 1599869

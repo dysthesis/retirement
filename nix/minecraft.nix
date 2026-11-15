@@ -23,12 +23,17 @@
         }).overrideAttrs (_: {
           # Fixed-output cache keys otherwise ignore changed source files.
           name = "${pack.name}-${pack.version}-${side}-${builtins.hashFile "sha256" ../packwiz/pack.toml}";
+          postInstall = pkgs.lib.optionalString (side == "server") ''
+            cd "$out"
+            rm -- ${pkgs.lib.escapeShellArgs pack.options.client-only-overrides}
+          '';
         });
     };
   };
 
   flake.nixosModules.default = {pkgs, ...}: let
     modpack = self.packages.${pkgs.stdenv.hostPlatform.system}.modpack-server;
+    pack = builtins.fromTOML (builtins.readFile ../packwiz/pack.toml);
   in {
     imports = [
       inputs.nix-minecraft.nixosModules.minecraft-servers
@@ -48,7 +53,7 @@
         openFirewall = true;
 
         # C2ME's bundled native module requires Java 25.
-        package = pkgs.fabricServers.fabric-1_21_1.override {jre_headless = pkgs.jdk25_headless;};
+        package = pkgs.neoforgeServers."neoforge-${builtins.replaceStrings ["."] ["_"] "${pack.versions.minecraft}-${pack.versions.neoforge}"}".override {jre_headless = pkgs.jdk25_headless;};
 
         jvmOpts = "-Xms8G -Xmx10G";
 

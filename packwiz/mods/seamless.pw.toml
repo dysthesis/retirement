@@ -1,13 +1,13 @@
 name = "Seamless"
-filename = "seamless-2.3.3-fabric-1.21.1.jar"
+filename = "seamless-2.3.3-neoforge-1.21.1.jar"
 side = "client"
 
 [download]
-url = "https://cdn.modrinth.com/data/rhyHyQke/versions/JG6Mvdez/seamless-2.3.3-fabric-1.21.1.jar"
+url = "https://cdn.modrinth.com/data/rhyHyQke/versions/rftlnKSN/seamless-2.3.3-neoforge-1.21.1.jar"
 hash-format = "sha512"
-hash = "67055b002fe06ffcfda04bbb6c40c78ad3867846217f4b3ea1ae7d80fc8b864fd301f60cecbf99ba924b05c5b8b1d4ecb5b707cce4db11b5bfc7f015acdde1ca"
+hash = "e07a5a17a6b542a66fed7eeeb4e0c40b3c91fb745240991fe7d7e6a10fbb8d2f6d5f7a69e4b70f147fbbda4f359def1a9a70391efe6480f27d6fa45acddab310"
 
 [update]
 [update.modrinth]
 mod-id = "rhyHyQke"
-version = "JG6Mvdez"
+version = "rftlnKSN"

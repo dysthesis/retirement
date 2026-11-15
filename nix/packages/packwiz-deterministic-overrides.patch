@@ -1,7 +1,7 @@
 diff --git a/cmdshared/downloadutil.go b/cmdshared/downloadutil.go
 --- a/cmdshared/downloadutil.go
 +++ b/cmdshared/downloadutil.go
-@@ -5,9 +5,11 @@
+@@ -5,9 +5,12 @@
  	"fmt"
  	"github.com/packwiz/packwiz/core"
  	"io"
@@ -10,15 +10,23 @@ diff --git a/cmdshared/downloadutil.go b/cmdshared/downloadutil.go
  	"path"
  	"path/filepath"
 +	"slices"
++	"github.com/spf13/viper"
  )
  
  func ListManualDownloads(session core.DownloadSession) {
-@@ -67,6 +69,6 @@
+@@ -67,8 +70,12 @@
  // AddNonMetafileOverrides saves all non-metadata files into an overrides folder in the zip
  func AddNonMetafileOverrides(index *core.Index, exp *zip.Writer) {
 -	for p, v := range index.Files {
 -		if !v.IsMetaFile() {
 +	for _, p := range slices.Sorted(maps.Keys(index.Files)) {
 +		if !index.Files[p].IsMetaFile() {
- 			file, err := exp.Create(path.Join("overrides", p))
+-			file, err := exp.Create(path.Join("overrides", p))
++			dir := "overrides"
++			if slices.Contains(viper.GetStringSlice("client-only-overrides"), p) {
++				dir = "client-overrides"
++			}
++			file, err := exp.Create(path.Join(dir, p))
  			if err != nil {
+ 				fmt.Printf("Error creating file: %s\n", err.Error())
+ 				// TODO: exit(1)?

@@ -1,0 +1,13 @@
+name = "Particular Reforged"
+filename = "particular-1.21.1-NeoForge-1.6.1.jar"
+side = "client"
+
+[download]
+url = "https://cdn.modrinth.com/data/pYFUU6cq/versions/me3CPlcs/particular-1.21.1-NeoForge-1.6.1.jar"
+hash-format = "sha512"
+hash = "3ff9ccfb5f48ab0469ac7eae0b4bec1b07bec4e8c3134f5e1357bccff10b704fd17be13d05096d461e980ff388d144a3efa3b04e9f9aeb648d60690776e30717"
+
+[update]
+[update.modrinth]
+mod-id = "pYFUU6cq"
+version = "me3CPlcs"

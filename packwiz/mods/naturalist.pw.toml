@@ -1,13 +1,13 @@
 name = "Naturalist"
-filename = "naturalist-2.0.7-fabric-1.21.1.jar"
+filename = "naturalist-2.0.7-neoforge-1.21.1.jar"
 side = "both"
 
 [download]
-url = "https://cdn.modrinth.com/data/F8BQNPWX/versions/VzAOvO8M/naturalist-2.0.7-fabric-1.21.1.jar"
+url = "https://cdn.modrinth.com/data/F8BQNPWX/versions/9Yn8ig4c/naturalist-2.0.7-neoforge-1.21.1.jar"
 hash-format = "sha512"
-hash = "ead3171f72f4291a242344cf3327ec8813ea020efe630889c0c9c331804a47542d1624c45ab072d9d467cad1542ab18a1cffc995efa793d4960444f410761392"
+hash = "5d56ec2d1e5f994c9b63cf7578e9ed1be2cd4f58a055503e32bdd90c80d9802af04d3f6e1eec08394180e196ce32b2c2e71df8ba19d918e77df1694c9007e7e1"
 
 [update]
 [update.modrinth]
 mod-id = "F8BQNPWX"
-version = "VzAOvO8M"
+version = "9Yn8ig4c"

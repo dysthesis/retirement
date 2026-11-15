@@ -1,13 +1,13 @@
 name = "Cristel Lib"
-filename = "cristellib-fabric-1.21.1-3.1.7.jar"
+filename = "cristellib-neoforge-1.21.1-3.1.7.jar"
 side = "both"
 
 [download]
-url = "https://cdn.modrinth.com/data/cl223EMc/versions/K1dyr5gj/cristellib-fabric-1.21.1-3.1.7.jar"
+url = "https://cdn.modrinth.com/data/cl223EMc/versions/Sduz0AWP/cristellib-neoforge-1.21.1-3.1.7.jar"
 hash-format = "sha512"
-hash = "7a71a8f409d14268461bebb8d7c45a1e15e82f379d92c6f6938eb20cc480cc6bbb763affc1ac582c3733eac2c403788f1cf43edcb4abe345054b0acc5c4c045d"
+hash = "6d21ceb6cd91e63a248251ded3812208ed5ea4f36abb11e8c6e16aa119a95b0e714f59ec7689ae1b1248c9831e5e3e63aa681aa7dfa9b220d93741118466cbd6"
 
 [update]
 [update.modrinth]
 mod-id = "cl223EMc"
-version = "K1dyr5gj"
+version = "Sduz0AWP"

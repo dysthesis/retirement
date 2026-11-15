@@ -1,13 +1,13 @@
 name = "Only Excavators"
-filename = "OnlyExcavators-1.21.1-1.0.4.jar"
+filename = "onlyexcavators-1.21.1-1.0.4.jar"
 side = "both"
 
 [download]
-url = "https://cdn.modrinth.com/data/xkayuCFC/versions/RMpuxrnn/OnlyExcavators-1.21.1-1.0.4.jar"
+url = "https://cdn.modrinth.com/data/xkayuCFC/versions/OwIPuvRu/onlyexcavators-1.21.1-1.0.4.jar"
 hash-format = "sha512"
-hash = "96dee5deca0cda05daa192e0f72e0175d82b3a976e3cf63413c722bc143039ed2203837b56b696aa8a9c95fa285a4ac3368147161a6d9ca64cdfc5aa0cb831b7"
+hash = "731308cf6e46dead492ea6a677efeeb9c2aac5747432355382c7d6e469bd7767f3ee2793bcd46d3ef8839a781b462e2275b35cd2b52fd4dce649e22a992985cd"
 
 [update]
 [update.modrinth]
 mod-id = "xkayuCFC"
-version = "RMpuxrnn"
+version = "OwIPuvRu"

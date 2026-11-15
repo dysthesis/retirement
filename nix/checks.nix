@@ -20,12 +20,12 @@
 
       nodes.server = {config, ...}: {
         imports = [self.nixosModules.default];
-        nixpkgs.config.allowUnfreePredicate = pkg: lib.getName pkg == "minecraft-server";
+        nixpkgs.config.allowUnfreePredicate = pkg: lib.elem (lib.getName pkg) ["minecraft-server" "neoforge"];
 
         assertions = [
           {
-            assertion = config.services.minecraft-servers.servers.retirement.package.version == "${pack.versions.minecraft}-fabric-${pack.versions.fabric}";
-            message = "retirement: packwiz requires ${pack.versions.minecraft}-fabric-${pack.versions.fabric}, but the server is ${config.services.minecraft-servers.servers.retirement.package.version}";
+            assertion = config.services.minecraft-servers.servers.retirement.package.version == "${pack.versions.minecraft}-${pack.versions.neoforge}";
+            message = "retirement: packwiz requires ${pack.versions.minecraft}-${pack.versions.neoforge}, but the server is ${config.services.minecraft-servers.servers.retirement.package.version}";
           }
         ];
         # Fixed seed makes biome coverage reproducible.

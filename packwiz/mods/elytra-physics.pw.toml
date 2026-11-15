@@ -1,13 +1,13 @@
 name = "Elytra Physics"
-filename = "elytra_physics-fabric-2.6.2_mc1.21.1.jar"
+filename = "elytra_physics-neoforge-2.6.2_mc1.21.1.jar"
 side = "client"
 
 [download]
-url = "https://cdn.modrinth.com/data/jfvCMH0K/versions/qBoDyl55/elytra_physics-fabric-2.6.2_mc1.21.1.jar"
+url = "https://cdn.modrinth.com/data/jfvCMH0K/versions/uoh62ttN/elytra_physics-neoforge-2.6.2_mc1.21.1.jar"
 hash-format = "sha512"
-hash = "8da9adf0eb63eb6e714ab682071a53a57405a5c98333366711264f136366de9d548718446de5a412e290fce4e9cc7ea3c9b6504e089658f9a6ed70f018bf4918"
+hash = "dcdc450aa4a285708abfb596cf75cbf90de3c54f28c7dd26c532cf9c5b53c6b07c886168e37bafc7fa70b9c66f3848b4a6c74b182a396380e2cfa06813c80e2f"
 
 [update]
 [update.modrinth]
 mod-id = "jfvCMH0K"
-version = "qBoDyl55"
+version = "uoh62ttN"

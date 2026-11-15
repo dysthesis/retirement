@@ -1,13 +1,13 @@
 name = "ServerCore"
-filename = "servercore-fabric-1.5.19+1.21.1.jar"
+filename = "servercore-neoforge-1.5.19+1.21.1.jar"
 side = "both"
 
 [download]
-url = "https://cdn.modrinth.com/data/4WWQxlQP/versions/GQ2a51Rl/servercore-fabric-1.5.19%2B1.21.1.jar"
+url = "https://cdn.modrinth.com/data/4WWQxlQP/versions/6N9hXiRa/servercore-neoforge-1.5.19%2B1.21.1.jar"
 hash-format = "sha512"
-hash = "d1c3dd6abb70ae89b125fac649503524bc179b551e352f34cbc43d7ef31b7d0decb170c99c8e7275fe18a1f208c826e4484a0d74fc16ef8d11fb1725fd64fbb5"
+hash = "55b97df4cc46f52db85b96487188d73c62d511229d98859991c115414c5f1ab37f2f40a0f2edb5692220aa94d6c48b392b0a2d8593b3c3381b1fcbde2a728c8f"
 
 [update]
 [update.modrinth]
 mod-id = "4WWQxlQP"
-version = "GQ2a51Rl"
+version = "6N9hXiRa"

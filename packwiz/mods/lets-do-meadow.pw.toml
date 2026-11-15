@@ -1,13 +1,13 @@
 name = "[Let's Do] Meadow"
-filename = "letsdo-meadow-fabric-1.4.10.jar"
+filename = "letsdo-meadow-neoforge-1.4.10.jar"
 side = "both"
 
 [download]
-url = "https://cdn.modrinth.com/data/ra7o6Sl7/versions/CgcJkvI8/letsdo-meadow-fabric-1.4.10.jar"
+url = "https://cdn.modrinth.com/data/ra7o6Sl7/versions/7lmxOKYR/letsdo-meadow-neoforge-1.4.10.jar"
 hash-format = "sha512"
-hash = "8bed35990616c29a54141b0f93ab5f5c98040f5f0da6a139bcc9b0d4edb68a7b1c996058dfcf49c2a8e1215bb221fce09b787bf1c0d99e416f9353d43221422d"
+hash = "6f13b65eb9b1305c376af1409466946972830210a591f074d82c858d112de8c0f6fd420727f23b7c3c388b2192d90cd88c343e60e33403846f56e6309b50e40d"
 
 [update]
 [update.modrinth]
 mod-id = "ra7o6Sl7"
-version = "CgcJkvI8"
+version = "7lmxOKYR"

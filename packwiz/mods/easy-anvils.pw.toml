@@ -1,13 +1,13 @@
 name = "Easy Anvils"
-filename = "EasyAnvils-v21.1.0-1.21.1-Fabric.jar"
+filename = "EasyAnvils-v21.1.0-1.21.1-NeoForge.jar"
 side = "both"
 
 [download]
-url = "https://cdn.modrinth.com/data/OZBR5JT5/versions/znaWBlgU/EasyAnvils-v21.1.0-1.21.1-Fabric.jar"
+url = "https://cdn.modrinth.com/data/OZBR5JT5/versions/fSQSKhdF/EasyAnvils-v21.1.0-1.21.1-NeoForge.jar"
 hash-format = "sha512"
-hash = "cf9eda6d27ac9155c83140b1b931a3048a2e81da63957423c5a2958342c58c315d17c5c3730f3f952ef19e4e3632741cee4ef9605c476b8c82b06d60190ee6a1"
+hash = "366eed1f4831e4044566833e07e5f6201ef1d178d0b30938b8a8a34bcac08c904c95ca0afe87bd55ea06b87cce85ee70c95d0cddd0ae053b1302d288252fe98f"
 
 [update]
 [update.modrinth]
 mod-id = "OZBR5JT5"
-version = "znaWBlgU"
+version = "fSQSKhdF"

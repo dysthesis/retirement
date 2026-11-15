@@ -1,13 +1,13 @@
 name = "Platform"
-filename = "Platform-fabric-1.21.1-1.4.2.jar"
+filename = "Platform-neoforge-1.21.1-1.4.2.jar"
 side = "both"
 
 [download]
-url = "https://cdn.modrinth.com/data/i6fiqm5y/versions/UBpoaJQa/Platform-fabric-1.21.1-1.4.2.jar"
+url = "https://cdn.modrinth.com/data/i6fiqm5y/versions/rh4p4ixM/Platform-neoforge-1.21.1-1.4.2.jar"
 hash-format = "sha512"
-hash = "67d316a306b694dbf2c345e5d5db82b9a0810648046372fe53e787d812d18171d533b174cd2aba6ec3b31fa6c569397459157b84ed2b1fb3b432f282fca7344d"
+hash = "24f9640cc830ffc9b921f89187aaa2ee41aeb9949b36a9ab11b94313c9f4eebb94e5aa7ee3089237f677d3c72aa860bb2bf332c900030c8f7dd5bbcc25ece73a"
 
 [update]
 [update.modrinth]
 mod-id = "i6fiqm5y"
-version = "UBpoaJQa"
+version = "rh4p4ixM"

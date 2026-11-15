@@ -1,0 +1,13 @@
+name = "Very Many Players (NeoForge)"
+filename = "vmp-neoforge-mc1.21.1-0.2.0+beta.7-neoforge.jar"
+side = "server"
+
+[download]
+url = "https://cdn.modrinth.com/data/Qm8qDPDy/versions/21419Ub4/vmp-neoforge-mc1.21.1-0.2.0%2Bbeta.7-neoforge.jar"
+hash-format = "sha512"
+hash = "bb088956bdf65a859302a0baf282b9f6fc51109829a34f07cc52da8c04fddac325003ab3a05b4eca4199669275c8487f1b54a362a0e256a6503087cf8e467d42"
+
+[update]
+[update.modrinth]
+mod-id = "Qm8qDPDy"
+version = "21419Ub4"

@@ -1,0 +1,13 @@
+name = "Stfu Reforged"
+filename = "stfu-1.0.1.jar"
+side = "client"
+
+[download]
+hash-format = "sha1"
+hash = "e6809a0bfd3ad75d0e15d2cb20611651c0764e1d"
+mode = "metadata:curseforge"
+
+[update]
+[update.curseforge]
+file-id = 9415135
+project-id = 1777579

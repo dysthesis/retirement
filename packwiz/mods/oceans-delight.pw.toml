@@ -1,13 +1,13 @@
 name = "Ocean's Delight"
-filename = "oceansdelight-fdrf-fabric-1.0.3-1.21.1.jar"
+filename = "oceansdelight-neoforge-1.0.4-1.21.1.jar"
 side = "both"
 
 [download]
-url = "https://cdn.modrinth.com/data/DGiq4ZSW/versions/KXsDdyGk/oceansdelight-fdrf-fabric-1.0.3-1.21.1.jar"
+url = "https://cdn.modrinth.com/data/DGiq4ZSW/versions/ja5Qg1xw/oceansdelight-neoforge-1.0.4-1.21.1.jar"
 hash-format = "sha512"
-hash = "ab03e4aac973d3bed85bc5bc654d8b5cf96a160b90887535b90d6b58c2c249de0e674b7823da04cd117595f2041228bb7845e4936010d57c2d2eaa8af7ea8e05"
+hash = "8079160938175f9d0c1b8f10587c40e3c6b54210511109331f0bb37a845aa90522f60c4e668688e8a0b4023e0464b80d44f50a6af39572fe519d48c9581a9f15"
 
 [update]
 [update.modrinth]
 mod-id = "DGiq4ZSW"
-version = "KXsDdyGk"
+version = "ja5Qg1xw"

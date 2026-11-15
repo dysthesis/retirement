@@ -1,13 +1,13 @@
 name = "Small Ships"
-filename = "smallships-fabric-1.21.1-2.0.2-fabric-1.21.1.jar"
+filename = "smallships-neoforge-1.21.1-2.0.2.jar"
 side = "both"
 
 [download]
-url = "https://cdn.modrinth.com/data/rGWEHQrP/versions/vJnFZ5fQ/smallships-fabric-1.21.1-2.0.2-fabric-1.21.1.jar"
+url = "https://cdn.modrinth.com/data/rGWEHQrP/versions/2iLK0Wz6/smallships-neoforge-1.21.1-2.0.2.jar"
 hash-format = "sha512"
-hash = "b081be9829b76472fa9e95a0db965d45afc460bcbbbf5f8e3de46147218b9b854a0b05bdabc3fba5ceb9c135ba3c0df7d5aff8ae66fa8d00e7bf429bf7605b6d"
+hash = "3ca7ec4a9f6800a5e9f90cb273e8495c5919c2d9a0707160a1d4391fa11c5525e3f76038f877023929d3e3104b3df79e8afc1138de0f7df64530649cb3b76d20"
 
 [update]
 [update.modrinth]
 mod-id = "rGWEHQrP"
-version = "vJnFZ5fQ"
+version = "2iLK0Wz6"
