@@ -187,9 +187,8 @@ hash = "28847d93885e0baaf1184438c6843922301e5c1286d109dcc3329750ccfd0037"
 metafile = true
 
 [[files]]
-file = "mods/cultural-delights.pw.toml"
-hash = "0fae92ecf687bcdce84094ff9a9ad6d65375cbf71b42a90b95205525b28de1db"
-metafile = true
+file = "mods/culturaldelights-1.21.1-0.19.8-refabricated+retirement.1.jar"
+hash = "0fb3e51c2b1413a1636220ff9547499bbdfc60d2799b70e05dea875949a9e9d5"
 
 [[files]]
 file = "mods/dark-loading-screen.pw.toml"
