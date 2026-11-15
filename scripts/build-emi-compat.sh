@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Private Fabric 1.21.1 builds from MIT-licensed Let's Do EMI Compat 2.0.3.
+# Private native NeoForge 1.21.1 builds from MIT-licensed Let's Do EMI Compat 2.0.3.
 # Requires JDK 21, curl, patch and tar. Never installs or updates pack jars.
 set -euo pipefail
 scripts="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
@@ -30,40 +30,31 @@ download() {
         --output "$dependencies/$file"
     printf '%s  %s\n' "$checksum" "$dependencies/$file" | sha512sum --check --status
 }
-download fRiHVvU7 on5GT1qh emi-1.1.24+1.21.1+fabric.jar \
-    2680e7b0a93152d4220afdc30a0452c911dc4b5c9ce1db1b7246c21b777bc2a1945fe97c98c09941d31b7478ae357135a1ef51cd3ba92d08dce35202a830b70d
+download fRiHVvU7 5sIPA1To emi-1.1.24+1.21.1+neoforge.jar \
+    f4c45ed686fe617311d6debadcb6ace5963e66f8cfe0cfed398231f081f87407070efc7a73c8b695d158f1d87a97180737b9107a46771e77df2bc9a7dc715ebd
 if [[ "$target" == letsdo ]]; then
-    download lhGA9TYQ Pzc2FP5K architectury-13.0.11-fabric.jar \
-        53314eb34890b11ad3c06c6f3ba2d01ae1ca756235ce4f0574e4b0544952a2ab3c628c81b521653d6487d62c5dc3055e06fed6367a3a499bafad909512f0c716
-    download 1DWmBJVA r0pP4RB4 letsdo-vinery-fabric-1.5.6.jar \
-        b99065c39fead693ff4fac578d89feb60b047cfa30ffb7cef4e81179aab408e4f8c1437e9632cfb7c89e16fd7557890db2f47af69351220ea2d60e23ba672231
-    download GyKzAh3l jeZE0Qav letsdo-beachparty-fabric-2.1.5.jar \
-        c8548e036590ff418a25b323f582a647add1a3bb1f14ea6a3600259a6ff472744bc73c8a9aa7081742edda4cc55b63ba84705537314671c690383be50e9f48ac
-    download Eh11TaTm 43g8sVYA letsdo-herbalbrews-fabric-1.1.4.jar \
-        08dc756092b5ffa7bf820761ad43ff4e87cb10b46f4c9fbfe54b4b2dc917c15c5ca98a672ed7f146d956e56b93f3d56d603d307c5b68d5756fca6c9d9f890490
-    download ra7o6Sl7 CgcJkvI8 letsdo-meadow-fabric-1.4.10.jar \
-        8bed35990616c29a54141b0f93ab5f5c98040f5f0da6a139bcc9b0d4edb68a7b1c996058dfcf49c2a8e1215bb221fce09b787bf1c0d99e416f9353d43221422d
-    artifact=emi-letsdo-compat-2.0.3+retirement.2.jar
+    download lhGA9TYQ 1IiqEQGl architectury-13.0.11-neoforge.jar \
+        d9f7c3bb8162577dfb461ffdf04bd6a3563c7586934a0e2a744c14421beffb8286f0d88d4c758317003f20f99fe8072a39b9d675af061e036970d36db36027f0
+    download 1DWmBJVA NmoLFrhq letsdo-vinery-neoforge-1.5.6.jar \
+        51c31c756de0f54a91f28c4d072925e0793ae70aefde2d23ea7ca3c5b7050ce04cc1885531ea459d1ea6adefb05d7c37616e3c9102f0fea50234f04043f6b970
+    download GyKzAh3l HN4rzKRl letsdo-beachparty-neoforge-2.1.5.jar \
+        b992f87e638c3642816046b44bec1a3f41df01c61204bcedf3fee5ee7b229f64c0d327fcb3fbb758c7ded5b9d50da6b1a310ea23dcfbba8177022e8f9468ef36
+    download Eh11TaTm kGYbyn9P letsdo-herbalbrews-neoforge-1.1.4.jar \
+        281bac102511bf7753371ab7ed488d6990dfb0caae0f216b931d3a05c74adfbe28330910e76d7eea0268f0a7d64997a7c0d7d9b3fc9efb43d9711487f36b4989
+    download ra7o6Sl7 7lmxOKYR letsdo-meadow-neoforge-1.4.10.jar \
+        6f13b65eb9b1305c376af1409466946972830210a591f074d82c858d112de8c0f6fd420727f23b7c3c388b2192d90cd88c343e60e33403846f56e6309b50e40d
+    artifact=emi-letsdo-compat-2.0.3+retirement.3+neoforge.jar
 else
     patch --directory="$source" --strip=2 --batch --fuzz=0 --input="$scripts/rechiseled-emi.patch"
-    download B0g2vT6l 7411ZFAs rechiseled-1.2.6-fabric-mc1.21.jar \
-        5541c06a62364ecf30118d0e3246d0a4ce3beb5bf835fec86ac4749a6ac3e432ea0a601a88b3a7194ab3bf2d5ba9529a3714898b960cb86c532561f228b2f70a
-    download rOUBggPv MJdcUmeo supermartijn642corelib-1.1.26a-fabric-mc1.21.jar \
-        cde37b283685a644af967cff9b4ef6473d23ea4f56e882b31d084fd9483d9de950198fdf39a162946dd3da91a6827cf27aa45bca276e34b7706a644ff0599bbe
-    download P7dR8mSH 5SwzqWUu fabric-api-0.116.18+1.21.1.jar \
-        9f721c253ae2e9823cb548e8ec132c9928f80a65184e9b8dcfc489a8d632df20cbfea1e65ff8a4333bdb295c41fbe2228b43e4d41c7355d42ed4637a785840a1
-    (
-        cd -- "$dependencies"
-        jar --extract --file fabric-api-0.116.18+1.21.1.jar \
-            META-INF/jars/fabric-api-base-0.116.18.jar \
-            META-INF/jars/fabric-lifecycle-events-v1-0.116.18.jar \
-            META-INF/jars/fabric-networking-api-v1-0.116.18.jar
-    )
-    artifact=emi-rechiseled-1.0.0+retirement.2.jar
+    download B0g2vT6l 6muGRqvu rechiseled-1.2.6-neoforge-mc1.21.jar \
+        fc7556e42439e526edddafdbde108cd1326fd5742d75ae73fe9519f57af18b75cd2861053247b65fa3acd9c58e186bc540496d1e7095a3206b401d9459958e34
+    download rOUBggPv sLRKmslC supermartijn642corelib-1.1.26a-neoforge-mc1.21.jar \
+        e90a1f1a2a4b1b095b6692e82b3f1bbf3aafa5653fa80759ac4243385ac1d10605b8713107847a9d0f5e8e4da161009aa3380ae20ca8f70784abfaa85e868492
+    artifact=emi-rechiseled-1.0.0+retirement.3+neoforge.jar
 fi
 (
     cd -- "$source"
-    bash ./gradlew --no-daemon --max-workers=2 -PretirementDependencies="$dependencies" checkRecipeSemantics remapJar
+    bash ./gradlew --no-daemon --max-workers=2 -PretirementDependencies="$dependencies" checkRecipeSemantics jar
     cd -- build/libs
     test -s "$artifact"
     sha256sum --check --strict --ignore-missing "$scripts/emi-compat.sha256"

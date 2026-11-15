@@ -5,15 +5,52 @@
  				if (i.getComponents().getOrDefault(DataComponentTypes.MAX_DAMAGE, 0) > 0) {
  					if (i instanceof ArmorItem ai && ai.getMaterial() != null && ai.getMaterial().value().repairIngredient().get() != null
 -							&& !ai.getMaterial().value().repairIngredient().get().isEmpty()) {
-+							&& ai.getMaterial().value().repairIngredient().get().getMatchingStacks().length > 0) {
++							&& !EmiAgnos.hasNoItems(ai.getMaterial().value().repairIngredient().get())) {
  						Identifier id = synthetic("anvil/repairing/material", EmiUtil.subId(i) + "/" + EmiUtil.subId(ai.getMaterial().value().repairIngredient().get().getMatchingStacks()[0].getItem()));
  						addRecipeSafe(registry, () -> new EmiAnvilRecipe(EmiStack.of(i), EmiIngredient.of(ai.getMaterial().value().repairIngredient().get()), id));
  					} else if (i instanceof ToolItem ti && ti.getMaterial().getRepairIngredient() != null
 -							&& !ti.getMaterial().getRepairIngredient().isEmpty()) {
-+							&& ti.getMaterial().getRepairIngredient().getMatchingStacks().length > 0) {
++							&& !EmiAgnos.hasNoItems(ti.getMaterial().getRepairIngredient())) {
  						Identifier id = synthetic("anvil/repairing/material", EmiUtil.subId(i) + "/" + EmiUtil.subId(ti.getMaterial().getRepairIngredient().getMatchingStacks()[0].getItem()));
  						addRecipeSafe(registry, () -> new EmiAnvilRecipe(EmiStack.of(i), EmiIngredient.of(ti.getMaterial().getRepairIngredient()), id));
  					}
+--- a/xplat/src/main/java/dev/emi/emi/platform/EmiAgnos.java
++++ b/xplat/src/main/java/dev/emi/emi/platform/EmiAgnos.java
+@@ -17,6 +17,7 @@
+ import net.minecraft.item.Item;
+ import net.minecraft.item.ItemStack;
++import net.minecraft.recipe.Ingredient;
+ import net.minecraft.text.Text;
+ import net.minecraft.util.Identifier;
+ 
+ public abstract class EmiAgnos {
+@@ -38,6 +39,12 @@
+ 	}
+ 
++	public static boolean hasNoItems(Ingredient ingredient) {
++		return delegate.hasNoItemsAgnos(ingredient);
++	}
++
++	protected abstract boolean hasNoItemsAgnos(Ingredient ingredient);
++
+ 	public static boolean isForge() {
+ 		return delegate.isForgeAgnos();
+ 	}
+ 
+--- a/neoforge/src/main/java/dev/emi/emi/platform/neoforge/EmiAgnosNeoForge.java
++++ b/neoforge/src/main/java/dev/emi/emi/platform/neoforge/EmiAgnosNeoForge.java
+@@ -72,6 +72,11 @@
++	@Override
++	protected boolean hasNoItemsAgnos(Ingredient ingredient) {
++		return ingredient.hasNoItems();
++	}
++
+ 	@Override
+ 	protected boolean isForgeAgnos() {
+ 		return true;
+ 	}
+ 
+ 	@SuppressWarnings("deprecation")
 --- a/build.gradle
 +++ b/build.gradle
 @@ -1,6 +1,6 @@
@@ -52,11 +89,26 @@
  
  include("xplat")
 -include("xplat:mojmap")
- include("fabric")
+-include("fabric")
  //include("forge")
--include("neoforge")
+ include("neoforge")
  
  rootProject.name = "emi"
+--- a/xplat/build.gradle
++++ b/xplat/build.gradle
+@@ -23,10 +23,10 @@
+ }
+ 
+ processResources {
+-	inputs.property "version", project(":fabric").version
++	inputs.property "version", project(":neoforge").version
+ 
+ 	filesMatching("fabric.mod.json") {
+-		expand "version": project(":fabric").version
++		expand "version": project(":neoforge").version
+ 	}
+ }
+ 
 --- a/gradle/wrapper/gradle-wrapper.properties
 +++ b/gradle/wrapper/gradle-wrapper.properties
 @@ -1,6 +1,7 @@

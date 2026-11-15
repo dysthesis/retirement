@@ -1,7 +1,7 @@
 --- a/letsdo-original/CHANGELOG.md
 +++ b/unique-food-A/CHANGELOG.md
 @@ -1,3 +1,10 @@
-+## Private Fabric 1.21.1 retirement.2
++## Private NeoForge 1.21.1 retirement.3
 +- Kettle brewing retains every consumed ingredient, including its exact container, in EMI material planning and shows that same container in the bottle slot.
 +- Restore only Meadow's unique in-world fondue guidance: one cheese wheel yields four stored portions, one cheese piece yields one, and one bread plus one stored portion yields one cheese stick. Heat, stirring, capacity and dipping restrictions match Meadow 1.4.10.
 +- Fondue guidance is client-side and excluded from recipe trees because stored portions are not inventory items. The pot is a reusable catalyst, not a consumed container. Obsolete fondue serializers and fractional-fill data are not bundled.
@@ -15,7 +15,7 @@
 +++ b/unique-food-A/README.md
 @@ -1,4 +1,4 @@
 -The mod bridges the gap between EMI and the mods from the [Let’s Do] collection, as they only have JEI & REI support natively. It adds in recipes in EMI for all kind of crafting methods provided by mods from the [Let's Do] collection.
-+Private Fabric 1.21.1 compatibility repair, based on MIT-licensed Let's Do EMI Compat 2.0.3, source commit `5c8dad12f3a996b4eab6483e2761e41243368064`. EMI and Architectury are required; the supported content mods remain optional.
++Private NeoForge 1.21.1 compatibility repair, based on MIT-licensed Let's Do EMI Compat 2.0.3, source commit `5c8dad12f3a996b4eab6483e2761e41243368064`. EMI and Architectury are required; the supported content mods remain optional.
  
  
  <details>
@@ -50,22 +50,22 @@
 +
 +## Build and check
 +
-+Use JDK 21 and the checksum-pinned dependencies downloaded by `scripts/build-emi-compat.sh` in the pack repository. That builder applies the private source patch, runs `checkRecipeSemantics`, builds the reproducible jar, and checks its expected SHA-256 before staging it. It never installs jars.
++Use JDK 21 and the checksum-pinned native dependencies downloaded by `scripts/build-emi-compat.sh` in the pack repository. That builder applies the private source patch, runs `checkRecipeSemantics`, builds the reproducible jar, and prints its SHA-256 for the pack's integrated hash refresh. It never installs jars.
 +
 +The semantic check constructs a real native kettle recipe, checks its real EMI widget ingredients, and passes it through EMI's material-node consumer to check that consumed containers remain in the plan.
 --- a/letsdo-original/build.gradle
 +++ b/unique-food-A/build.gradle
-@@ -1,45 +1,77 @@
+@@ -1,45 +1,82 @@
  plugins {
 -    id 'dev.architectury.loom' version '1.10-SNAPSHOT' apply false
 -    id 'architectury-plugin' version '3.4-SNAPSHOT'
 -    id 'com.github.johnrengelman.shadow' version '8.1.1' apply false
-+    id 'fabric-loom' version '1.16.3'
++    id 'net.neoforged.moddev' version '2.0.148'
  }
  
 -architectury {
 -    minecraft = rootProject.minecraft_version
-+version = '2.0.3+retirement.2'
++version = '2.0.3+retirement.3+neoforge'
 +group = 'com.pandaismyname1'
 +base.archivesName = 'emi-letsdo-compat'
 +
@@ -83,11 +83,12 @@
 -    dependencies {
 -        minecraft "com.mojang:minecraft:${rootProject.minecraft_version}"
 -        mappings loom.officialMojangMappings()
++neoForge {
++    version = '21.1.265'
++}
++
 +dependencies {
-+    minecraft 'com.mojang:minecraft:1.21.1'
-+    mappings loom.officialMojangMappings()
-+    modImplementation 'net.fabricmc:fabric-loader:0.20.1'
-+    modCompileOnly fileTree(providers.gradleProperty('retirementDependencies').get()) {
++    compileOnly fileTree(providers.gradleProperty('retirementDependencies').get()) {
 +        include '**/*.jar'
      }
  }
@@ -98,10 +99,10 @@
 -    apply plugin: "maven-publish"
 +sourceSets {
 +    main {
-+        java.srcDirs = ['common/src/main/java', 'fabric/src/main/java']
++        java.srcDirs = ['common/src/main/java', 'neoforge/src/main/java']
 +        java {
 +            include 'com/pandaismyname1/emiletsdocompat/*.java'
-+            include 'com/pandaismyname1/emiletsdocompat/fabric/*.java'
++            include 'com/pandaismyname1/emiletsdocompat/neoforge/*.java'
 +            include 'com/pandaismyname1/emiletsdocompat/bakery/CustomCakeCutRecipe.java'
 +            include 'com/pandaismyname1/emiletsdocompat/bakery/internal/*.java'
 +            include 'com/pandaismyname1/emiletsdocompat/bakery_fc/BakeryFCCompat.java'
@@ -112,7 +113,7 @@
 +            include 'com/pandaismyname1/emiletsdocompat/vinery/VineryCompat.java'
 +            include 'com/pandaismyname1/emiletsdocompat/vinery/CustomGrapeMashingRecipe.java'
 +        }
-+        resources.srcDirs = ['common/src/main/resources', 'fabric/src/main/resources']
++        resources.srcDirs = ['common/src/main/resources', 'neoforge/src/main/resources']
 +    }
 +    test.java.srcDirs = ['common/src/test/java']
 +    test.compileClasspath += main.compileClasspath
@@ -147,7 +148,7 @@
 -        withSourcesJar()
 +processResources {
 +    inputs.property 'version', project.version
-+    filesMatching('fabric.mod.json') {
++    filesMatching('META-INF/neoforge.mods.toml') {
 +        expand version: project.version
      }
  }
@@ -156,9 +157,13 @@
 +    from('LICENSE.md')
 +}
 +
++def minecraftArtifacts = tasks.named('createMinecraftArtifacts') {
++    resourcesArtifact = layout.buildDirectory.file('minecraft-resources.jar')
++}
++
 +tasks.register('checkRecipeSemantics', JavaExec) {
 +    dependsOn testClasses
-+    classpath = sourceSets.test.runtimeClasspath
++    classpath = sourceSets.test.runtimeClasspath + files(minecraftArtifacts.flatMap { it.resourcesArtifact })
 +    mainClass = 'com.pandaismyname1.emiletsdocompat.RecipeSemanticsCheck'
 +    enableAssertions = true
 +}
@@ -1397,7 +1402,7 @@
 \ No newline at end of file
 --- /dev/null
 +++ b/unique-food-A/common/src/test/java/com/pandaismyname1/emiletsdocompat/RecipeSemanticsCheck.java
-@@ -0,0 +1,73 @@
+@@ -0,0 +1,76 @@
 +package com.pandaismyname1.emiletsdocompat;
 +
 +import com.pandaismyname1.emiletsdocompat.herbalbrews.TeaKettleBrewingRecipe;
@@ -1426,6 +1431,9 @@
 +public final class RecipeSemanticsCheck {
 +    public static void main(String[] args) {
 +        SharedConstants.tryDetectVersion();
++        // Bootstrap vanilla-only registries for this standalone native semantic check.
++        net.neoforged.fml.loading.LoadingModList.of(
++                List.of(), List.of(), List.of(), List.of(), Map.of());
 +        Bootstrap.bootStrap();
 +        // Give the native container tag a second valid container to catch broadening of a recipe's bottle ingredient.
 +        BuiltInRegistries.ITEM.bindTags(Map.of(TagsRegistry.CONTAINER_ITEMS,
@@ -1471,27 +1479,72 @@
 +        assert slots.stream().filter(slot -> slot.getBounds().x() < 40 && slot.getBounds().y() < 40).count() == 2;
 +    }
 +}
---- a/letsdo-original/fabric/src/main/resources/fabric.mod.json
-+++ b/unique-food-A/fabric/src/main/resources/fabric.mod.json
-@@ -3,11 +3,10 @@
-   "id": "emi_letsdo_compat",
-   "version": "${version}",
-   "name": "emi-letsdo-compat",
--  "description": "",
-+  "description": "Private pinned repair: unique Beachparty, HerbalBrews, cake cutting, fondue and grape-pot EMI guidance.",
-   "authors": [],
-   "contact": {},
-   "license": "MIT",
--  "icon": "icon.png",
-   "environment": "*",
-   "entrypoints": {
-     "main": [
+--- a/letsdo-original/neoforge/src/main/resources/META-INF/neoforge.mods.toml
++++ b/unique-food-A/neoforge/src/main/resources/META-INF/neoforge.mods.toml
+@@ -1,39 +1,37 @@
+ modLoader = "javafml"
+-loaderVersion = "[2,)"
++loaderVersion = "[4,)"
+ license = "MIT"
+ issueTrackerURL = "https://github.com/Pandaismyname1/Let-s-Do-EMI-Compat"
+ [[mods]]
+ modId = "emi_letsdo_compat"
+ version = "${version}"
+ displayName = "emi-letsdo-compat"
+-logoFile = "icon.png" #optional
+-description = '''
+-
+-'''
+-[[dependencies.emi_letsdo_compat]] #optional
++description = "Unique Beachparty, HerbalBrews, cake cutting, fondue and grape-pot EMI guidance."
++
++[[dependencies.emi_letsdo_compat]]
+ modId = "neoforge"
+-mandatory = true
+-versionRange = "[21.0,)"
+-ordering = "AFTER"
+-side = "CLIENT"
+-# Here's another dependency
++type = "required"
++versionRange = "[21.1.265,)"
++ordering = "NONE"
++side = "BOTH"
++
+ [[dependencies.emi_letsdo_compat]]
+ modId = "minecraft"
+-mandatory = true
+-versionRange = "[1.21.1,)"
+-ordering = "AFTER"
+-side = "CLIENT"
++type = "required"
++versionRange = "[1.21.1]"
++ordering = "NONE"
++side = "BOTH"
+ 
+ [[dependencies.emi_letsdo_compat]]
+ modId = "architectury"
+-mandatory = true
+-versionRange = "[0.107.0,)"
++type = "required"
++versionRange = "[13.0.11,14)"
+ ordering = "AFTER"
+-side = "CLIENT"
++side = "BOTH"
+ 
+ [[dependencies.emi_letsdo_compat]]
+ modId = "emi"
+-mandatory = true
+-versionRange = "[1.1.13,)"
++type = "required"
++versionRange = "[1.1.24,1.2)"
+ ordering = "AFTER"
+ side = "CLIENT"
 --- a/letsdo-original/gradle/wrapper/gradle-wrapper.properties
 +++ b/unique-food-A/gradle/wrapper/gradle-wrapper.properties
 @@ -1 +1,2 @@
 -distributionUrl=https\://services.gradle.org/distributions/gradle-8.12.1-bin.zip
-+distributionUrl=https\://services.gradle.org/distributions/gradle-9.4.1-bin.zip
-+distributionSha256Sum=2ab2958f2a1e51120c326cad6f385153bb11ee93b3c216c5fccebfdfbb7ec6cb
++distributionUrl=https\://services.gradle.org/distributions/gradle-9.2.1-bin.zip
++distributionSha256Sum=72f44c9f8ebcb1af43838f45ee5c4aa9c5444898b3468ab3f4af7b6076c5bc3f
 --- a/letsdo-original/settings.gradle
 +++ b/unique-food-A/settings.gradle
 @@ -1,21 +1,9 @@
@@ -1501,9 +1554,9 @@
 -        // Gradle will not fall through to another repository once it has taken metadata from one.
          mavenCentral()
 -
-         maven { url "https://maven.fabricmc.net/" }
+-        maven { url "https://maven.fabricmc.net/" }
 -        maven { url "https://maven.architectury.dev/" }
--        maven { url "https://maven.neoforged.net" }
+         maven { url "https://maven.neoforged.net" }
 -        // Loom pulls installertools, DiffPatch and mcinjector from here.
 -        maven { url "https://maven.minecraftforge.net/" }
 -

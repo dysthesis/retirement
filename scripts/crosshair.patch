@@ -1,0 +1,205 @@
+diff --git a/CrosshairAddons/build.gradle b/CrosshairAddons/build.gradle
+--- a/CrosshairAddons/build.gradle
++++ b/CrosshairAddons/build.gradle
+@@ -1,11 +1,21 @@
+ plugins {
+-    id 'net.fabricmc.fabric-loom' version "${loom_version}" apply false
+-    id 'net.fabricmc.fabric-loom-remap' version "${loom_version}" apply false
+     id 'net.neoforged.moddev' version "${moddev_version}" apply false
+ }
+ 
+ subprojects {
+     apply from: rootProject.file('gradle/crosshairaddons-version.gradle')
++    sourceSets.test.java.setSrcDirs([rootProject.file('src/test/java')])
++    sourceSets.test.compileClasspath += sourceSets.main.compileClasspath
++    sourceSets.test.runtimeClasspath += sourceSets.main.compileClasspath
++    tasks.register('checkBlitSpriteContract', JavaExec) {
++        dependsOn testClasses
++        classpath = sourceSets.test.runtimeClasspath
++        mainClass = 'walksy.crosshairaddons.CheckBlitSpriteContract'
++    }
++    tasks.withType(AbstractArchiveTask).configureEach {
++        preserveFileTimestamps = false
++        reproducibleFileOrder = true
++    }
+ }
+ 
+ tasks.register('collectJars', Copy) {
+diff --git a/CrosshairAddons/gradle/wrapper/gradle-wrapper.properties b/CrosshairAddons/gradle/wrapper/gradle-wrapper.properties
+--- a/CrosshairAddons/gradle/wrapper/gradle-wrapper.properties
++++ b/CrosshairAddons/gradle/wrapper/gradle-wrapper.properties
+@@ -1,6 +1,7 @@
+ distributionBase=GRADLE_USER_HOME
+ distributionPath=wrapper/dists
+ distributionUrl=https\://services.gradle.org/distributions/gradle-9.3.1-bin.zip
++distributionSha256Sum=b266d5ff6b90eada6dc3b20cb090e3731302e553a27c5d3e4df1f0d76beaff06
+ networkTimeout=10000
+ validateDistributionUrl=true
+ zipStoreBase=GRADLE_USER_HOME
+diff --git a/CrosshairAddons/versions/1.21-1.21.1/gradle.properties b/CrosshairAddons/versions/1.21-1.21.1/gradle.properties
+--- a/CrosshairAddons/versions/1.21-1.21.1/gradle.properties
++++ b/CrosshairAddons/versions/1.21-1.21.1/gradle.properties
+@@ -1,6 +1,6 @@
+-minecraft_version=1.21
++minecraft_version=1.21.1
+ mc_versions=1.21,1.21.1
+ java_version=21
+ fabric_version=0.100.7+1.21
+ parent=1.21.2-1.21.3
+-neoforge_version=21.1.259
++neoforge_version=21.1.265
+diff --git a/CrosshairAddons/versions/1.21-1.21.1/src/main/java/walksy/crosshairaddons/mixin/GuiGraphicsExtractorMixin.java b/CrosshairAddons/versions/1.21-1.21.1/src/main/java/walksy/crosshairaddons/mixin/GuiGraphicsExtractorMixin.java
+--- a/CrosshairAddons/versions/1.21-1.21.1/src/main/java/walksy/crosshairaddons/mixin/GuiGraphicsExtractorMixin.java
++++ b/CrosshairAddons/versions/1.21-1.21.1/src/main/java/walksy/crosshairaddons/mixin/GuiGraphicsExtractorMixin.java
+@@ -26,13 +26,14 @@
+     public abstract int guiHeight();
+ 
+     @Shadow
+-    public abstract void blitSprite(ResourceLocation sprite, int x, int y, int width, int height, int color);
++    public abstract void blitSprite(ResourceLocation sprite, int x, int y, int width, int height);
+ 
+     @Shadow
+-    public abstract void blitSprite(ResourceLocation sprite, int textureWidth, int textureHeight, int u, int v, int x, int y, int width, int height, int color);
++    public abstract void blitSprite(ResourceLocation sprite, int textureWidth, int textureHeight, int u, int v, int x, int y, int width, int height);
+ 
+-    @Inject(method = "blitSprite(Lnet/minecraft/resources/ResourceLocation;IIIII)V", at = @At("HEAD"), cancellable = true)
+-    public void moveAttackIndicator(final ResourceLocation sprite, final int x, final int y, final int width, final int height, final int color, final CallbackInfo ci) {
++    // 1.21.1's HUD uses the no-z overloads; the extra int in newer versions is color.
++    @Inject(method = "blitSprite(Lnet/minecraft/resources/ResourceLocation;IIII)V", at = @At("HEAD"), cancellable = true)
++    public void moveAttackIndicator(final ResourceLocation sprite, final int x, final int y, final int width, final int height, final CallbackInfo ci) {
+         final int newY = this.crosshairaddons$movedY(sprite);
+         if (newY == -1) {
+             return;
+@@ -40,14 +41,14 @@
+         ci.cancel();
+         this.crosshairaddons$moving = true;
+         try {
+-            this.blitSprite(sprite, x, newY, width, height, color);
++            this.blitSprite(sprite, x, newY, width, height);
+         } finally {
+             this.crosshairaddons$moving = false;
+         }
+     }
+ 
+-    @Inject(method = "blitSprite(Lnet/minecraft/resources/ResourceLocation;IIIIIIIII)V", at = @At("HEAD"), cancellable = true)
+-    public void moveAttackIndicatorProgress(final ResourceLocation sprite, final int textureWidth, final int textureHeight, final int u, final int v, final int x, final int y, final int width, final int height, final int color, final CallbackInfo ci) {
++    @Inject(method = "blitSprite(Lnet/minecraft/resources/ResourceLocation;IIIIIIII)V", at = @At("HEAD"), cancellable = true)
++    public void moveAttackIndicatorProgress(final ResourceLocation sprite, final int textureWidth, final int textureHeight, final int u, final int v, final int x, final int y, final int width, final int height, final CallbackInfo ci) {
+         final int newY = this.crosshairaddons$movedY(sprite);
+         if (newY == -1) {
+             return;
+@@ -55,7 +56,7 @@
+         ci.cancel();
+         this.crosshairaddons$moving = true;
+         try {
+-            this.blitSprite(sprite, textureWidth, textureHeight, u, v, x, newY, width, height, color);
++            this.blitSprite(sprite, textureWidth, textureHeight, u, v, x, newY, width, height);
+         } finally {
+             this.crosshairaddons$moving = false;
+         }
+diff --git a/WalksyLib/build.gradle b/WalksyLib/build.gradle
+--- a/WalksyLib/build.gradle
++++ b/WalksyLib/build.gradle
+@@ -1,11 +1,13 @@
+ plugins {
+-    id 'net.fabricmc.fabric-loom' version "${loom_version}" apply false
+-    id 'net.fabricmc.fabric-loom-remap' version "${loom_version}" apply false
+     id 'net.neoforged.moddev' version "${moddev_version}" apply false
+ }
+ 
+ subprojects {
+     apply from: rootProject.file('gradle/walksylib-version.gradle')
++    tasks.withType(AbstractArchiveTask).configureEach {
++        preserveFileTimestamps = false
++        reproducibleFileOrder = true
++    }
+ }
+ 
+ tasks.register('collectJars', Copy) {
+diff --git a/WalksyLib/versions/1.21-1.21.1/gradle.properties b/WalksyLib/versions/1.21-1.21.1/gradle.properties
+--- a/WalksyLib/versions/1.21-1.21.1/gradle.properties
++++ b/WalksyLib/versions/1.21-1.21.1/gradle.properties
+@@ -1,8 +1,8 @@
+-minecraft_version=1.21
++minecraft_version=1.21.1
+ mc_versions=1.21,1.21.1
+ java_version=21
+ fabric_version=0.100.7+1.21
+ modmenu_version=11.0.3
+ parent=1.21.2-1.21.3
+ vulkanmod_version=0.6.7+1.21.1
+-neoforge_version=21.1.259
++neoforge_version=21.1.265
+diff --git a/CrosshairAddons/src/test/java/walksy/crosshairaddons/CheckBlitSpriteContract.java b/CrosshairAddons/src/test/java/walksy/crosshairaddons/CheckBlitSpriteContract.java
+new file mode 100644
+--- /dev/null
++++ b/CrosshairAddons/src/test/java/walksy/crosshairaddons/CheckBlitSpriteContract.java
+@@ -0,0 +1,68 @@
++package walksy.crosshairaddons;
++
++import org.objectweb.asm.ClassReader;
++import org.objectweb.asm.tree.AnnotationNode;
++import org.objectweb.asm.tree.ClassNode;
++import org.objectweb.asm.tree.MethodInsnNode;
++import org.objectweb.asm.tree.MethodNode;
++
++import java.io.InputStream;
++import java.util.List;
++
++public final class CheckBlitSpriteContract {
++    private static ClassNode read(String name) throws Exception {
++        try (InputStream input = ClassLoader.getSystemResourceAsStream(name + ".class")) {
++            if (input == null) throw new AssertionError("Missing real class " + name);
++            ClassNode node = new ClassNode();
++            new ClassReader(input).accept(node, 0);
++            return node;
++        }
++    }
++
++    private static MethodNode method(ClassNode owner, String name, String descriptor) {
++        return owner.methods.stream()
++                .filter(method -> method.name.equals(name) && method.desc.equals(descriptor))
++                .findFirst().orElseThrow(() -> new AssertionError(owner.name + "." + name + descriptor));
++    }
++
++    private static boolean invokes(MethodNode caller, String owner, String name, String descriptor) {
++        for (var instruction : caller.instructions) {
++            if (instruction instanceof MethodInsnNode call && call.owner.equals(owner)
++                    && call.name.equals(name) && call.desc.equals(descriptor)) return true;
++        }
++        return false;
++    }
++
++    public static void main(String[] args) throws Exception {
++        ClassNode graphics = read("net/minecraft/client/gui/GuiGraphics");
++        ClassNode gui = read("net/minecraft/client/gui/Gui");
++        ClassNode mixin = read("walksy/crosshairaddons/mixin/GuiGraphicsExtractorMixin");
++        MethodNode crosshair = method(gui, "renderCrosshair",
++                "(Lnet/minecraft/client/gui/GuiGraphics;Lnet/minecraft/client/DeltaTracker;)V");
++        int checked = 0;
++        for (MethodNode handler : mixin.methods) {
++            if (handler.visibleAnnotations == null) continue;
++            for (AnnotationNode annotation : handler.visibleAnnotations) {
++                if (!annotation.desc.equals("Lorg/spongepowered/asm/mixin/injection/Inject;")) continue;
++                int index = annotation.values.indexOf("method");
++                List<?> targets = (List<?>) annotation.values.get(index + 1);
++                if (targets.size() != 1) throw new AssertionError("Ambiguous injection");
++                String target = (String) targets.getFirst();
++                String descriptor = target.substring(target.indexOf('('));
++                method(graphics, "blitSprite", descriptor);
++                method(mixin, "blitSprite", descriptor);
++                String callback = descriptor.substring(0, descriptor.length() - 2)
++                        + "Lorg/spongepowered/asm/mixin/injection/callback/CallbackInfo;)V";
++                if (!handler.desc.equals(callback)) throw new AssertionError("Callback mismatch: " + handler.desc);
++                if (!invokes(crosshair, graphics.name, "blitSprite", descriptor))
++                    throw new AssertionError("Injection misses the real HUD call: " + target);
++                if (!invokes(handler, mixin.name, "blitSprite", descriptor))
++                    throw new AssertionError("Redraw changes overload: " + target);
++                System.out.println(handler.name + handler.desc + " matches HUD " + target);
++                checked++;
++            }
++        }
++        if (checked != 2) throw new AssertionError("Expected both full/background and progress injections");
++        System.out.println("Real 1.21.1 HUD/target/callback/redraw contracts passed");
++    }
++}

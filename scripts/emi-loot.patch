@@ -81,8 +81,8 @@
 @@ -10,6 +10,5 @@
  
  include("xplat")
- include("fabric")
--include("neoforge")
+-include("fabric")
+ include("neoforge")
  
  rootProject.name = "emi_loot"
 --- a/gradle/wrapper/gradle-wrapper.properties
@@ -102,22 +102,22 @@
      modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
  
 -    modCompileOnly "dev.emi:emi-xplat-intermediary:${project.emi_version}:api"
-+    modCompileOnly files(providers.gradleProperty("retirementEmi").get())
++    modCompileOnly files(providers.gradleProperty("retirementEmiCommon").get())
      modCompileOnly "me.fzzyhmstrs:fzzy_config:${fzzy_config_version}"
      modCompileOnly "me.fzzyhmstrs:sns:${sns_version}"
  }
 \ No newline at end of file
---- a/fabric/build.gradle
-+++ b/fabric/build.gradle
-@@ -31,9 +31,9 @@
-     modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
-     modImplementation "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}"
+--- a/neoforge/build.gradle
++++ b/neoforge/build.gradle
+@@ -43,9 +43,9 @@
+ dependencies {
+     neoForge "net.neoforged:neoforge:${rootProject.neoforge_version}"
  
--    modCompileOnly "dev.emi:emi-fabric:${rootProject.emi_version}:api"
+-    modCompileOnly "dev.emi:emi-neoforge:${rootProject.emi_version}:api"
 +    modCompileOnly files(providers.gradleProperty("retirementEmi").get())
  
--    modRuntimeOnly "dev.emi:emi-fabric:${rootProject.emi_version}"
+-    modRuntimeOnly "dev.emi:emi-neoforge:${rootProject.emi_version}"
 +    modRuntimeOnly files(providers.gradleProperty("retirementEmi").get())
-     modRuntimeOnly "me.fzzyhmstrs:fzzy_config:${rootProject.fzzy_config_version}"
-     modRuntimeOnly "maven.modrinth:symbols-n-stuff:${rootProject.sns_version}"
+ 
+     modRuntimeOnly "maven.modrinth:kotlin-for-forge:${rootProject.kff_version}"
  

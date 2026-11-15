@@ -1,15 +1,6 @@
-diff --git i/build.gradle w/build.gradle
-index 25a32f1e..c533382a 100644
---- i/build.gradle
-+++ w/build.gradle
-@@ -1,5 +1,5 @@
- plugins {
--    id 'fabric-loom' version "1.16-SNAPSHOT"
-+    id 'fabric-loom' version "1.16.3"
-     id 'maven-publish'
- }
- 
-@@ -65,7 +65,7 @@ def gitCommitHash = { ->
+--- a/build.gradle
++++ b/build.gradle
+@@ -167,7 +167,7 @@
      }
  }
  
@@ -18,18 +9,30 @@ index 25a32f1e..c533382a 100644
  
  processResources {
      def time = buildtime()
-@@ -106,8 +106,8 @@ dependencies {
-     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
+@@ -248,7 +248,7 @@
+ }
  
-     //TODO: this is to eventually not need sodium installed as atm its just used for parsing shaders
--    modRuntimeOnlyMsk "maven.modrinth:sodium:mc1.21.1-0.8.12-alpha.3-fabric"
--    modCompileOnly "maven.modrinth:sodium:mc1.21.1-0.8.12-alpha.3-fabric"
-+    modRuntimeOnlyMsk "maven.modrinth:sodium:mc1.21.1-0.8.13-fabric"
-+    modCompileOnly "maven.modrinth:sodium:mc1.21.1-0.8.13-fabric"
+ dependencies {
+-    sodiumDist "maven.modrinth:sodium:mc1.21.1-0.8.12-beta.2-neoforge"
++    sodiumDist "maven.modrinth:sodium:mc1.21.1-0.8.13-neoforge"
+ }
  
-     modImplementation("maven.modrinth:lithium:mc1.21.1-0.15.0-fabric")
+ def extractSodiumApi = tasks.register('extractSodiumApi', Copy) {
+@@ -267,11 +267,11 @@
+     // Forgified Fabric API for compatibility (includes Fabric Loader API)
+     implementation "org.sinytra.forgified-fabric-api:forgified-fabric-api:${project.forgified_fabric_version}"
  
-@@ -153,10 +153,7 @@ tasks.withType(JavaCompile).configureEach {
+-    // Sodium for NeoForge (0.8.12-beta.2 - latest for MC 1.21.1, backport of modern Sodium 0.8)
++    // Sodium 0.8 native NeoForge backport for Minecraft 1.21.1.
+     // Provided on the runtime classpath (not as a "source" mod) so the dev run loads it like a real
+     // install - Sodium 0.8's jar declares modId "sodium" both at the top level and in its JiJ'd copy,
+     // which double-registers and breaks dependency resolution when added as an implementation source.
+-    additionalRuntimeClasspath "maven.modrinth:sodium:mc1.21.1-0.8.12-beta.2-neoforge"
++    additionalRuntimeClasspath "maven.modrinth:sodium:mc1.21.1-0.8.13-neoforge"
+     // Compile against Sodium 0.8's real classes, extracted from its JiJ bundle (see extractSodiumApi).
+     compileOnly(files(layout.buildDirectory.file('sodium-api/sodium-api.jar')) { builtBy extractSodiumApi })
+ 
+@@ -306,10 +306,7 @@
  }
  
  java {
@@ -41,7 +44,7 @@ index 25a32f1e..c533382a 100644
  
      // Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build" task
      // if it is present.
-@@ -167,11 +164,23 @@ java {
+@@ -320,13 +317,32 @@
  }
  
  jar {
@@ -49,6 +52,8 @@ index 25a32f1e..c533382a 100644
 +    from("LICENSE.md") {
          rename { "${it}_${project.archives_base_name}"}
      }
+     // Dev-run tooling (scripted screenshots); never part of a release.
+     exclude 'me/cortex/voxy/client/dev/**'
  }
  
 +tasks.withType(AbstractArchiveTask).configureEach {
@@ -56,33 +61,64 @@ index 25a32f1e..c533382a 100644
 +    reproducibleFileOrder = true
 +}
 +
++sourceSets.test.compileClasspath += sourceSets.main.compileClasspath
++sourceSets.test.runtimeClasspath += sourceSets.main.compileClasspath
++
++def minecraftArtifacts = tasks.named('createMinecraftArtifacts') {
++    resourcesArtifact = layout.buildDirectory.file('minecraft-resources.jar')
++}
++
 +tasks.register('fluidBlockRegression', JavaExec) {
 +    dependsOn testClasses
-+    classpath = sourceSets.test.runtimeClasspath
++    classpath = sourceSets.test.runtimeClasspath + files(minecraftArtifacts.flatMap { it.resourcesArtifact })
 +    mainClass = 'me.cortex.voxy.client.core.model.FluidBlockRegression'
 +    enableAssertions = true
 +}
 +
- 
- 
- tasks.register('makeExcludedRocksDB', Zip) {
-diff --git i/gradle/wrapper/gradle-wrapper.properties w/gradle/wrapper/gradle-wrapper.properties
-index c61a118f..80d82296 100644
---- i/gradle/wrapper/gradle-wrapper.properties
-+++ w/gradle/wrapper/gradle-wrapper.properties
+ // Validate mixin configuration (registration, exclusions, remap flags)
+ task validateMixinConfig(type: Exec) {
+     description = 'Validates mixin registration, exclusions, and configuration'
+--- a/gradle/wrapper/gradle-wrapper.properties
++++ b/gradle/wrapper/gradle-wrapper.properties
 @@ -1,6 +1,7 @@
  distributionBase=GRADLE_USER_HOME
  distributionPath=wrapper/dists
- distributionUrl=https\://services.gradle.org/distributions/gradle-9.4.1-bin.zip
-+distributionSha256Sum=2ab2958f2a1e51120c326cad6f385153bb11ee93b3c216c5fccebfdfbb7ec6cb
+ distributionUrl=https\://services.gradle.org/distributions/gradle-9.2.1-bin.zip
++distributionSha256Sum=72f44c9f8ebcb1af43838f45ee5c4aa9c5444898b3468ab3f4af7b6076c5bc3f
  networkTimeout=10000
- validateDistributionUrl=true
  zipStoreBase=GRADLE_USER_HOME
-diff --git i/src/main/java/me/cortex/voxy/client/core/model/ModelFactory.java w/src/main/java/me/cortex/voxy/client/core/model/ModelFactory.java
-index b91da2eb..6d7c65f8 100644
---- i/src/main/java/me/cortex/voxy/client/core/model/ModelFactory.java
-+++ w/src/main/java/me/cortex/voxy/client/core/model/ModelFactory.java
-@@ -63,6 +63,13 @@ public class ModelFactory {
+ zipStorePath=wrapper/dists
+--- a/src/main/java/me/cortex/voxy/Voxy.java
++++ b/src/main/java/me/cortex/voxy/Voxy.java
+@@ -28,7 +28,7 @@
+  * (JSON) settings with the .toml's defaults on every {@code ModConfigEvent.Loading} - so nothing appeared
+  * to save across a restart. Instead, the "Config" button on Voxy's row in the Mods list simply opens the
+  * Sodium Video Settings screen, jumping straight to the Voxy page.
+  */
+-@Mod("voxy")
++@Mod(value = "voxy", dist = Dist.CLIENT)
+ public class Voxy {
+ 
+--- a/src/main/java/me/cortex/voxy/client/core/model/ModelFactory.java
++++ b/src/main/java/me/cortex/voxy/client/core/model/ModelFactory.java
+@@ -31,7 +31,6 @@
+ import net.minecraft.world.level.LightLayer;
+ import net.minecraft.world.level.biome.Biome;
+ import net.minecraft.world.level.biome.Biomes;
+-import net.minecraft.world.level.block.Block;
+ import net.minecraft.world.level.block.Blocks;
+ import net.minecraft.world.level.block.LeavesBlock;
+ import net.minecraft.world.level.block.LiquidBlock;
+@@ -39,6 +38,7 @@
+ import net.minecraft.world.level.block.state.BlockState;
+ import net.minecraft.world.level.lighting.LevelLightEngine;
+ import net.minecraft.world.level.material.FluidState;
++import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
+ import org.jetbrains.annotations.Nullable;
+ import org.lwjgl.system.MemoryUtil;
+ 
+@@ -66,6 +66,13 @@
+ public class ModelFactory {
      public static final int MODEL_TEXTURE_SIZE = 16;
      public static final int LAYERS = Integer.numberOfTrailingZeros(MODEL_TEXTURE_SIZE);
  
@@ -95,8 +131,7 @@ index b91da2eb..6d7c65f8 100644
 +
      //TODO: replace the fluid BlockState with a client model id integer of the fluidState, requires looking up
      // the fluid state in the mipper
-     private record ModelEntry(ColourDepthTextureData down, ColourDepthTextureData up, ColourDepthTextureData north, ColourDepthTextureData south, ColourDepthTextureData west, ColourDepthTextureData east, int fluidBlockStateId, int tintingColour) {
-@@ -177,7 +184,7 @@ public class ModelFactory {
+@@ -207,7 +214,7 @@
  
          //Before we enqueue the baking of this blockstate, we must check if it has a fluid state associated with it
          // if it does, we must ensure that it is (effectivly) baked BEFORE we bake this blockstate
@@ -105,7 +140,7 @@ index b91da2eb..6d7c65f8 100644
          if ((!isFluid) && (!blockState.getFluidState().isEmpty())) {
              //Insert into the fluid LUT
              var fluidState = blockState.getFluidState().createLegacyBlock();
-@@ -400,7 +407,7 @@ public class ModelFactory {
+@@ -362,7 +369,7 @@
  
          //TODO: add thing for `blockState.hasEmissiveLighting()` and `blockState.getLuminance()`
  
@@ -114,7 +149,7 @@ index b91da2eb..6d7c65f8 100644
          int modelId = -1;
  
  
-@@ -418,7 +425,7 @@ public class ModelFactory {
+@@ -380,7 +387,7 @@
              }
          }
  
@@ -122,8 +157,17 @@ index b91da2eb..6d7c65f8 100644
 +        var colourProvider = getColourProvider(blockState);
  
          boolean isBiomeColourDependent = false;
-         if (colourProvider != null) {
-@@ -785,7 +792,7 @@ public class ModelFactory {
+         int constantTint = -1;
+@@ -433,7 +440,7 @@
+         }
+ 
+         RenderType blockRenderLayer = null;
+-        if (blockState.getBlock() instanceof LiquidBlock) {
++        if (isFluid) {
+             blockRenderLayer = ItemBlockRenderTypes.getRenderLayer(blockState.getFluidState());
+         } else {
+             if (blockState.getBlock() instanceof LeavesBlock) {
+@@ -744,7 +751,7 @@
          int i = 0;
          long modelUpPtr = result.modelBiomeIndexPairs.address;
          for (var entry : this.modelsRequiringBiomeColours) {
@@ -132,25 +176,32 @@ index b91da2eb..6d7c65f8 100644
              if (colourProvider == null) {
                  throw new IllegalStateException();
              }
-@@ -804,10 +811,10 @@ public class ModelFactory {
+@@ -765,9 +772,13 @@
          return result;
      }
  
 -    private static BlockColor getColourProvider(Block block) {
--        BlockState defaultState = block.defaultBlockState();
 +    private static BlockColor getColourProvider(BlockState blockState) {
-+        BlockState defaultState = blockState.getBlock().defaultBlockState();
-         var blockColors = Minecraft.getInstance().getBlockColors();
--        if (block instanceof LiquidBlock) {
 +        if (isFluidBlock(blockState)) {
-             return (state, world, pos, tintIndex) -> blockColors.getColor(state, world, pos, tintIndex);
-         }
-         int color;
-diff --git i/src/main/java/me/cortex/voxy/client/core/model/bakery/SoftwareModelTextureBakery.java w/src/main/java/me/cortex/voxy/client/core/model/bakery/SoftwareModelTextureBakery.java
-index d1ebc15e..2dc9d648 100644
---- i/src/main/java/me/cortex/voxy/client/core/model/bakery/SoftwareModelTextureBakery.java
-+++ w/src/main/java/me/cortex/voxy/client/core/model/bakery/SoftwareModelTextureBakery.java
-@@ -19,7 +19,6 @@ import net.minecraft.world.level.ColorResolver;
++            return (state, world, pos, tintIndex) -> IClientFluidTypeExtensions.of(state.getFluidState())
++                    .getTintColor(state.getFluidState(), world, pos);
++        }
+         // MC 1.21.1: blockColors is now Map<Block,BlockColor>, use .get(block) instead of .byId(id)
+-        return Minecraft.getInstance().getBlockColors().blockColors.get(block);
++        return Minecraft.getInstance().getBlockColors().blockColors.get(blockState.getBlock());
+     }
+ 
+     //TODO: add a method to detect biome dependent colours (can do by detecting if getColor is ever called)
+--- a/src/main/java/me/cortex/voxy/client/core/model/bakery/ModelTextureBakery.java
++++ b/src/main/java/me/cortex/voxy/client/core/model/bakery/ModelTextureBakery.java
+@@ -1,5 +1,6 @@
+ package me.cortex.voxy.client.core.model.bakery;
+ 
++import me.cortex.voxy.client.core.model.ModelFactory;
+ import net.minecraft.client.Minecraft;
+ import net.minecraft.client.renderer.ItemBlockRenderTypes;
+ import net.minecraft.client.renderer.RenderType;
+@@ -11,7 +12,6 @@
  import net.minecraft.world.level.LightLayer;
  import net.minecraft.world.level.block.Blocks;
  import net.minecraft.world.level.block.LeavesBlock;
@@ -158,50 +209,32 @@ index d1ebc15e..2dc9d648 100644
  import net.minecraft.world.level.block.RenderShape;
  import net.minecraft.world.level.block.entity.BlockEntity;
  import net.minecraft.world.level.block.state.BlockState;
-@@ -219,13 +218,10 @@ public class SoftwareModelTextureBakery {
-     public int renderToOutput(BlockState state, long outputBuffer) {
-         MemoryUtil.memSet(outputBuffer, 0, 16 * 16 * 8 * 6);
+@@ -185,11 +185,10 @@
  
+     public int renderToStream(BlockState state, int streamBuffer, int streamOffset) {
+         this.capture.clear();
 -        boolean isBlock = true;
--        if (state.getBlock() instanceof LiquidBlock) {
--            isBlock = false;
--        }
 +        boolean isBlock = !ModelFactory.isFluidBlock(state);
- 
-         RenderType blockRenderLayer = null;
+         RenderType layer;
 -        if (state.getBlock() instanceof LiquidBlock) {
 +        if (!isBlock) {
-             blockRenderLayer = ItemBlockRenderTypes.getRenderLayer(state.getFluidState());
+             layer = ItemBlockRenderTypes.getRenderLayer(state.getFluidState());
+-            isBlock = false;
          } else {
              if (state.getBlock() instanceof LeavesBlock) {
-@@ -268,8 +264,6 @@ public class SoftwareModelTextureBakery {
-             }
-         } else {// Is fluid, slow path :(
+                 layer = RenderType.solid();
+@@ -270,8 +269,6 @@
+             glBindVertexArray(0);
+         } else {//Is fluid, slow path :(
  
--            if (!(state.getBlock() instanceof LiquidBlock))
--                throw new IllegalStateException();
+-            if (!(state.getBlock() instanceof LiquidBlock)) throw new IllegalStateException();
+-
+             var mat = new Matrix4f();
              for (int i = 0; i < VIEWS.length; i++) {
-                 this.opaqueVC.reset();
-                 this.translucentVC.reset();
-diff --git i/src/main/resources/fabric.mod.json w/src/main/resources/fabric.mod.json
-index 3d8c0154..cc923fc9 100644
---- i/src/main/resources/fabric.mod.json
-+++ w/src/main/resources/fabric.mod.json
-@@ -14,7 +14,7 @@
-   "contact": {},
-   "license": "All-Rights-Reserved",
-   "icon": "assets/voxy/icon.png",
--  "environment": "*",
-+  "environment": "client",
-   "entrypoints": {
-     "client": [
-       "me.cortex.voxy.client.VoxyClient"
-diff --git i/src/test/java/me/cortex/voxy/client/core/model/FluidBlockRegression.java w/src/test/java/me/cortex/voxy/client/core/model/FluidBlockRegression.java
-new file mode 100644
-index 00000000..baed037f
+                 if (i==1||i==2||i==4) {
 --- /dev/null
-+++ w/src/test/java/me/cortex/voxy/client/core/model/FluidBlockRegression.java
-@@ -0,0 +1,50 @@
++++ b/src/test/java/me/cortex/voxy/client/core/model/FluidBlockRegression.java
+@@ -0,0 +1,55 @@
 +package me.cortex.voxy.client.core.model;
 +
 +import net.minecraft.SharedConstants;
@@ -212,10 +245,15 @@ index 00000000..baed037f
 +import net.minecraft.world.level.block.LiquidBlock;
 +import net.minecraft.world.level.block.state.BlockState;
 +import net.minecraft.world.level.block.state.properties.BlockStateProperties;
++import java.util.List;
++import java.util.Map;
 +
 +public final class FluidBlockRegression {
 +    public static void main(String[] args) {
 +        SharedConstants.tryDetectVersion();
++        // Bootstrap vanilla-only registries for this standalone native semantic check.
++        net.neoforged.fml.loading.LoadingModList.of(
++                List.of(), List.of(), List.of(), List.of(), Map.of());
 +        Bootstrap.bootStrap();
 +        checkVanilla();
 +    }
