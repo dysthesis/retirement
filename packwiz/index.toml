@@ -1,6 +1,14 @@
 hash-format = "sha256"
 
 [[files]]
+file = "config/biolith/general.json"
+hash = "b53d22bef2bb36b66138da57a389d85d27fbfca14305245b49ce7b1f55baa7f9"
+
+[[files]]
+file = "config/biomesoplenty/generation.toml"
+hash = "57c2e0dd4dd3fd591d61dd0278a335f3e053fa60bc8a7ef1dd333ae031152f11"
+
+[[files]]
 file = "config/dsurround/dsurround.json"
 hash = "f8b29c4ef11da32c494051f5f4b1471bf09cb70e0efd8fdfad0cce03f91aaaeb"
 
@@ -35,7 +43,11 @@ metafile = true
 
 [[files]]
 file = "config/tectonic.json"
-hash = "2a3f541c1939b5a67d85634b580db7368564699dd388a2d43ab5645c8ba18780"
+hash = "0d3182b3dbaff0f258efc26c437051add6f658351dcc593ad62e24474cd2047c"
+
+[[files]]
+file = "config/terrablender.toml"
+hash = "ad958e43aca8ae86e762a0e9cc0e83e992fe016fca06fb99433bede9bea6bccf"
 
 [[files]]
 file = "config/xaero/minimap/default_radar_categories_client.json"
@@ -84,6 +96,11 @@ metafile = true
 [[files]]
 file = "mods/biolith.pw.toml"
 hash = "c61f06701276fc9c8475ed79e60c13068c1dfb2cdfda887a4ea68f8cd0482cb6"
+metafile = true
+
+[[files]]
+file = "mods/biomes-o-plenty.pw.toml"
+hash = "1e4faa76a8e5471099a6e33406679d00c0276c571890b6cfa4b8f5605fa6ab74"
 metafile = true
 
 [[files]]

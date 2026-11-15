@@ -1,8 +1,9 @@
 """NixOS driver test: shipped building blocks, terrain, integration and save/reload.
 
 Run through nix flake check, not directly. Packwiz changes require refreshing the
-modpack and export hashes in nix/packages/. Fresh-world smoke only: existing-world
-upgrades, authenticated player logins, backups and sustained load remain untested.
+modpack and export hashes in nix/packages/. The generation profile targets fresh
+worlds: existing chunks and saved Streams watersheds cannot adopt it seamlessly.
+Authenticated logins, existing-world upgrades, backups and sustained load are untested.
 """
 
 import json
@@ -100,6 +101,7 @@ try:
         for biome, accepted in [
             ("terralith:lavender_forest", True),
             ("terralith:siberian_taiga", True),
+            ("biomesoplenty:redwood_forest", True),
             ("minecraft:plains", True),
             ("minecraft:desert", False),
         ]:
@@ -112,14 +114,17 @@ try:
                 f"#wildernature:spawns_squirrel run say {marker}",
                 marker,
             )
-        for dimension, biome in [
-            ("minecraft:the_end", "nullscape:crystal_peaks"),
-            ("minecraft:overworld", "fishofthieves:tropical_island"),
+        for dimension, biome, x, z in [
+            ("minecraft:the_end", "nullscape:crystal_peaks", 0, 0),
+            ("minecraft:overworld", "biomesoplenty:redwood_forest", 0, 0),
+            ("minecraft:overworld", "terralith:alpine_highlands", 0, 0),
+            # Larger climate regions put this seed's tropical islands beyond /locate's spawn radius.
+            ("minecraft:overworld", "fishofthieves:tropical_island", -23936, -18048),
         ]:
             key = f"{biome.split(':')[1]}_{boot}"
             server.succeed(
                 command(
-                    f"execute in {dimension} store success storage retirement:check "
+                    f"execute in {dimension} positioned {x} 80 {z} store success storage retirement:check "
                     f"{key} byte 1 run locate biome {biome}"
                 )
             )

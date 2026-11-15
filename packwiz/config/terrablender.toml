@@ -1,0 +1,3 @@
+[general]
+# Provider-region size, not biome size; Tectonic scales the shared climate noise.
+overworld_region_size = 4

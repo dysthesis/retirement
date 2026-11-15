@@ -10,7 +10,22 @@
     "ultrasmooth": false
   },
   "continents": {
-    "continents_scale": 0.104,
-    "erosion_scale": 0.2
+    "continents_scale": 0.065,
+    "erosion_scale": 0.125,
+    "ridge_scale": 0.125,
+    "river_lanterns": false
+  },
+  "biomes": {
+    "temperature_scale": 0.125,
+    "temperature_multiplier": 1.0,
+    "temperature_offset": 0.0,
+    "vegetation_scale": 0.125,
+    "vegetation_multiplier": 1.0,
+    "vegetation_offset": 0.0
+  },
+  "islands": {
+    "noise_scale": 0.055,
+    "noise_multiplier": 1.0,
+    "noise_offset": 0.0
   }
 }
