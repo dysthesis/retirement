@@ -30,3 +30,26 @@ diff --git a/cmdshared/downloadutil.go b/cmdshared/downloadutil.go
  			if err != nil {
  				fmt.Printf("Error creating file: %s\n", err.Error())
  				// TODO: exit(1)?
+diff --git a/modrinth/export.go b/modrinth/export.go
+--- a/modrinth/export.go
++++ b/modrinth/export.go
+@@ -2,6 +2,7 @@
+ 
+ import (
+ 	"archive/zip"
++	"cmp"
+ 	"encoding/json"
+ 	"fmt"
+ 	"net/url"
+@@ -92,6 +93,11 @@
+ 			}
+ 		}
+ 
++		// Bundled non-CDN files are written in download order.
++		slices.SortFunc(mods, func(a, b *core.Mod) int {
++			return cmp.Compare(a.GetFilePath(), b.GetFilePath())
++		})
++
+ 		session, err := core.CreateDownloadSession(mods, []string{"sha1", "sha512", "length-bytes"})
+ 		if err != nil {
+ 			fmt.Printf("Error retrieving external files: %v\n", err)
