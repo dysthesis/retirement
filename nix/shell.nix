@@ -12,6 +12,7 @@
         jdk21
         gitMinimal
         jq
+        python3Minimal
 
         nil
         statix

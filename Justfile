@@ -14,3 +14,6 @@ rm mod: (pack "remove" mod)
 
 # Export a deterministic private mrpack using the devShell's patched Packwiz (also used by .#modrinth).
 export: (pack "modrinth export")
+
+rehash:
+	python3 scripts/rehash.py
