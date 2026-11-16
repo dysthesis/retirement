@@ -66,7 +66,7 @@ The `scripts/build-*.sh` recipes pin sources, dependencies and observed output c
 
 Crosshair Addons and WalksyLib now use native private builds instead of their former Fabric downloads; `scripts/build-crosshair.sh OUTPUT_DIRECTORY` rebuilds both. Axiom remains on its original supported-version artifact through Connector; every other shipped mod uses a native or multi-loader artifact.
 
-Small Ships 2.0.2 uses a private lifecycle repair rebuilt by `scripts/build-smallships.sh OUTPUT_DIRECTORY`. Only its native config handler and private version metadata differ from the released jar: unloaded and remote/default in-memory configs are not parsed as files; ordinary file loading, reloading and migration stay intact.
+Small Ships 2.0.2 uses a private lifecycle repair rebuilt by `scripts/build-smallships.sh OUTPUT_DIRECTORY`. Its repaired jar is recorded in the source snapshot consumed by Nix. Only its native config handler and private version metadata differ from the released jar: unloaded and remote/default in-memory configs are not parsed as files; ordinary file loading, reloading and migration stay intact.
 
 Spelunkery is updated to 0.4.5 because 0.4.4 overwrites ice melting and prevents Streams Reflowing's thaw hook from applying.
 
