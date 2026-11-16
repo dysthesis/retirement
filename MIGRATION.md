@@ -74,6 +74,8 @@ The compatibility datapack migrates Deeper and Darker's cutting, crushing and sa
 
 `client-only-overrides` in `packwiz/pack.toml` is shared by the Nix server filter and the patched exporter. It keeps Voxy, EMI Rechiseled, Crosshair Addons and WalksyLib in the client only. Build servers through Nix; a raw Packwiz installer does not apply this private-jar list.
 
+The Nix server copies mods into a real directory, like its configuration. NeoForge's early bootstrap discovery does not descend through a directory symlink; a symlinked `mods` directory silently loses Connector and other bootstrap services.
+
 VMP's optional nearby-entity tracking optimization is disabled because it overwrites the chunk-manager call Sable needs to tick sub-level entities. C2ME and VMP's remaining optimizations stay enabled; Sable and Create Aeronautics are retained.
 
 The patched exporter sorts both loose overrides and embedded non-CDN downloads, so identical private packs produce identical bytes.

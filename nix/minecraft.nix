@@ -66,7 +66,8 @@
         };
 
         files."config" = "${modpack}/config";
-        symlinks.mods = "${modpack}/mods";
+        # NeoForge bootstrap discovery requires a real mods directory.
+        files.mods = "${modpack}/mods";
       };
     };
   };
