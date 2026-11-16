@@ -1,0 +1,13 @@
+name = "Revelationary"
+filename = "revelationary-neoforge-1.5.2+1.21.1.jar"
+side = "both"
+
+[download]
+url = "https://cdn.modrinth.com/data/eXrl5E3G/versions/775bsBpl/revelationary-neoforge-1.5.2%2B1.21.1.jar"
+hash-format = "sha512"
+hash = "203a1d682ceac2da9183ba68f446a40d1ff7e18adfde103f93c77e4466f60408e46844ce4d2fbb9d0f30b1cfec49092235e1adc0ca0fbb2f68cce50fc6cf8ccb"
+
+[update]
+[update.modrinth]
+mod-id = "eXrl5E3G"
+version = "775bsBpl"

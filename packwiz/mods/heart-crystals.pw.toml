@@ -1,0 +1,13 @@
+name = "Heart Crystals"
+filename = "heart_crystals-neoforge-1.0.1-1.21.jar"
+side = "both"
+
+[download]
+url = "https://cdn.modrinth.com/data/L49lo4m9/versions/dQenGn1w/heart_crystals-neoforge-1.0.1-1.21.jar"
+hash-format = "sha512"
+hash = "7ba108b10c341b7dbf3728aca6ede661cb130079cf3f2dbc0d20fff4c74b09b025a6325c78a238650e94c6eeb42c1b9b0f365ea39eba98f1678f8b8594126db6"
+
+[update]
+[update.modrinth]
+mod-id = "L49lo4m9"
+version = "dQenGn1w"

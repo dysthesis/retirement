@@ -1,0 +1,13 @@
+name = "Spectrum"
+filename = "spectrum-1.12.9-1.21.1-neo.jar"
+side = "both"
+
+[download]
+url = "https://cdn.modrinth.com/data/3rc31Hgo/versions/ODbJTcVf/spectrum-1.12.9-1.21.1-neo.jar"
+hash-format = "sha512"
+hash = "3e16ec10b963702c2ab9f4dda328db4ed058fe2457360b63e3819749d501e19016151e215dd281010a4f4f220a6c0ed5c2248f3c15b7c638441a784dec47809a"
+
+[update]
+[update.modrinth]
+mod-id = "3rc31Hgo"
+version = "ODbJTcVf"

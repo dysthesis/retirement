@@ -239,6 +239,21 @@ hash = "187eafde5974beee1263538b462b7b8fe2fc8948c5d413980d9796d55928580b"
 metafile = true
 
 [[files]]
+file = "mods/ars-creo.pw.toml"
+hash = "e735b472ad5c38359636d5abb84ed1baeb461f72aa19c324c349543823a16188"
+metafile = true
+
+[[files]]
+file = "mods/ars-nouveau.pw.toml"
+hash = "195e22716d6181d55297bfe296716c68ad44cc2a4c09ef2eb6f68048ff00618f"
+metafile = true
+
+[[files]]
+file = "mods/arsdelight.pw.toml"
+hash = "8df9034b79a4332d57e4ec26c1940d8dfda1c0eacd771cacf6017f705bd1bd8b"
+metafile = true
+
+[[files]]
 file = "mods/asynclogger.pw.toml"
 hash = "3bd17a25e5724787b7e2c4200bc004592494a4ab959a5f1c4cb8cb4d6b844a3f"
 metafile = true
@@ -300,7 +315,7 @@ metafile = true
 
 [[files]]
 file = "mods/bountiful-fares.pw.toml"
-hash = "0d5d97c1094ee34741f345d597907af2f85b1a38bdb91836c1ea4d1f8a6bc303"
+hash = "b2e0d4903f8eddbf98a298756977e1f88a21e221b9a60bcfe15051762aec3490"
 metafile = true
 
 [[files]]
@@ -499,6 +514,11 @@ hash = "b065a8cb99a887abb2c434b84e3fa84f1e62cf500b1b9f50c86a4b48e4bdcc4f"
 metafile = true
 
 [[files]]
+file = "mods/cucumber.pw.toml"
+hash = "b2059d79bf6e41281a26b5b75a8f0cb20804079fe49a22042a26aa5ce28ba7f5"
+metafile = true
+
+[[files]]
 file = "mods/cultural-delights.pw.toml"
 hash = "07405961487e4b3d3c094205097b204e4ac18b7205374813201d07a22f6f531c"
 metafile = true
@@ -519,8 +539,8 @@ hash = "bbb3f09fbd5a3ca7aa82c41923f4557429fa465993c2817e9966dd3f8164e318"
 metafile = true
 
 [[files]]
-file = "mods/delightful-creators.pw.toml"
-hash = "ead7e6467df904f9fa779c021cff62bbd87e7943f394beec63a7f1ee3a74e4d5"
+file = "mods/delightful-creators-forge.pw.toml"
+hash = "77bec5cdf60a8aa58c49178244e188c60b6bc48c137e44948bb069251beb13c6"
 metafile = true
 
 [[files]]
@@ -670,6 +690,11 @@ hash = "981e52e1c4a97465921342f556cced335c6c75cdb050e9fc528d52cf4ff88b79"
 metafile = true
 
 [[files]]
+file = "mods/forgiving-void.pw.toml"
+hash = "ad797a4747adf0a547aff1f6bdb0c99d27b96324356fd0420fe9167e526d7185"
+metafile = true
+
+[[files]]
 file = "mods/fragmentum.pw.toml"
 hash = "e937517aca4968decca4550ea9f436bcf371892fb6bd9dcd0d6b06d0beb350a4"
 metafile = true
@@ -705,6 +730,11 @@ hash = "e53646f88aeb6bd54c38db50da972abdac91e83c145a8f974107b0ca103b15bc"
 metafile = true
 
 [[files]]
+file = "mods/heart-crystals.pw.toml"
+hash = "4480ede1f6ed684cf8bdf4f5b410bf767559f92a0948c30d7074237cfa7af9b9"
+metafile = true
+
+[[files]]
 file = "mods/hypertube.pw.toml"
 hash = "672fe2518a1795814efc943c3e3cf8dc1b993bc7d838cc62950acfaba348c2c7"
 metafile = true
@@ -732,6 +762,11 @@ metafile = true
 [[files]]
 file = "mods/iron-furnaces.pw.toml"
 hash = "cd73757a8c093f490d5c7673ad17f4404622a485234b79dc43efa0e67788d66e"
+metafile = true
+
+[[files]]
+file = "mods/item-descriptions.pw.toml"
+hash = "b902e2a8d9a070dec6136632ea901f2bcb7185c41554d08128f377a1825ed495"
 metafile = true
 
 [[files]]
@@ -900,6 +935,11 @@ hash = "eae3c14c915400de36bf547550f630de727bbf48ae0ce719b99b2ff50ceaab0d"
 metafile = true
 
 [[files]]
+file = "mods/modonomicon.pw.toml"
+hash = "685dd055cd08d821f106b723c8a08c47bc2a15dc70e26a4e8c41e28d0be1e13b"
+metafile = true
+
+[[files]]
 file = "mods/moonlight.pw.toml"
 hash = "b14b3d7f88512f23bccca8e2f133e52e84307679b6eba4e818ce13e8f87e503d"
 metafile = true
@@ -912,6 +952,16 @@ metafile = true
 [[files]]
 file = "mods/my-nethers-delight.pw.toml"
 hash = "cf98a93ea429786de97d9d7b70c72468909e0b9d1799def65b7c29c419c8d362"
+metafile = true
+
+[[files]]
+file = "mods/mystical-agradditions.pw.toml"
+hash = "c21a30355023622d42ba9386ce24fa814473a651ff0f9abd949946f32e1ef86c"
+metafile = true
+
+[[files]]
+file = "mods/mystical-agriculture.pw.toml"
+hash = "27f1f04ff481189d2c1d725a07c791f2f19e10b5c68a0180a4e61a07e2d5a636"
 metafile = true
 
 [[files]]
@@ -936,7 +986,7 @@ metafile = true
 
 [[files]]
 file = "mods/nexuslib.pw.toml"
-hash = "326d6aa0912804399801330217cb1daaf568a274af6ff53e6a17e5de0f6a5393"
+hash = "291456813df9f10a19c6b4f8a23a626b92bd51e24daa7ecc721b8bc26c92bd6d"
 metafile = true
 
 [[files]]
@@ -1045,6 +1095,11 @@ hash = "c0b066684294c33972d562e0cb08ea17b2d31bcf86cd1d6c63b8e968f0eac7a2"
 metafile = true
 
 [[files]]
+file = "mods/revelationary.pw.toml"
+hash = "3bd4aaa90ea0abc4f32efd977c3f575fda2b236c225716ad2c0d451bd0cfa46c"
+metafile = true
+
+[[files]]
 file = "mods/ribbits.pw.toml"
 hash = "6a598c073aabc968d8ee736141d238c517e13662f3de0feb81796cb9c0d6f4f0"
 metafile = true
@@ -1136,6 +1191,11 @@ metafile = true
 [[files]]
 file = "mods/sparkweave.pw.toml"
 hash = "fd2b9d3767476d9200521917dd71b8aeeba5e0e23f8160457bd864e96190d300"
+metafile = true
+
+[[files]]
+file = "mods/spectrum.pw.toml"
+hash = "6691fc26d7499b081f03f388e40316cc192c3422f02c4827e27d19cfb123e9fb"
 metafile = true
 
 [[files]]
@@ -1308,6 +1368,11 @@ hash = "ad3c58ce67c1063c917a3764281ac4ca1b6055b0e065ffc1b21d95286ebf2633"
 metafile = true
 
 [[files]]
+file = "mods/waystones.pw.toml"
+hash = "870219130f6ab3005d0ed77ff73070074bd2780f09ef67f57d5d9a2199b40e9f"
+metafile = true
+
+[[files]]
 file = "mods/weather-glass.pw.toml"
 hash = "7c66b48167885a9fd95d5cc5f666ad3fd301cc3f8f41642121f4ee90999253a7"
 metafile = true
@@ -1400,6 +1465,11 @@ metafile = true
 [[files]]
 file = "resourcepacks/icons.pw.toml"
 hash = "1e34347e78a18e3d1b25969a841d78ea61ab4380cc1bb87899b0ad5ab0b7e788"
+metafile = true
+
+[[files]]
+file = "resourcepacks/mod-descriptions.pw.toml"
+hash = "149050c47d8a76b1ac220f9820eb4b5b5174c625d414acfd2941118c01fba664"
 metafile = true
 
 [[files]]
