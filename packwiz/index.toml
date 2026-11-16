@@ -214,6 +214,16 @@ file = "mods/WalksyLib-2.0.5+retirement.1+1.21-1.21.1-neoforge.jar"
 hash = "42b2799424f0a8c2ccbec634e6e477ad42dba0387b8c9de83795f0d885af7130"
 
 [[files]]
+file = "mods/ad-astra-giselle-addon.pw.toml"
+hash = "76b0b436c7a47689c9a9eaf1b064dfb27b3a79347323839e4be0d78a3296d705"
+metafile = true
+
+[[files]]
+file = "mods/ad-astra.pw.toml"
+hash = "5386763a89493ea2c4ab581e66ace9317641e4c6c5f094769b13e83b1f6be7aa"
+metafile = true
+
+[[files]]
 file = "mods/aether.pw.toml"
 hash = "cc3f6e6e8f1838d16e47cce9241e32176279673efb1438ff4451ccffa9579b14"
 metafile = true
@@ -351,6 +361,11 @@ metafile = true
 [[files]]
 file = "mods/collective.pw.toml"
 hash = "1c9f21b7aa723402f2685c0cd531a90316b06bff0e78f20ab0b60712a56cc274"
+metafile = true
+
+[[files]]
+file = "mods/common-storage-lib.pw.toml"
+hash = "973d189eb0bb8a514bebc50e78bdbcc5f9e7b3d4869b3a9718ca63ca3afff215"
 metafile = true
 
 [[files]]
@@ -852,6 +867,11 @@ metafile = true
 [[files]]
 file = "mods/mafglib.pw.toml"
 hash = "2726c6991c3cc6ee3644725fd98759b6d8b2cfd96d0fcb7ad8e266924f741f52"
+metafile = true
+
+[[files]]
+file = "mods/mekanism-ad-astra-ores.pw.toml"
+hash = "94591555025e0b9077f7b400081db629db02c0e3d256396d8799bd4ff0174862"
 metafile = true
 
 [[files]]
