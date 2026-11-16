@@ -21,6 +21,82 @@ file = "config/paxi/datapack_load_order.json"
 hash = "e305ca86eb2a550f86e9c608b07e6adba6aff3658b74d85c0adc7eb05d736e84"
 
 [[files]]
+file = "config/paxi/datapacks/retirement-compat/data/create/recipe/crushing/andesite_diamond_ore.json"
+hash = "dd8defcee56749ffb10dea88d41dabd22a9e3365d3d9e86126ae65fa94e537f4"
+
+[[files]]
+file = "config/paxi/datapacks/retirement-compat/data/create/recipe/crushing/andesite_emerald_ore.json"
+hash = "b35a2df2b77e65cb7dc7d8e5bcc96518adbbfccb799a65f785441cecf33d61c8"
+
+[[files]]
+file = "config/paxi/datapacks/retirement-compat/data/create/recipe/crushing/andesite_lapis_ore.json"
+hash = "71e23dd551e2f0cd972c8ccc608b47bf5811c9f630325eb3be825f6853e9ac20"
+
+[[files]]
+file = "config/paxi/datapacks/retirement-compat/data/create/recipe/crushing/andesite_redstone_ore.json"
+hash = "53ce9a11e053b90e85307ba20ed9bc45552867fbddbba7f62cc17fe9fd848a8a"
+
+[[files]]
+file = "config/paxi/datapacks/retirement-compat/data/create/recipe/crushing/asurine.json"
+hash = "f1cc5d98e363526b11b9036390f188a5368207765ad744e443da7909313cf43e"
+
+[[files]]
+file = "config/paxi/datapacks/retirement-compat/data/create/recipe/crushing/asurine_recycling.json"
+hash = "9a67064cef49c5452c4584f129f2df9200528c9871d2a608e7adf00e562fe36d"
+
+[[files]]
+file = "config/paxi/datapacks/retirement-compat/data/create/recipe/crushing/calcite_redstone_ore.json"
+hash = "43c72206d3412e6aaa07267171349465bb3a0e448b2e0d10f123c7a2360711b5"
+
+[[files]]
+file = "config/paxi/datapacks/retirement-compat/data/create/recipe/crushing/crimsite.json"
+hash = "68bace3d090256293c4eceb850a4e79387c8432ea5944cf0686ca494b7364e7a"
+
+[[files]]
+file = "config/paxi/datapacks/retirement-compat/data/create/recipe/crushing/crimsite_recycling.json"
+hash = "0dc1bbf4bab102f27c9bd3337a75307821d56cb05c5c267b36776fcdcde5a6f1"
+
+[[files]]
+file = "config/paxi/datapacks/retirement-compat/data/create/recipe/crushing/deepslate_diamond_ore.json"
+hash = "bb756f7ad061bebae49930ab5de0770ca2219177cb4ad95b240a7a1fae269e36"
+
+[[files]]
+file = "config/paxi/datapacks/retirement-compat/data/create/recipe/crushing/deepslate_emerald_ore.json"
+hash = "4ff879cfadcb53532d7849df916fc2dc7f5242abad5d178d40ec87a17e9d6e4c"
+
+[[files]]
+file = "config/paxi/datapacks/retirement-compat/data/create/recipe/crushing/deepslate_lapis_ore.json"
+hash = "b7990ed7fcfc27ed05312ab4c459b6aa5df99ceba85e2dc30e51ef1ed5a73dd4"
+
+[[files]]
+file = "config/paxi/datapacks/retirement-compat/data/create/recipe/crushing/deepslate_redstone_ore.json"
+hash = "fc633b30ab0688f4f5922f8887dd1c28fc3a3941b05440c9d15421f8571f72fc"
+
+[[files]]
+file = "config/paxi/datapacks/retirement-compat/data/create/recipe/crushing/diamond_ore.json"
+hash = "057094e7767bd320ab7a31d4c20f0695b2a44c81254d1f86456c6a6c88aca6be"
+
+[[files]]
+file = "config/paxi/datapacks/retirement-compat/data/create/recipe/crushing/diorite_diamond_ore.json"
+hash = "bf6a26c83af26156103328b70576b4b59e5fefe5874decf3666ed760e6516e07"
+
+[[files]]
+file = "config/paxi/datapacks/retirement-compat/data/create/recipe/crushing/diorite_emerald_ore.json"
+hash = "42e8d4f18acc7aaa3a906e066543b7765af903f638017b4775734250e5f701f6"
+
+[[files]]
+file = "config/paxi/datapacks/retirement-compat/data/create/recipe/crushing/diorite_lapis_ore.json"
+hash = "eaf93f77586d0e6cd0888b04a3235db566353fd0a3e4073e6bd3b20ebab8c0f0"
+
+[[files]]
+file = "config/paxi/datapacks/retirement-compat/data/create/recipe/crushing/diorite_redstone_ore.json"
+hash = "c7f421e0e364178969c4bf61651397d1762fa5816c87fa9b03817c11323d0b83"
+
+[[files]]
+file = "config/paxi/datapacks/retirement-compat/data/create/recipe/crushing/emerald_ore.json"
+hash = "eb719c1d008f87ed4006ef6a7d13ee7c59f9bd2cba667a38cd8278d86e28ed46"
+
+[[files]]
 file = "config/paxi/datapacks/retirement-compat/data/create/recipe/crushing/gloomslate_coal_ore.json"
 hash = "9ae9cd9c370dae686011a680f782a6bb8a6ffd4e62790bf1ec3dc01a952362ae"
 
@@ -51,6 +127,58 @@ hash = "3355acefe75b9a4e838ef903b57428a428726b5eb06941b532ac06cdb11d83d5"
 [[files]]
 file = "config/paxi/datapacks/retirement-compat/data/create/recipe/crushing/gloomslate_redstone_ore.json"
 hash = "11210618d62a062d47f551a41cc5bbc5e62a0b99986e687590004ae349b42686"
+
+[[files]]
+file = "config/paxi/datapacks/retirement-compat/data/create/recipe/crushing/granite_diamond_ore.json"
+hash = "152848b6fca1d85cedfeea586a7bb963f1eb5e1d7cd4dd08a0ea0a40b73ae6ef"
+
+[[files]]
+file = "config/paxi/datapacks/retirement-compat/data/create/recipe/crushing/granite_emerald_ore.json"
+hash = "d1ba8d8e86a8c7e278c1356ed5a53bf925911f629a0c052d4af652d6428f9ecc"
+
+[[files]]
+file = "config/paxi/datapacks/retirement-compat/data/create/recipe/crushing/granite_lapis_ore.json"
+hash = "a30c260b23084d2bd80ca1cfcdccca2151b231bbeda0ceb4931ba348ad1e41ea"
+
+[[files]]
+file = "config/paxi/datapacks/retirement-compat/data/create/recipe/crushing/granite_redstone_ore.json"
+hash = "233b804a50e3c4a8173559755f0af083b0cc7c944ff52c7c4a8a757ec15c71da"
+
+[[files]]
+file = "config/paxi/datapacks/retirement-compat/data/create/recipe/crushing/lapis_ore.json"
+hash = "1a0547e73211432fe622d690deef78825aef1453eff64d1a64c5cf3475c84063"
+
+[[files]]
+file = "config/paxi/datapacks/retirement-compat/data/create/recipe/crushing/lazurite.json"
+hash = "28e8c152c58435bc4e1e5be1e28cc0f907afe14656ad11454a3e83c3ce6ad6e0"
+
+[[files]]
+file = "config/paxi/datapacks/retirement-compat/data/create/recipe/crushing/nether_gold_ore.json"
+hash = "90d6b214487d757ce06e926a1e1d4bff87e9d03a7fa4ed9ce52bfec02c22d7d9"
+
+[[files]]
+file = "config/paxi/datapacks/retirement-compat/data/create/recipe/crushing/ochrum.json"
+hash = "c128d65a6c5aa85a387099346e568aa5d8789f2e9663e5ec5a602718f6049599"
+
+[[files]]
+file = "config/paxi/datapacks/retirement-compat/data/create/recipe/crushing/ochrum_recycling.json"
+hash = "050baca10a17a28146e02ba95d5d5fe7a077deaad24dc67d72d5237f9c7237cd"
+
+[[files]]
+file = "config/paxi/datapacks/retirement-compat/data/create/recipe/crushing/oreganized/glance.json"
+hash = "3adcae898911cc4dee49180a80edea9dd324cb204608c4d2a0d01d1ebc2a88d1"
+
+[[files]]
+file = "config/paxi/datapacks/retirement-compat/data/create/recipe/crushing/oreganized/glance_recycling.json"
+hash = "e296504bfcba45d93782e0fcdf9727c86be78b85c2a2eda149c37ffd89b65727"
+
+[[files]]
+file = "config/paxi/datapacks/retirement-compat/data/create/recipe/crushing/redstone_ore.json"
+hash = "9197831b40f88680281605d2a4d5abcaeaa3bb36040c45a5096b33fbd416e477"
+
+[[files]]
+file = "config/paxi/datapacks/retirement-compat/data/create/recipe/crushing/sandstone_lapis_ore.json"
+hash = "2492dccdf3daf0b63c5ab3c24b899df9e0a3f9275f47142ba90392a341d94898"
 
 [[files]]
 file = "config/paxi/datapacks/retirement-compat/data/create/recipe/crushing/sculk_stone_coal_ore.json"
@@ -85,6 +213,42 @@ file = "config/paxi/datapacks/retirement-compat/data/create/recipe/crushing/scul
 hash = "362c0da6453c86361027e267014c3b0b29c0abfbaca966137443c2ec4c6bdedf"
 
 [[files]]
+file = "config/paxi/datapacks/retirement-compat/data/create/recipe/crushing/smooth_basalt_diamond_ore.json"
+hash = "0e1e2a0a6d12c22e9c555bf44e488a2cff519f2fb91ca0b321b8196e338d67c6"
+
+[[files]]
+file = "config/paxi/datapacks/retirement-compat/data/create/recipe/crushing/tuff.json"
+hash = "ddce4e7456993a0993ae3b5081caaff705d1e4a33af4df22005ec7048cdb1f52"
+
+[[files]]
+file = "config/paxi/datapacks/retirement-compat/data/create/recipe/crushing/tuff_diamond_ore.json"
+hash = "627419e88834cf51be8eded9d36bc52378eac139f72b3129cafcc5ab4726828f"
+
+[[files]]
+file = "config/paxi/datapacks/retirement-compat/data/create/recipe/crushing/tuff_emerald_ore.json"
+hash = "67e1ac2561d523f0c2327ea54a543e8c9e57b143168aa4f8e43dd8033f259274"
+
+[[files]]
+file = "config/paxi/datapacks/retirement-compat/data/create/recipe/crushing/tuff_lapis_ore.json"
+hash = "7fd57cef090827716c33069ee28980b537b1e2122f32c9728b66e886eb27bf17"
+
+[[files]]
+file = "config/paxi/datapacks/retirement-compat/data/create/recipe/crushing/tuff_recycling.json"
+hash = "5844c8dfc208f6cc3d3bc0d58f7ff09ac7014a8ca948635671887bd4b6c148a0"
+
+[[files]]
+file = "config/paxi/datapacks/retirement-compat/data/create/recipe/crushing/tuff_redstone_ore.json"
+hash = "9a3927a8974f66856f0a84ea8a27b2fbf86aef61119d2a32dd02df4b9ed819e8"
+
+[[files]]
+file = "config/paxi/datapacks/retirement-compat/data/create/recipe/crushing/veridium.json"
+hash = "2c52b1c40fae4fc9dabbc1baaa0dd480a2853f93c1f16e799be9610de58262e4"
+
+[[files]]
+file = "config/paxi/datapacks/retirement-compat/data/create/recipe/crushing/veridium_recycling.json"
+hash = "ad357fb2215beb502b4c372278c2a3e6c7600cddaa022fc564f821c58aefc7c0"
+
+[[files]]
 file = "config/paxi/datapacks/retirement-compat/data/create/recipe/cutting/echo_log.json"
 hash = "d31fdac6c4cb3495dd6e7b2ea6082d4929ba740bb3e9ba48912ed8d73f79e7f6"
 
@@ -99,6 +263,18 @@ hash = "f46ecb09e1eac8bb48401ec2146a955250b9933f1bdaa4f5404c01cd1eaa6885"
 [[files]]
 file = "config/paxi/datapacks/retirement-compat/data/create/recipe/cutting/stripped_echo_wood.json"
 hash = "f5df8e272f724bcb241f2db79ffda888b2074f120fc0d8f4b8ff4cb7b229c7df"
+
+[[files]]
+file = "config/paxi/datapacks/retirement-compat/data/create/recipe/splashing/gravel.json"
+hash = "10dc02f22495f99e80472c13171acbd80e7d66c7604ebb5b8c26c8680c6d303d"
+
+[[files]]
+file = "config/paxi/datapacks/retirement-compat/data/create/recipe/splashing/red_sand.json"
+hash = "5e49368e3bb990ed88bbaa8c87b1be755b3f8c05654d1989537f8f1e03254d3c"
+
+[[files]]
+file = "config/paxi/datapacks/retirement-compat/data/create/recipe/splashing/soul_sand.json"
+hash = "30736cbff662fe8d9bbbbcfb325ff4c83da8596c046c102fdef73095e7a0685d"
 
 [[files]]
 file = "config/paxi/datapacks/retirement-compat/data/farmersdelight/recipe/cutting/echo_door.json"
