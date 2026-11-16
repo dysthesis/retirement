@@ -70,6 +70,8 @@ Small Ships 2.0.2 uses a private lifecycle repair rebuilt by `scripts/build-smal
 
 Spelunkery is updated to 0.4.5 because 0.4.4 overwrites ice melting and prevents Streams Reflowing's thaw hook from applying. The compatibility datapack relocates its Create processing resources from obsolete `recipes/` directories to native 1.21 `recipe/` paths, preserving the supplied conditions, outputs, chances and durations.
 
+Create's splashing catalyst tag includes `#minecraft:water`, so fans wash through both ordinary water and Streams Reflowing source/flowing water. The patch extends the native tag instead of replacing it.
+
 The compatibility datapack migrates Deeper and Darker's cutting, crushing and sawing integrations to the native Farmer's Delight 1.3, Create 6 and Mekanism 10 codecs, preserving recipe IDs, quantities, chances and durations. My Nether's Delight bastion loot modifiers use Farmer's Delight's native `table` field.
 
 `client-only-overrides` in `packwiz/pack.toml` is shared by the Nix server filter and the patched exporter. It keeps Voxy, EMI Rechiseled, Crosshair Addons and WalksyLib in the client only. Build servers through Nix; a raw Packwiz installer does not apply this private-jar list.
@@ -93,6 +95,6 @@ nix flake check -L
 
 The NixOS check boots the actual server twice, exercises protocol/firewall access, high-altitude terrain, saved blocks, ordinary/Fortune/Silk Touch ore drops, food/flax/wildlife integration and biome generation. `scripts/CheckClientRepairs.java` attaches to a joined NeoForge client for live EMI repair verification.
 
-`scripts/CheckPackIntegrations.java` attaches to a running disposable NeoForge server or joined client. It checks Thermoo's season against Serene Seasons and exercises native Create crushing with vanilla and Spelunkery ores; the client also checks Create and Cataclysm recipes through EMI's actual item lookups. Repeat it after `/season set mid_winter` and `/season set mid_summer`.
+`scripts/CheckPackIntegrations.java` attaches to a running disposable NeoForge server or joined client. It checks Thermoo's season against Serene Seasons, exercises native Create crushing with vanilla and Spelunkery ores, and checks Create's washing predicate for ordinary water, both Streams fluids and non-water. The client also checks Create and Cataclysm recipes through EMI's actual item lookups. Repeat it after `/season set mid_winter` and `/season set mid_summer`.
 
 `vendor/adrenaline` is an unused upstream historical Fabric reference, not an input to either pack or server; its archive is left intact.

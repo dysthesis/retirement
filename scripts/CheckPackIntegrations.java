@@ -45,6 +45,7 @@ public final class CheckPackIntegrations {
                     if (world == null) throw new AssertionError("Join a world before checking integrations");
                     checkSeasons(gameLoader, world, out);
                     checkOreProcessing(gameLoader, world, out);
+                    checkWashingFluids(gameLoader, out);
                     if (client != null) checkViewer(gameLoader, out);
                 } catch (Throwable failure) {
                     failure.printStackTrace(out);
@@ -105,6 +106,29 @@ public final class CheckPackIntegrations {
             throw new AssertionError("Unexpected guaranteed crushing output for " + inputId);
         }
         out.println("PASS: Create crushes " + inputId + " into " + count + " " + outputId);
+    }
+
+    private static void checkWashingFluids(ClassLoader loader, PrintWriter out) throws Exception {
+        Class<?> location = loader.loadClass("net.minecraft.resources.ResourceLocation");
+        Class<?> fluidType = loader.loadClass("net.minecraft.world.level.material.Fluid");
+        Class<?> fluidState = loader.loadClass("net.minecraft.world.level.material.FluidState");
+        Class<?> registryType = loader.loadClass("net.minecraft.core.Registry");
+        Object fluids = loader.loadClass("net.minecraft.core.registries.BuiltInRegistries").getField("FLUID").get(null);
+        Class<?> createTags = loader.loadClass("com.simibubi.create.AllTags$AllFluidTags");
+        Object splashing = createTags.getField("FAN_PROCESSING_CATALYSTS_SPLASHING").get(null);
+        var matches = createTags.getMethod("matches", fluidState);
+        for (String name : List.of("minecraft:water", "streamsreflowing:stream",
+                "streamsreflowing:flowing_stream", "minecraft:lava")) {
+            Object id = location.getMethod("parse", String.class).invoke(null, name);
+            Object fluid = ((Optional<?>) registryType.getMethod("getOptional", location).invoke(fluids, id)).orElseThrow();
+            Object state = fluidType.getMethod("defaultFluidState").invoke(fluid);
+            boolean accepted = (boolean) matches.invoke(splashing, state);
+            boolean shouldWash = !name.equals("minecraft:lava");
+            if (accepted != shouldWash) {
+                throw new AssertionError("Unexpected Create washing eligibility for " + name + ": " + accepted);
+            }
+            out.println("PASS: Create washing " + (accepted ? "accepts " : "rejects ") + name);
+        }
     }
 
     private static void checkViewer(ClassLoader loader, PrintWriter out) throws Exception {
