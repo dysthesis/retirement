@@ -1,4 +1,4 @@
-# shortcut: retirement-compat mirrors this version's flax loot; rebase it when updating Supplementaries.
+# shortcut: retirement-compat fixes this version's flax straw predicate, rebase it when updating Supplementaries.
 name = "Supplementaries"
 filename = "supplementaries-1.21.1-4.1.1-neoforge.jar"
 side = "both"

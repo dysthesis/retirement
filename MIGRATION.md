@@ -74,6 +74,8 @@ Create's splashing catalyst tag includes `#minecraft:water`, so fans wash throug
 
 The compatibility datapack migrates Deeper and Darker's cutting, crushing and sawing integrations to the native Farmer's Delight 1.3, Create 6 and Mekanism 10 codecs, preserving recipe IDs, quantities, chances and durations. My Nether's Delight bastion loot modifiers use Farmer's Delight's native `table` field.
 
+Supplementaries' native flax straw modifier uses the 1.21 item predicate. Only a straw-harvesting tool yields one extra straw from a mature lower half; the obsolete mirrored loot table is removed so the native modifier cannot duplicate that drop.
+
 `client-only-overrides` in `packwiz/pack.toml` is shared by the Nix server filter and the patched exporter. It keeps Voxy, EMI Rechiseled, Crosshair Addons and WalksyLib in the client only. Build servers through Nix; a raw Packwiz installer does not apply this private-jar list.
 
 The Nix server copies mods into a real directory, like its configuration. NeoForge's early bootstrap discovery does not descend through a directory symlink; a symlinked `mods` directory silently loses Connector and other bootstrap services.

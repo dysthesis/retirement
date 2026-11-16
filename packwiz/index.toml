@@ -345,8 +345,8 @@ file = "config/paxi/datapacks/retirement-compat/data/mynethersdelight/loot_modif
 hash = "d42d8060adf1daf267990ce9f752a7f26275cd6433283372a06c49763c2d5705"
 
 [[files]]
-file = "config/paxi/datapacks/retirement-compat/data/supplementaries/loot_table/blocks/flax.json"
-hash = "01a6eae1546dfd6f0074b1d1e8adec25f17df58fbfdf5561d11e5d5e07cc2631"
+file = "config/paxi/datapacks/retirement-compat/data/supplementaries/loot_modifiers/straw_from_flax.json"
+hash = "968994b4084e1aab0ea22d59ffc3fe3746dcd96cd58321a3f4c1821dac87d080"
 
 [[files]]
 file = "config/paxi/datapacks/retirement-compat/data/supplementaries/tags/item/jar_cookies.json"
@@ -1450,7 +1450,7 @@ metafile = true
 
 [[files]]
 file = "mods/supplementaries.pw.toml"
-hash = "42fac37a5e40936a8f018c9448895321494c0fd9cf43083caf9534ebd3c4c48b"
+hash = "6bd8241765ba77b8a43a2991e0e13efb60e98a3a280c0a948738e953c640b610"
 metafile = true
 
 [[files]]

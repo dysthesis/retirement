@@ -117,6 +117,14 @@ try:
                 f"farmersdelight:straw run say {marker}",
                 marker,
             )
+            if harvests:
+                marker = f"retirement-check-flax-single-{key}"
+                expect(
+                    "execute if data block 1 500 0 "
+                    '{Items:[{id:"farmersdelight:straw",count:1}]} '
+                    f"run say {marker}",
+                    marker,
+                )
         server.succeed(command("setblock 3 501 0 minecraft:air"))
         server.succeed(command("setblock 3 500 0 minecraft:air"))
         server.succeed(command("setblock 1 500 0 minecraft:air"))
