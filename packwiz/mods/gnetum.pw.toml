@@ -1,0 +1,13 @@
+name = "Gnetum"
+filename = "gnetum-3.3.7.jar"
+side = "client"
+
+[download]
+url = "https://cdn.modrinth.com/data/7MoE34WK/versions/3WifnKNy/gnetum-3.3.7.jar"
+hash-format = "sha512"
+hash = "15b8007782283b429662e0b4397b6827da5ffde536ab83efbf1fa578bf087968fef6bd0174c76468d955f8782b164f5c04e1becc22dd6012db52c9ce9f376d43"
+
+[update]
+[update.modrinth]
+mod-id = "7MoE34WK"
+version = "3WifnKNy"
