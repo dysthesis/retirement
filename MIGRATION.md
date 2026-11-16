@@ -78,6 +78,8 @@ The Nix server copies mods into a real directory, like its configuration. NeoFor
 
 VMP's optional nearby-entity tracking optimization is disabled because it overwrites the chunk-manager call Sable needs to tick sub-level entities. C2ME and VMP's remaining optimizations stay enabled; Sable and Create Aeronautics are retained.
 
+Thermoo Patches 0.1.1 connects Frostiful and Scorchful to Serene Seasons, including tropical seasons, and supplies their native Friends&Foes integration. Serene Seasons alone changes seasonal precipitation but does not populate Thermoo's season event.
+
 The patched exporter sorts both loose overrides and embedded non-CDN downloads, so identical private packs produce identical bytes.
 
 ## Build and verification entrypoints
@@ -88,5 +90,7 @@ nix flake check -L
 ```
 
 The NixOS check boots the actual server twice, exercises protocol/firewall access, high-altitude terrain, saved blocks, ordinary/Fortune/Silk Touch ore drops, food/flax/wildlife integration and biome generation. `scripts/CheckClientRepairs.java` attaches to a joined NeoForge client for live EMI repair verification.
+
+`scripts/CheckPackIntegrations.java` attaches to a running disposable NeoForge server and checks that Thermoo's current season matches Serene Seasons. Repeat it after `/season set mid_winter` and `/season set mid_summer`.
 
 `vendor/adrenaline` is an unused upstream historical Fabric reference, not an input to either pack or server; its archive is left intact.
