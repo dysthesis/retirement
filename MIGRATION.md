@@ -88,6 +88,20 @@ Clients retain EMI and include the full JEI 19.32.0.359 runtime for EMI's bundle
 
 The patched exporter sorts both loose overrides and embedded non-CDN downloads, so identical private packs produce identical bytes.
 
+## Mod installation sides
+
+Packwiz's `side` field controls downloaded mods; `client-only-overrides` controls private raw jars. These classifications apply to both Nix outputs and the private Modrinth export, not just where a mod's code executes.
+
+- **Client only:** rendering, audio, HUD and client tools. Fusion, Sound Physics Remastered, CreativeCore and MidnightLib are excluded from the server; the latter two have no server consumers in this pack.
+- **Server only:** VMP, Create Liquid Fuel, Forgiving Void, Naturally Trimmed, NetherPortalFix, Seasonal Let's Do, ServerCore, Skeleton AI Fix, Structure Layout Optimizer, Incendium, Nullscape, Structory, Tidal Towns, YUNG's Better Dungeons and YUNG's Better Mineshafts.
+- **Both:** content mods, their shared dependencies, and useful two-sided integrations. Keep Jade and its addons, Xaero's maps, Axiom, Elytra Trims, EMI, EMI Loot, EMI Ores and EMI Let's Do compatibility on the server as well as the client. Their server logic is not replaced by the client UI. Async Logger, Krypton Reno and Fast Noise support both installations. Stellarity and Terralith retain their client resources; Tectonic and other optional-client worldgen integrations remain available for local worlds.
+
+Project-wide environment labels are not sufficient dependency evidence: Quark requires Biolith on both sides; several gameplay mods require Cloth Config; Fish of Thieves and Thermoo Patches require YACL. Config Manager also installs client defaults, and CrashExploitFixer protects shared packet/text handling, so both remain on both sides.
+
+Wakes Reforged's pinned release advertises both sides, but its wake and Sable mixins are all client-only and it has no packet handlers; it stays client-only. Likewise, EMI Let's Do compatibility stays on both sides because its private build still supplies server cake-cutting recipes, despite its client-side EMI dependency.
+
+The client output is not a feature-identical singleplayer distribution: server-only mods are deliberately absent, including the two YUNG structure generators and the server gameplay fixes. Use the dedicated server output for the complete multiplayer world behavior.
+
 ## Build and verification entrypoints
 
 ```sh
