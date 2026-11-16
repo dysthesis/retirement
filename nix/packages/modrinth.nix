@@ -10,7 +10,7 @@ runCommand "retirement-${builtins.hashFile "sha256" ../../packwiz/pack.toml}.mrp
 
   outputHashMode = "flat";
   outputHashAlgo = "sha256";
-  outputHash = "sha256-KZW9CXUDXGxJdU6Pbty7BsMKFzGP6zDBLzS1QSDiC3A=";
+  outputHash = "sha256-58nkKsgRSofGAuVjnxdt1ROgrsl+5JFObr2QKW9TW5s=";
 
   SSL_CERT_FILE = "${cacert}/etc/ssl/certs/ca-bundle.crt";
 } ''
