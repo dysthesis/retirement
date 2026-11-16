@@ -21,6 +21,86 @@ file = "config/paxi/datapack_load_order.json"
 hash = "e305ca86eb2a550f86e9c608b07e6adba6aff3658b74d85c0adc7eb05d736e84"
 
 [[files]]
+file = "config/paxi/datapacks/retirement-compat/data/create/recipe/crushing/gloomslate_coal_ore.json"
+hash = "9ae9cd9c370dae686011a680f782a6bb8a6ffd4e62790bf1ec3dc01a952362ae"
+
+[[files]]
+file = "config/paxi/datapacks/retirement-compat/data/create/recipe/crushing/gloomslate_copper_ore.json"
+hash = "e48eaf579b28bdbfc809d3da4c4702baa3a8de32c4e527ae74ac641f4f48c718"
+
+[[files]]
+file = "config/paxi/datapacks/retirement-compat/data/create/recipe/crushing/gloomslate_diamond_ore.json"
+hash = "6a7ab756ebad4a57ac211e8ada71d4b2a6c83bff31bf7d4f5b906461f4986ccd"
+
+[[files]]
+file = "config/paxi/datapacks/retirement-compat/data/create/recipe/crushing/gloomslate_emerald_ore.json"
+hash = "46ce0818b1f40c2e89d6d58976530e4dacaa930d5a3058dcada63ffa1414f919"
+
+[[files]]
+file = "config/paxi/datapacks/retirement-compat/data/create/recipe/crushing/gloomslate_gold_ore.json"
+hash = "c4f1f46e7f53bff93f01ecb6bf47ea1b4b6aafaf28507d7d55793b1988e29303"
+
+[[files]]
+file = "config/paxi/datapacks/retirement-compat/data/create/recipe/crushing/gloomslate_iron_ore.json"
+hash = "c0477c907a11c5de7848c2e543acf2f335303a464f16ef825d0df56c6d639fe7"
+
+[[files]]
+file = "config/paxi/datapacks/retirement-compat/data/create/recipe/crushing/gloomslate_lapis_ore.json"
+hash = "3355acefe75b9a4e838ef903b57428a428726b5eb06941b532ac06cdb11d83d5"
+
+[[files]]
+file = "config/paxi/datapacks/retirement-compat/data/create/recipe/crushing/gloomslate_redstone_ore.json"
+hash = "11210618d62a062d47f551a41cc5bbc5e62a0b99986e687590004ae349b42686"
+
+[[files]]
+file = "config/paxi/datapacks/retirement-compat/data/create/recipe/crushing/sculk_stone_coal_ore.json"
+hash = "0d3a1d3c3176d23861acc1c3620e137e9274a7c439452e9603d15342f84ce7df"
+
+[[files]]
+file = "config/paxi/datapacks/retirement-compat/data/create/recipe/crushing/sculk_stone_copper_ore.json"
+hash = "616eb015242afb23355bfafd7b8d0ec80fe530be4e0ef37c4a3e1ef9ce6d591d"
+
+[[files]]
+file = "config/paxi/datapacks/retirement-compat/data/create/recipe/crushing/sculk_stone_diamond_ore.json"
+hash = "f514afa373b1849f1116196aaca6befe9c952d0932583cf81177daebbbf637cf"
+
+[[files]]
+file = "config/paxi/datapacks/retirement-compat/data/create/recipe/crushing/sculk_stone_emerald_ore.json"
+hash = "079ddb0e61401104b4246fb865d22a73fad99ec15829c1080e8e2111417d9b49"
+
+[[files]]
+file = "config/paxi/datapacks/retirement-compat/data/create/recipe/crushing/sculk_stone_gold_ore.json"
+hash = "a66d19b5b7d4178ce1872fa8422afdea8c8627b847b3494f5aa24156069f6315"
+
+[[files]]
+file = "config/paxi/datapacks/retirement-compat/data/create/recipe/crushing/sculk_stone_iron_ore.json"
+hash = "897ec558f5c9a6b99f09e2c7a91469a8b3d1bf0dc4d5c95d430802a0f964fcea"
+
+[[files]]
+file = "config/paxi/datapacks/retirement-compat/data/create/recipe/crushing/sculk_stone_lapis_ore.json"
+hash = "df9500d30804c81eaee446d5d27138d6727f183da319642030c103adc1b61859"
+
+[[files]]
+file = "config/paxi/datapacks/retirement-compat/data/create/recipe/crushing/sculk_stone_redstone_ore.json"
+hash = "362c0da6453c86361027e267014c3b0b29c0abfbaca966137443c2ec4c6bdedf"
+
+[[files]]
+file = "config/paxi/datapacks/retirement-compat/data/create/recipe/cutting/echo_log.json"
+hash = "d31fdac6c4cb3495dd6e7b2ea6082d4929ba740bb3e9ba48912ed8d73f79e7f6"
+
+[[files]]
+file = "config/paxi/datapacks/retirement-compat/data/create/recipe/cutting/echo_wood.json"
+hash = "c0290c7ee0d81134fe8d739f8ec4f3ae76868c4ebf506e67d166c771e8ba02af"
+
+[[files]]
+file = "config/paxi/datapacks/retirement-compat/data/create/recipe/cutting/stripped_echo_log.json"
+hash = "f46ecb09e1eac8bb48401ec2146a955250b9933f1bdaa4f5404c01cd1eaa6885"
+
+[[files]]
+file = "config/paxi/datapacks/retirement-compat/data/create/recipe/cutting/stripped_echo_wood.json"
+hash = "f5df8e272f724bcb241f2db79ffda888b2074f120fc0d8f4b8ff4cb7b229c7df"
+
+[[files]]
 file = "config/paxi/datapacks/retirement-compat/data/farmersdelight/recipe/cutting/echo_door.json"
 hash = "3a6828bbaccdba26fbfbea384a0b74ec1fd841d43548fbd648a9e6f57c03362d"
 
@@ -43,6 +123,38 @@ hash = "fbd48d42bd2aad01bb88b01dd840db3da287472edd26fb546694d776af74715c"
 [[files]]
 file = "config/paxi/datapacks/retirement-compat/data/farmersdelight/recipe/cutting/echo_wood.json"
 hash = "f317d74824d1ebb39f680e9b8b61ccc502d736af28f7343f54684f1863ed1f88"
+
+[[files]]
+file = "config/paxi/datapacks/retirement-compat/data/mekanism/recipe/sawing/boat/echo.json"
+hash = "cdaff065020889a3856823b9e5a029d4f273fff0ea40e17617f2eb90c443f82a"
+
+[[files]]
+file = "config/paxi/datapacks/retirement-compat/data/mekanism/recipe/sawing/chest_boat/echo.json"
+hash = "59509e34cb3dd9791b7bea811f5c9579d1e621121da929b55fa4e63995658902"
+
+[[files]]
+file = "config/paxi/datapacks/retirement-compat/data/mekanism/recipe/sawing/door/echo.json"
+hash = "2300ce3931bec24dd80f516a55359a4722f36114220691a453bb18f2f0d0728e"
+
+[[files]]
+file = "config/paxi/datapacks/retirement-compat/data/mekanism/recipe/sawing/fence_gate/echo.json"
+hash = "7c6d6afc607cbd548c0a6d3f5409122aaace5911f4b156b8c6c46f3b0aadadd5"
+
+[[files]]
+file = "config/paxi/datapacks/retirement-compat/data/mekanism/recipe/sawing/hanging_sign/echo.json"
+hash = "e1b09657ac25664b636764d64eda851e5087ee3b77620545bbbe51a3569701b0"
+
+[[files]]
+file = "config/paxi/datapacks/retirement-compat/data/mekanism/recipe/sawing/log/echo.json"
+hash = "557f8058281b6038296f416fac8d5327cef6a737d946bbd4d6f99634f5b433cd"
+
+[[files]]
+file = "config/paxi/datapacks/retirement-compat/data/mekanism/recipe/sawing/pressure_plate/echo.json"
+hash = "47d6b523b527aeec0e514150ae8c34452a326ae5b6dd4aaf2defc13908c70589"
+
+[[files]]
+file = "config/paxi/datapacks/retirement-compat/data/mekanism/recipe/sawing/trapdoor/echo.json"
+hash = "c5169488dec662132e441cc95fbd6b9c1389cf7d8a2fcf390f7d85c5342af35f"
 
 [[files]]
 file = "config/paxi/datapacks/retirement-compat/data/mynethersdelight/loot_modifiers/add_loot_bastion_hoglin_stable.json"
@@ -84,6 +196,10 @@ hash = "0d3182b3dbaff0f258efc26c437051add6f658351dcc593ad62e24474cd2047c"
 [[files]]
 file = "config/terrablender.toml"
 hash = "ad958e43aca8ae86e762a0e9cc0e83e992fe016fca06fb99433bede9bea6bccf"
+
+[[files]]
+file = "config/vmp.properties"
+hash = "f2dd819c5c188a0d90d85a303bee8381fd720e7a0b448022a6d3fda746ce78a8"
 
 [[files]]
 file = "config/xaero/minimap/default_radar_categories_client.json"
@@ -919,9 +1035,8 @@ hash = "3c24accda8011a6a5e04c49c40e39617bb04ab3a549d8f2e8180d3246fddac39"
 metafile = true
 
 [[files]]
-file = "mods/small-ships.pw.toml"
-hash = "921d02a072ec9644b1557eece1a090f0be59fae479e652b1ba9c5cd16afba8f7"
-metafile = true
+file = "mods/smallships-neoforge-1.21.1-2.0.2+retirement.1.jar"
+hash = "db608f190a063baa4b9afd49daed52f8bb04f0876578180148a41aa39ae02658"
 
 [[files]]
 file = "mods/snow-real-magic.pw.toml"

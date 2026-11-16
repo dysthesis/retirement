@@ -66,6 +66,28 @@ try:
                 f"#supplementaries:jar_cookies run say {marker}",
                 marker,
             )
+        for name, enchantment, drop in [
+            ("plain", "", "spelunkery:rough_diamond"),
+            ("silk", '[enchantments={levels:{"minecraft:silk_touch":1}}]', "minecraft:diamond_ore"),
+            ("fortune", '[enchantments={levels:{"minecraft:fortune":3}}]', "spelunkery:rough_diamond"),
+        ]:
+            server.succeed(command("data merge block 1 500 0 {Items:[]}"))
+            server.succeed(command("setblock 4 500 0 minecraft:diamond_ore"))
+            server.succeed(
+                command(f"loot insert 1 500 0 mine 4 500 0 minecraft:diamond_pickaxe{enchantment}")
+            )
+            marker = f"retirement-check-ore-{name}-{boot}"
+            expect(
+                f"execute if items block 1 500 0 container.* {drop} run say {marker}",
+                marker,
+            )
+            other = "spelunkery:rough_diamond" if name == "silk" else "minecraft:diamond_ore"
+            marker = f"retirement-check-ore-exclusive-{name}-{boot}"
+            expect(
+                f"execute unless items block 1 500 0 container.* {other} run say {marker}",
+                marker,
+            )
+        server.succeed(command("setblock 4 500 0 minecraft:air"))
         server.succeed(command("setblock 3 499 0 minecraft:farmland"))
         for age, half, tool_item, harvests in [
             (7, "lower", "farmersdelight:iron_knife", True),

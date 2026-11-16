@@ -1,0 +1,31 @@
+--- a/neoforge/src/main/java/com/talhanation/smallships/neoforge/common/CommonModBus.java
++++ b/neoforge/src/main/java/com/talhanation/smallships/neoforge/common/CommonModBus.java
+@@ -1,6 +1,7 @@
+ package com.talhanation.smallships.neoforge.common;
+ 
+ import com.electronwill.nightconfig.core.CommentedConfig;
++import com.electronwill.nightconfig.core.InMemoryCommentedFormat;
+ import com.electronwill.nightconfig.toml.TomlFormat;
+ import com.mojang.datafixers.util.Pair;
+ import com.talhanation.smallships.SmallShipsMod;
+@@ -49,7 +50,10 @@
+ 
+     @SubscribeEvent
+     static void initRegisterConfigs(ModConfigEvent event) {
++        if (event instanceof ModConfigEvent.Unloading) return;
+         ModConfig config = event.getConfig();
++        // FML already applies remote/default values; in-memory configs have no file to migrate.
++        if (config.getLoadedConfig().config().configFormat() instanceof InMemoryCommentedFormat) return;
+         CommentedConfig commentedConfig = TomlFormat.instance().createParser().parse(config.getFullPath(), (file, configFormat) -> false);
+         SmallShipsConfig.updateConfig(new SmallShipsConfig.ModConfigWrapper(config.getType().toString(), config.getFullPath(), config.getFileName(), commentedConfig));
+         config.getSpec().correct(commentedConfig); // Probably does not work as expected
+--- a/gradle/wrapper/gradle-wrapper.properties
++++ b/gradle/wrapper/gradle-wrapper.properties
+@@ -1,6 +1,7 @@
+ distributionBase=GRADLE_USER_HOME
+ distributionPath=wrapper/dists
+ distributionUrl=https\://services.gradle.org/distributions/gradle-8.8-bin.zip
++distributionSha256Sum=a4b4158601f8636cdeeab09bd76afb640030bb5b144aafe261a5e8af027dc612
+ networkTimeout=10000
+ validateDistributionUrl=true
+ zipStoreBase=GRADLE_USER_HOME

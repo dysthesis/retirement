@@ -66,11 +66,17 @@ The `scripts/build-*.sh` recipes pin sources, dependencies and observed output c
 
 Crosshair Addons and WalksyLib now use native private builds instead of their former Fabric downloads; `scripts/build-crosshair.sh OUTPUT_DIRECTORY` rebuilds both. Axiom remains on its original supported-version artifact through Connector; every other shipped mod uses a native or multi-loader artifact.
 
+Small Ships 2.0.2 uses a private lifecycle repair rebuilt by `scripts/build-smallships.sh OUTPUT_DIRECTORY`. Only its native config handler and private version metadata differ from the released jar: unloaded and remote/default in-memory configs are not parsed as files; ordinary file loading, reloading and migration stay intact.
+
 Spelunkery is updated to 0.4.5 because 0.4.4 overwrites ice melting and prevents Streams Reflowing's thaw hook from applying.
 
-The compatibility datapack also migrates Echo-wood cutting recipes and My Nether's Delight bastion loot modifiers to Farmer's Delight 1.3's native codecs.
+The compatibility datapack migrates Deeper and Darker's cutting, crushing and sawing integrations to the native Farmer's Delight 1.3, Create 6 and Mekanism 10 codecs, preserving recipe IDs, quantities, chances and durations. My Nether's Delight bastion loot modifiers use Farmer's Delight's native `table` field.
 
 `client-only-overrides` in `packwiz/pack.toml` is shared by the Nix server filter and the patched exporter. It keeps Voxy, EMI Rechiseled, Crosshair Addons and WalksyLib in the client only. Build servers through Nix; a raw Packwiz installer does not apply this private-jar list.
+
+VMP's optional nearby-entity tracking optimization is disabled because it overwrites the chunk-manager call Sable needs to tick sub-level entities. C2ME and VMP's remaining optimizations stay enabled; Sable and Create Aeronautics are retained.
+
+The patched exporter sorts both loose overrides and embedded non-CDN downloads, so identical private packs produce identical bytes.
 
 ## Build and verification entrypoints
 
@@ -79,6 +85,6 @@ nix build .#modpack-client .#modpack-server .#modrinth
 nix flake check -L
 ```
 
-The existing NixOS check boots the actual server twice, exercises protocol/firewall access, high-altitude terrain, saved blocks, food/flax/wildlife integration and biome generation. `scripts/CheckClientRepairs.java` attaches to a joined NeoForge client for live EMI repair verification.
+The NixOS check boots the actual server twice, exercises protocol/firewall access, high-altitude terrain, saved blocks, ordinary/Fortune/Silk Touch ore drops, food/flax/wildlife integration and biome generation. `scripts/CheckClientRepairs.java` attaches to a joined NeoForge client for live EMI repair verification.
 
 `vendor/adrenaline` is an unused upstream historical Fabric reference, not an input to either pack or server; its archive is left intact.
