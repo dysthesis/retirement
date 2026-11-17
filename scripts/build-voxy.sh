@@ -15,10 +15,10 @@ git -C "$work" checkout --quiet --detach FETCH_HEAD
 test "$(git -C "$work" rev-parse HEAD)" = "$source_commit"
 git -C "$work" apply "$root/scripts/voxy.patch"
 (
-    cd "$work"
-    GITHUB_ACTIONS=true ./gradlew --no-daemon --max-workers=2 \
-        -Pminecraft_version=1.21.1 -Pneoforge_version=21.1.265 \
-        -Pmod_version=1.1.0+retirement.3+neoforge fluidBlockRegression jar
-    echo "0f2781db79bec5c5aee3e74a2f685416fb26d306f2f30ba4d9be5980498f19fd  build/libs/$jar" | sha256sum --check --strict
+  cd "$work"
+  GITHUB_ACTIONS=true ./gradlew --no-daemon --max-workers=2 \
+    -Pminecraft_version=1.21.1 -Pneoforge_version=21.1.265 \
+    -Pmod_version=1.1.0+retirement.3+neoforge fluidBlockRegression jar
+  echo "0f2781db79bec5c5aee3e74a2f685416fb26d306f2f30ba4d9be5980498f19fd  build/libs/$jar" | sha256sum --check --strict
 )
 install -m644 "$work/build/libs/$jar" "$root/packwiz/mods/$jar"

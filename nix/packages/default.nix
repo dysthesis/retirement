@@ -1,24 +1,30 @@
-{self, ...}: {
+{...}: {
   perSystem = {
     pkgs,
     lib,
-    mkModpack,
     ...
   }: let
     packwiz = pkgs.callPackage ./packwiz.nix {};
+    sources = pkgs.callPackage ../lib/packwiz.nix {root = ../../packwiz;};
     modpacks = lib.makeScope pkgs.newScope (scope: {
-      inherit mkModpack;
+      inherit sources packwiz;
 
       server = scope.callPackage ./server.nix {};
       client = scope.callPackage ./client.nix {};
+      modrinth = scope.callPackage ./modrinth.nix {};
     });
   in {
     packages = {
       inherit packwiz;
       modpack-server = modpacks.server;
       modpack-client = modpacks.client;
-      modrinth = pkgs.callPackage ./modrinth.nix {inherit self packwiz;};
+      modrinth = modpacks.modrinth;
       default = modpacks.client;
+    };
+
+    checks.modpacks = pkgs.callPackage ../lib/check-modpacks.nix {
+      inherit sources;
+      inherit (modpacks) client server;
     };
   };
 }

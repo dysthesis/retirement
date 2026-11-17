@@ -1,7 +1,7 @@
 """NixOS driver test: shipped building blocks, terrain, integration and save/reload.
 
-Run through nix flake check, not directly. Packwiz changes require refreshing the
-modpack and export hashes in nix/packages/. The generation profile targets fresh
+Run through nix flake check, not directly. Packwiz changes require refreshing its
+index and pack hashes with just rehash. The generation profile targets fresh
 worlds: existing chunks and saved Streams watersheds cannot adopt it seamlessly.
 Authenticated logins, existing-world upgrades, backups and sustained load are untested.
 """
@@ -23,7 +23,8 @@ def command(text):
 
 def expect(command_text, marker):
     server.wait_until_succeeds(
-        command(command_text) + f" && grep -F -- {shlex.quote(marker)} {shlex.quote(log_file)}",
+        command(command_text)
+        + f" && grep -F -- {shlex.quote(marker)} {shlex.quote(log_file)}",
         timeout=600,
     )
 
@@ -42,7 +43,9 @@ try:
             server.succeed(command("setblock 0 500 0 minecraft:diamond_block"))
         # Above vanilla's height limit: also catches Tectonic falling back to defaults.
         marker = f"retirement-check-persisted-{boot}"
-        expect(f"execute if block 0 500 0 minecraft:diamond_block run say {marker}", marker)
+        expect(
+            f"execute if block 0 500 0 minecraft:diamond_block run say {marker}", marker
+        )
         for x, block in [
             (2, "rechiseled:stone_tiles"),
             (6, "mcwbridges:oak_log_bridge_middle"),
@@ -58,7 +61,9 @@ try:
             ("minecraft:cookie", True),
             ("minecraft:stone", False),
         ]:
-            server.succeed(command(f"item replace block 1 500 0 container.0 with {item}"))
+            server.succeed(
+                command(f"item replace block 1 500 0 container.0 with {item}")
+            )
             marker = f"retirement-check-jar-{item.split(':')[1]}-{boot}"
             condition = "if" if accepted else "unless"
             expect(
@@ -68,20 +73,34 @@ try:
             )
         for name, enchantment, drop in [
             ("plain", "", "spelunkery:rough_diamond"),
-            ("silk", '[enchantments={levels:{"minecraft:silk_touch":1}}]', "minecraft:diamond_ore"),
-            ("fortune", '[enchantments={levels:{"minecraft:fortune":3}}]', "spelunkery:rough_diamond"),
+            (
+                "silk",
+                '[enchantments={levels:{"minecraft:silk_touch":1}}]',
+                "minecraft:diamond_ore",
+            ),
+            (
+                "fortune",
+                '[enchantments={levels:{"minecraft:fortune":3}}]',
+                "spelunkery:rough_diamond",
+            ),
         ]:
             server.succeed(command("data merge block 1 500 0 {Items:[]}"))
             server.succeed(command("setblock 4 500 0 minecraft:diamond_ore"))
             server.succeed(
-                command(f"loot insert 1 500 0 mine 4 500 0 minecraft:diamond_pickaxe{enchantment}")
+                command(
+                    f"loot insert 1 500 0 mine 4 500 0 minecraft:diamond_pickaxe{enchantment}"
+                )
             )
             marker = f"retirement-check-ore-{name}-{boot}"
             expect(
                 f"execute if items block 1 500 0 container.* {drop} run say {marker}",
                 marker,
             )
-            other = "spelunkery:rough_diamond" if name == "silk" else "minecraft:diamond_ore"
+            other = (
+                "spelunkery:rough_diamond"
+                if name == "silk"
+                else "minecraft:diamond_ore"
+            )
             marker = f"retirement-check-ore-exclusive-{name}-{boot}"
             expect(
                 f"execute unless items block 1 500 0 container.* {other} run say {marker}",
@@ -98,9 +117,13 @@ try:
             server.succeed(command("setblock 3 501 0 minecraft:air"))
             server.succeed(command("setblock 3 500 0 minecraft:air"))
             server.succeed(command("data merge block 1 500 0 {Items:[]}"))
-            server.succeed(command(f"setblock 3 500 0 supplementaries:flax[age={age},half=lower]"))
+            server.succeed(
+                command(f"setblock 3 500 0 supplementaries:flax[age={age},half=lower]")
+            )
             if age == 7:
-                server.succeed(command("setblock 3 501 0 supplementaries:flax[age=7,half=upper]"))
+                server.succeed(
+                    command("setblock 3 501 0 supplementaries:flax[age=7,half=upper]")
+                )
             y = 501 if half == "upper" else 500
             key = f"{age}-{half}-{tool_item.split(':')[1]}-{boot}"
             marker = f"retirement-check-flax-state-{key}"
@@ -163,10 +186,18 @@ try:
                 f"execute if data storage retirement:check {{{key}:1b}} run say {marker}",
                 marker,
             )
-        assert server.succeed(f"systemctl show {unit} -p NRestarts --value").strip() == "0"
+        assert (
+            server.succeed(f"systemctl show {unit} -p NRestarts --value").strip() == "0"
+        )
         server.succeed(f"systemctl stop {unit}", timeout=120)
-        assert server.succeed(f"systemctl show {unit} -p Result --value").strip() == "success"
-        assert server.succeed(f"systemctl show {unit} -p ExecMainStatus --value").strip() == "0"
+        assert (
+            server.succeed(f"systemctl show {unit} -p Result --value").strip()
+            == "success"
+        )
+        assert (
+            server.succeed(f"systemctl show {unit} -p ExecMainStatus --value").strip()
+            == "0"
+        )
         if boot == 0:
             server.succeed(f"systemctl start {unit}")
 finally:

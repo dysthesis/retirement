@@ -17,10 +17,10 @@ echo '2680e7b0a93152d4220afdc30a0452c911dc4b5c9ce1db1b7246c21b777bc2a1945fe97c98
 curl --fail --location 'https://cdn.modrinth.com/data/fRiHVvU7/versions/5sIPA1To/emi-1.1.24%2B1.21.1%2Bneoforge.jar' --output "$work/emi.jar"
 echo 'f4c45ed686fe617311d6debadcb6ace5963e66f8cfe0cfed398231f081f87407070efc7a73c8b695d158f1d87a97180737b9107a46771e77df2bc9a7dc715ebd  '"$work/emi.jar" | sha512sum --check --strict
 (
-    cd "$source"
-    bash ./gradlew --no-daemon --max-workers=2 \
-        -Pmod_version=0.7.10+1.21+retirement.1 -Penabled_platforms=neoforge \
-        -PretirementEmiCommon="$work/emi-common.jar" -PretirementEmi="$work/emi.jar" :neoforge:remapJar
-    echo "1a47f1e71921a8b7d5e4e28314e3141ea05d405a227f6244c85b2b357a50c4c0  neoforge/build/libs/$jar" | sha256sum --check --strict
+  cd "$source"
+  bash ./gradlew --no-daemon --max-workers=2 \
+    -Pmod_version=0.7.10+1.21+retirement.1 -Penabled_platforms=neoforge \
+    -PretirementEmiCommon="$work/emi-common.jar" -PretirementEmi="$work/emi.jar" :neoforge:remapJar
+  echo "1a47f1e71921a8b7d5e4e28314e3141ea05d405a227f6244c85b2b357a50c4c0  neoforge/build/libs/$jar" | sha256sum --check --strict
 )
 install -m644 "$source/neoforge/build/libs/$jar" "$root/packwiz/mods/$jar"

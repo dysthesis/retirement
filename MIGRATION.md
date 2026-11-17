@@ -109,6 +109,12 @@ nix build .#modpack-client .#modpack-server .#modrinth
 nix flake check -L
 ```
 
+Each downloaded artifact is a separately hash-verified Nix fetch, shared by client, server and Modrinth builds. Export digests are cached per artifact too. Only indexed Packwiz inputs affect assembly; package assembly and export run without network access and track their source and tool dependencies normally. Shared logic lives in `nix/lib`; `nix/packages` declares the outputs.
+
+`just rehash` refreshes the Packwiz index and pack hash chain. After deliberately changing a download URL or CurseForge file ID, use `just rehash mods/appleskin.pw.toml` (or several Packwiz-relative metafile paths) to re-pin those download hashes first. The recipe uses structured Nix prefetch results, preserves the rest of each metafile, and warms the same per-file Nix cache used by builds. Re-pinning intentionally trusts the newly downloaded bytes; review the metadata changes.
+
+`checks.modpacks` verifies both installed trees, side filtering, private client-only overrides, installer update state and hash-update parsing. The exporter independently checks its payload inventory, checksums, sides and embedded files before accepting an archive; Packwiz handles the export format and URL encoding.
+
 The NixOS check boots the actual server twice, exercises protocol/firewall access, high-altitude terrain, saved blocks, ordinary/Fortune/Silk Touch ore drops, food/flax/wildlife integration and biome generation. `scripts/CheckClientRepairs.java` attaches to a joined NeoForge client for live EMI repair verification.
 
 `scripts/CheckPackIntegrations.java` attaches to a running disposable NeoForge server or joined client. It checks Thermoo's season against Serene Seasons, exercises native Create crushing with vanilla and Spelunkery ores, and checks Create's washing predicate for ordinary water, both Streams fluids and non-water. The client also checks Create and Cataclysm recipes through EMI's actual item lookups. Repeat it after `/season set mid_winter` and `/season set mid_summer`.
