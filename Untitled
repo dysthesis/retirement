@@ -1,0 +1,152 @@
+
+[1m[93mpackwiz/mods/spelunkery.pw.toml[39m[0m[2m --- TOML[0m
+[91m 1 [0m[91;1mname[0m [91;1m=[0m [91m"Spelunkery"[0m
+[91m 2 [0m[91;1mfilename[0m [91;1m=[0m [91m"spelunkery-1.21.1-0.4.5-neoforge.jar"[0m
+[91m 3 [0m[91;1mside[0m [91;1m=[0m [91m"both"[0m
+[91m 4 [0m
+[91m 5 [0m[91;1m[download][0m
+[91m 6 [0m[91;1murl[0m [91;1m=[0m [91m"https://cdn.modrinth.com/data/krskFMfA/versions/A9ac6DN7/spelunkery-1.21.1-0.4.5-neoforge.jar"[0m
+[91m 7 [0m[91;1mhash-format[0m [91;1m=[0m [91m"sha512"[0m
+[91m 8 [0m[91;1mhash[0m [91;1m=[0m [91m"fa5c0d8a537bb5c44e49a789f0106ae5c4929aeda08b94066568248d239fb4f5d594457d04073ea3c7a60b0562db008d548ca40518dc233415826009ab6f45bb"[0m
+[91m 9 [0m
+[91m10 [0m[91;1m[update][0m
+[91m11 [0m[91;1m[update[0m[91m.[0m[91;1mmodrinth][0m
+[91m12 [0m[91;1mmod-id[0m [91;1m=[0m [91m"krskFMfA"[0m
+[91m13 [0m[91;1mversion[0m [91;1m=[0m [91m"A9ac6DN7"[0m
+[91m14 [0m
+
+[1m[93mpackwiz/mods/easy-magic.pw.toml[39m[0m[2m --- TOML[0m
+[91m 1 [0m[91;1mname[0m [91;1m=[0m [91m"Easy Magic"[0m
+[91m 2 [0m[91;1mfilename[0m [91;1m=[0m [91m"EasyMagic-v21.1.4-1.21.1-NeoForge.jar"[0m
+[91m 3 [0m[91;1mside[0m [91;1m=[0m [91m"both"[0m
+[91m 4 [0m
+[91m 5 [0m[91;1m[download][0m
+[91m 6 [0m[91;1murl[0m [91;1m=[0m [91m"https://cdn.modrinth.com/data/9hx3AbJM/versions/MxbfrOEv/EasyMagic-v21.1.4-1.21.1-NeoForge.jar"[0m
+[91m 7 [0m[91;1mhash-format[0m [91;1m=[0m [91m"sha512"[0m
+[91m 8 [0m[91;1mhash[0m [91;1m=[0m [91m"30c7383c0f3b6d767652fa58c3b4e4ee7169c28f1e7653493db1cd62289447cd0698967453c4fa09dc1327b322e7c7ad8476d24a557ac0cb521d08e8ab5fc8da"[0m
+[91m 9 [0m
+[91m10 [0m[91;1m[update][0m
+[91m11 [0m[91;1m[update[0m[91m.[0m[91;1mmodrinth][0m
+[91m12 [0m[91;1mmod-id[0m [91;1m=[0m [91m"9hx3AbJM"[0m
+[91m13 [0m[91;1mversion[0m [91;1m=[0m [91m"MxbfrOEv"[0m
+[91m14 [0m
+
+[1m[93mpackwiz/mods/easy-anvils.pw.toml[39m[0m[2m --- TOML[0m
+[91m 1 [0m[91;1mname[0m [91;1m=[0m [91m"Easy Anvils"[0m
+[91m 2 [0m[91;1mfilename[0m [91;1m=[0m [91m"EasyAnvils-v21.1.0-1.21.1-NeoForge.jar"[0m
+[91m 3 [0m[91;1mside[0m [91;1m=[0m [91m"both"[0m
+[91m 4 [0m
+[91m 5 [0m[91;1m[download][0m
+[91m 6 [0m[91;1murl[0m [91;1m=[0m [91m"https://cdn.modrinth.com/data/OZBR5JT5/versions/fSQSKhdF/EasyAnvils-v21.1.0-1.21.1-NeoForge.jar"[0m
+[91m 7 [0m[91;1mhash-format[0m [91;1m=[0m [91m"sha512"[0m
+[91m 8 [0m[91;1mhash[0m [91;1m=[0m [91m"366eed1f4831e4044566833e07e5f6201ef1d178d0b30938b8a8a34bcac08c904c95ca0afe87bd55ea06b87cce85ee70c95d0cddd0ae053b1302d288252fe98f"[0m
+[91m 9 [0m
+[91m10 [0m[91;1m[update][0m
+[91m11 [0m[91;1m[update[0m[91m.[0m[91;1mmodrinth][0m
+[91m12 [0m[91;1mmod-id[0m [91;1m=[0m [91m"OZBR5JT5"[0m
+[91m13 [0m[91;1mversion[0m [91;1m=[0m [91m"fSQSKhdF"[0m
+[91m14 [0m
+
+[1m[93mpackwiz/pack.toml[39m[0m[2m --- TOML[0m
+[2m 6 [0m[[1mindex[0m]                                                          [2m 6 [0m[[1mindex[0m]
+[2m 7 [0m[1mfile[0m [1m=[0m [95m"index.toml"[0m                                              [2m 7 [0m[1mfile[0m [1m=[0m [95m"index.toml"[0m
+[2m 8 [0m[1mhash-format[0m [1m=[0m [95m"sha256"[0m                                           [2m 8 [0m[1mhash-format[0m [1m=[0m [95m"sha256"[0m
+[91;1m 9 [0m[1mhash[0m [1m=[0m [91m"85a2c203fab5797e037267fcde635871d834ede0463a3e6fb4ab3b7[0m  [92;1m 9 [0m[1mhash[0m [1m=[0m [92m"8ca50235000a585ed009ea1684ed0b402db2fa5591f1bc52f92e796[0m
+[91;1m[2m . [0m[0m[91me37fa0aea"[0m                                                       [92;1m[2m . [0m[0m[92m40dc6cca9"[0m
+[2m10 [0m                                                                 [2m10 [0m
+[2m11 [0m[[1mversions[0m]                                                       [2m11 [0m[[1mversions[0m]
+[2m12 [0m[1mminecraft[0m [1m=[0m [95m"1.21.1"[0m                                             [2m12 [0m[1mminecraft[0m [1m=[0m [95m"1.21.1"[0m
+
+[1m[93mpackwiz/mods/asyncparticles.pw.toml[39m[0m[2m --- TOML[0m
+[92m 1 [0m[92;1mname[0m [92;1m=[0m [92m"AsyncParticles"[0m
+[92m 2 [0m[92;1mfilename[0m [92;1m=[0m [92m"AsyncParticles-21.1.4.12+1.21.1.jar"[0m
+[92m 3 [0m[92;1mside[0m [92;1m=[0m [92m"client"[0m
+[92m 4 [0m
+[92m 5 [0m[92;1m[download][0m
+[92m 6 [0m[92;1murl[0m [92;1m=[0m [92m"https://cdn.modrinth.com/data/c3onkd5k/versions/fGzGRj1M/AsyncParticles-21.1.4.12%2B1.21.1.jar"[0m
+[92m 7 [0m[92;1mhash-format[0m [92;1m=[0m [92m"sha512"[0m
+[92m 8 [0m[92;1mhash[0m [92;1m=[0m [92m"781ddee6c8bd6aa61d449e336d12c00bbc23dd2e7a0ca9a0f83fde46cee4239cbda655fe682ddc4793613223e22d20f5b7614fb62fc46d6c36a95181c40fa236"[0m
+[92m 9 [0m
+[92m10 [0m[92;1m[update][0m
+[92m11 [0m[92;1m[update[0m[92m.[0m[92;1mmodrinth][0m
+[92m12 [0m[92;1mmod-id[0m [92;1m=[0m [92m"c3onkd5k"[0m
+[92m13 [0m[92;1mversion[0m [92;1m=[0m [92m"fGzGRj1M"[0m
+[92m14 [0m
+
+[1m[93mpackwiz/mods/flerovium.pw.toml[39m[0m[2m --- TOML[0m
+[92m 1 [0m[92;1mname[0m [92;1m=[0m [92m"Flerovium"[0m
+[92m 2 [0m[92;1mfilename[0m [92;1m=[0m [92m"flerovium-neoforge-1.21.1-1.2.0-all.jar"[0m
+[92m 3 [0m[92;1mside[0m [92;1m=[0m [92m"client"[0m
+[92m 4 [0m
+[92m 5 [0m[92;1m[download][0m
+[92m 6 [0m[92;1murl[0m [92;1m=[0m [92m"https://cdn.modrinth.com/data/4Rh1Mobu/versions/PHD5rYo3/flerovium-neoforge-1.21.1-1.2.0-all.jar"[0m
+[92m 7 [0m[92;1mhash-format[0m [92;1m=[0m [92m"sha512"[0m
+[92m 8 [0m[92;1mhash[0m [92;1m=[0m [92m"b19e348d01ab4c059b5a5277b4e7caea828a9e2e7d49871ae3a0c495d76a473865126fa6a10a6044f67742221fb3dd1ff25fffc0c85eacac8a52a95adc37824f"[0m
+[92m 9 [0m
+[92m10 [0m[92;1m[update][0m
+[92m11 [0m[92;1m[update[0m[92m.[0m[92;1mmodrinth][0m
+[92m12 [0m[92;1mmod-id[0m [92;1m=[0m [92m"4Rh1Mobu"[0m
+[92m13 [0m[92;1mversion[0m [92;1m=[0m [92m"PHD5rYo3"[0m
+[92m14 [0m
+
+[1m[93mpackwiz/index.toml[39m[0m[2m --- 1/4 --- TOML[0m
+[2m 458 [0m[2m 458 [0m[1mhash[0m [1m=[0m [95m"1f1cab010a5a3d8b06c893775307bd8f0c67e1713624b9048a39361dca28dea5"[0m
+[2m 459 [0m[2m 459 [0m[1mmetafile[0m [1m=[0m [1mtrue[0m
+[2m ... [0m[92;1m 460 [0m
+[2m ... [0m[92;1m 461 [0m[92m[[[0m[92;1mfiles[0m[92m]][0m
+[2m ... [0m[92;1m 462 [0m[92;1mfile[0m [92;1m=[0m [92m"mods/asyncparticles.pw.toml"[0m
+[2m ... [0m[92;1m 463 [0m[92;1mhash[0m [92;1m=[0m [92m"bd51fee38e89b9f22f556bab69377da7ca7ef90f7417276755be8747fef217f7"[0m
+[2m ... [0m[92;1m 464 [0m[92;1mmetafile[0m [92;1m=[0m [92;1mtrue[0m
+[2m 460 [0m[2m 465 [0m
+[2m 461 [0m[2m 466 [0m[[[1mfiles[0m]]
+[2m 462 [0m[2m 467 [0m[1mfile[0m [1m=[0m [95m"mods/athena-ctm.pw.toml"[0m
+
+[1mpackwiz/index.toml[0m[2m --- 2/4 --- TOML[0m
+[2m 818 [0m[2m 823 [0m[1mhash[0m [1m=[0m [95m"bb35e0972b8ae7421f991f92b066c2915c1f2e05655e33263d29e3bb7b6f5c47"[0m
+[2m 819 [0m[2m 824 [0m[1mmetafile[0m [1m=[0m [1mtrue[0m
+[91;1m 820 [0m[2m ... [0m
+[91;1m 821 [0m[2m ... [0m[91m[[[0m[91;1mfiles[0m[91m]][0m
+[91;1m 822 [0m[2m ... [0m[91;1mfile[0m [91;1m=[0m [91m"mods/easy-anvils.pw.toml"[0m
+[91;1m 823 [0m[2m ... [0m[91;1mhash[0m [91;1m=[0m [91m"9f511e824978b45d8d90244e921dafcbb9bc01d1e4aced66afac71740ffa5ff6"[0m
+[91;1m 824 [0m[2m ... [0m[91;1mmetafile[0m [91;1m=[0m [91;1mtrue[0m
+[2m 825 [0m[2m 825 [0m
+[2m 826 [0m[2m 826 [0m[[[1mfiles[0m]]
+[2m 827 [0m[2m 827 [0m[1mfile[0m [1m=[0m [95m"mods/easy-elytra-takeoff.pw.toml"[0m
+[2m 828 [0m[2m 828 [0m[1mhash[0m [1m=[0m [95m"0c589f497d0457008a2963e4caaa3fb243adff8b5079fe299ac441374bd408cc"[0m
+[2m 829 [0m[2m 829 [0m[1mmetafile[0m [1m=[0m [1mtrue[0m
+[91;1m 830 [0m[2m ... [0m
+[91;1m 831 [0m[2m ... [0m[91m[[[0m[91;1mfiles[0m[91m]][0m
+[91;1m 832 [0m[2m ... [0m[91;1mfile[0m [91;1m=[0m [91m"mods/easy-magic.pw.toml"[0m
+[91;1m 833 [0m[2m ... [0m[91;1mhash[0m [91;1m=[0m [91m"1aa75105514780685caab9b945db2a2ea7c0594ced8c01e12f2a3e331f1af4e6"[0m
+[91;1m 834 [0m[2m ... [0m[91;1mmetafile[0m [91;1m=[0m [91;1mtrue[0m
+[2m 835 [0m[2m 830 [0m
+[2m 836 [0m[2m 831 [0m[[[1mfiles[0m]]
+[2m 837 [0m[2m 832 [0m[1mfile[0m [1m=[0m [95m"mods/ecologics.pw.toml"[0m
+
+[1mpackwiz/index.toml[0m[2m --- 3/4 --- TOML[0m
+[2m 944 [0m[2m 939 [0m[1mhash[0m [1m=[0m [95m"4c6384108531f9f867a2f5634e3dc50c5c91aec2846e23e53c53874cc45727ef"[0m
+[2m 945 [0m[2m 940 [0m[1mmetafile[0m [1m=[0m [1mtrue[0m
+[2m ... [0m[92;1m 941 [0m
+[2m ... [0m[92;1m 942 [0m[92m[[[0m[92;1mfiles[0m[92m]][0m
+[2m ... [0m[92;1m 943 [0m[92;1mfile[0m [92;1m=[0m [92m"mods/flerovium.pw.toml"[0m
+[2m ... [0m[92;1m 944 [0m[92;1mhash[0m [92;1m=[0m [92m"875d85990bd50cc8dd7bc3e1699b722e7aa1a78704a6ade47952e7e971daf951"[0m
+[2m ... [0m[92;1m 945 [0m[92;1mmetafile[0m [92;1m=[0m [92;1mtrue[0m
+[2m 946 [0m[2m 946 [0m
+[2m 947 [0m[2m 947 [0m[[[1mfiles[0m]]
+[2m 948 [0m[2m 948 [0m[1mfile[0m [1m=[0m [95m"mods/forge-config-api-port.pw.toml"[0m
+
+[1mpackwiz/index.toml[0m[2m --- 4/4 --- TOML[0m
+[2m1543 [0m[2m1543 [0m[1mhash[0m [1m=[0m [95m"6691fc26d7499b081f03f388e40316cc192c3422f02c4827e27d19cfb123e9fb"[0m
+[2m1544 [0m[2m1544 [0m[1mmetafile[0m [1m=[0m [1mtrue[0m
+[91;1m1545 [0m[2m.... [0m
+[91;1m1546 [0m[2m.... [0m[91m[[[0m[91;1mfiles[0m[91m]][0m
+[91;1m1547 [0m[2m.... [0m[91;1mfile[0m [91;1m=[0m [91m"mods/spelunkery.pw.toml"[0m
+[91;1m1548 [0m[2m.... [0m[91;1mhash[0m [91;1m=[0m [91m"95403fa5c63be51713b744c98f1907b68b2ac0ce2d70e8fb28e9c86c4c044985"[0m
+[91;1m1549 [0m[2m.... [0m[91;1mmetafile[0m [91;1m=[0m [91;1mtrue[0m
+[2m1550 [0m[2m1545 [0m
+[2m1551 [0m[2m1546 [0m[[[1mfiles[0m]]
+[2m1552 [0m[2m1547 [0m[1mfile[0m [1m=[0m [95m"mods/starter-kit.pw.toml"[0m
+
+[1m[93mresult[39m[0m[2m --- Binary[0m
+Binary file modified (old: 105.0 MiB, new: 105.4 MiB).
+

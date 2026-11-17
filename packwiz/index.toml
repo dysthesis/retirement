@@ -459,6 +459,11 @@ hash = "1f1cab010a5a3d8b06c893775307bd8f0c67e1713624b9048a39361dca28dea5"
 metafile = true
 
 [[files]]
+file = "mods/asyncparticles.pw.toml"
+hash = "bd51fee38e89b9f22f556bab69377da7ca7ef90f7417276755be8747fef217f7"
+metafile = true
+
+[[files]]
 file = "mods/athena-ctm.pw.toml"
 hash = "f54cf71372645810ce22b0ba68e706139565437150e4cfd22bde4c14606099c4"
 metafile = true
@@ -819,18 +824,8 @@ hash = "bb35e0972b8ae7421f991f92b066c2915c1f2e05655e33263d29e3bb7b6f5c47"
 metafile = true
 
 [[files]]
-file = "mods/easy-anvils.pw.toml"
-hash = "9f511e824978b45d8d90244e921dafcbb9bc01d1e4aced66afac71740ffa5ff6"
-metafile = true
-
-[[files]]
 file = "mods/easy-elytra-takeoff.pw.toml"
 hash = "0c589f497d0457008a2963e4caaa3fb243adff8b5079fe299ac441374bd408cc"
-metafile = true
-
-[[files]]
-file = "mods/easy-magic.pw.toml"
-hash = "1aa75105514780685caab9b945db2a2ea7c0594ced8c01e12f2a3e331f1af4e6"
 metafile = true
 
 [[files]]
@@ -942,6 +937,11 @@ metafile = true
 [[files]]
 file = "mods/fish-of-thieves.pw.toml"
 hash = "4c6384108531f9f867a2f5634e3dc50c5c91aec2846e23e53c53874cc45727ef"
+metafile = true
+
+[[files]]
+file = "mods/flerovium.pw.toml"
+hash = "875d85990bd50cc8dd7bc3e1699b722e7aa1a78704a6ade47952e7e971daf951"
 metafile = true
 
 [[files]]
@@ -1541,11 +1541,6 @@ metafile = true
 [[files]]
 file = "mods/spectrum.pw.toml"
 hash = "6691fc26d7499b081f03f388e40316cc192c3422f02c4827e27d19cfb123e9fb"
-metafile = true
-
-[[files]]
-file = "mods/spelunkery.pw.toml"
-hash = "95403fa5c63be51713b744c98f1907b68b2ac0ce2d70e8fb28e9c86c4c044985"
 metafile = true
 
 [[files]]
