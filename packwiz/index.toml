@@ -1100,6 +1100,11 @@ hash = "ebf0dae777cc19c354a662dc8144009dff7269b2d05624b4591fcb7de56fc14e"
 metafile = true
 
 [[files]]
+file = "mods/lc-tech.pw.toml"
+hash = "29d5b049a27240bfbd1b98dd4436aeecd60e832f845de2b3e3a98113d720501a"
+metafile = true
+
+[[files]]
 file = "mods/lets-do-bakery-farmcharm-compat.pw.toml"
 hash = "213f86b3b44e32207126fb3e7c54c532d804ab2fcd8b1ae411d90428041af467"
 metafile = true
