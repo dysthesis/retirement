@@ -1,0 +1,27 @@
+--- a/neoforge/src/main/java/dev/ryanhcode/sable/neoforge/compatibility/flywheel/SableFlywheelLightStorage.java
++++ b/neoforge/src/main/java/dev/ryanhcode/sable/neoforge/compatibility/flywheel/SableFlywheelLightStorage.java
+@@ -168,7 +168,7 @@
+                             }
+                         }
+ 
+-                        if (this.scene2SectionArenaIndexMap.values().stream().anyMatch(map -> map.containsKey(section))) {
++                        if (containsTrackedSection(this.scene2SectionArenaIndexMap, section)) {
+                             sectionsToCollect.computeIfAbsent(0, ignored -> new LongOpenHashSet()).add(section);
+                         }
+                     }
+@@ -187,6 +187,15 @@
+ 
+         this.updatedSections.clear();
+         this.requestedSections = null;
++    }
++
++    private static boolean containsTrackedSection(final Int2ObjectMap<Long2IntMap> scenes, final long section) {
++        for (final Long2IntMap map : scenes.values()) {
++            if (map.containsKey(section)) {
++                return true;
++            }
++        }
++        return false;
+     }
+ 
+     public void onLightUpdate(final long section) {

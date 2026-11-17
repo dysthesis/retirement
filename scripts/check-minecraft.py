@@ -72,7 +72,7 @@ try:
                 marker,
             )
         for name, enchantment, drop in [
-            ("plain", "", "spelunkery:rough_diamond"),
+            ("plain", "", "minecraft:diamond"),
             (
                 "silk",
                 '[enchantments={levels:{"minecraft:silk_touch":1}}]',
@@ -81,7 +81,7 @@ try:
             (
                 "fortune",
                 '[enchantments={levels:{"minecraft:fortune":3}}]',
-                "spelunkery:rough_diamond",
+                "minecraft:diamond",
             ),
         ]:
             server.succeed(command("data merge block 1 500 0 {Items:[]}"))
@@ -97,7 +97,7 @@ try:
                 marker,
             )
             other = (
-                "spelunkery:rough_diamond"
+                "minecraft:diamond"
                 if name == "silk"
                 else "minecraft:diamond_ore"
             )

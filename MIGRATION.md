@@ -1,6 +1,6 @@
 # NeoForge migration
 
-Retirement 2.0.0 keeps Minecraft **1.21.1** and pins **NeoForge 21.1.265** in `packwiz/pack.toml`. The Nix server reads that same pin. Clients and servers need **Java 25** for C2ME's bundled native-math module; private builds still use JDK 21. In Prism, select Java 25 and disable its Minecraft-version-only Java compatibility check.
+Retirement 2.0.0 keeps Minecraft **1.21.1** and pins **NeoForge 21.1.265** in `packwiz/pack.toml`. The Nix server reads that same pin. Clients support **Java 21**, which disables only C2ME's optional native-math module. The dedicated Nix server uses **Java 25** to enable that module; private builds still use JDK 21.
 
 Use a fresh launcher instance and a new world. Back up existing saves before experimenting: Fabric-to-NeoForge world, backpack and accessory data conversion is not established. No existing saves or live installations are modified by this repository migration.
 
@@ -68,7 +68,7 @@ Crosshair Addons and WalksyLib now use native private builds instead of their fo
 
 Small Ships 2.0.2 uses a private lifecycle repair rebuilt by `scripts/build-smallships.sh OUTPUT_DIRECTORY`. Its repaired jar is recorded in the source snapshot consumed by Nix. Only its native config handler and private version metadata differ from the released jar: unloaded and remote/default in-memory configs are not parsed as files; ordinary file loading, reloading and migration stay intact.
 
-Spelunkery is updated to 0.4.5 because 0.4.4 overwrites ice melting and prevents Streams Reflowing's thaw hook from applying. The compatibility datapack relocates its Create processing resources from obsolete `recipes/` directories to native 1.21 `recipe/` paths, preserving the supplied conditions, outputs, chances and durations.
+Spelunkery, Easy Anvils and Easy Magic are retired. Recipes requiring Spelunkery-only inputs are removed. Create 6.0.10 now supplies its own vanilla-ore crushing, mineral recycling and washing recipes with valid native outputs, unchanged native probabilities and durations. The optional Oreganized glance recipes retain their 80% crushed-lead output and 250-tick duration without the removed raw-lead nugget.
 
 Create's splashing catalyst tag includes `#minecraft:water`, so fans wash through both ordinary water and Streams Reflowing source/flowing water. The patch extends the native tag instead of replacing it.
 
@@ -117,6 +117,6 @@ Each downloaded artifact is a separately hash-verified Nix fetch, shared by clie
 
 The NixOS check boots the actual server twice, exercises protocol/firewall access, high-altitude terrain, saved blocks, ordinary/Fortune/Silk Touch ore drops, food/flax/wildlife integration and biome generation. `scripts/CheckClientRepairs.java` attaches to a joined NeoForge client for live EMI repair verification.
 
-`scripts/CheckPackIntegrations.java` attaches to a running disposable NeoForge server or joined client. It checks Thermoo's season against Serene Seasons, exercises native Create crushing with vanilla and Spelunkery ores, and checks Create's washing predicate for ordinary water, both Streams fluids and non-water. The client also checks Create and Cataclysm recipes through EMI's actual item lookups. Repeat it after `/season set mid_winter` and `/season set mid_summer`.
+`scripts/CheckPackIntegrations.java` attaches to a running disposable NeoForge server or joined client. It checks Thermoo's season against Serene Seasons, exercises native Create crushing with stone/deepslate diamond ores and mineral stones, verifies their output validity, leading-result probabilities and durations, and checks Create's washing predicate for ordinary water, both Streams fluids and non-water. The client also checks Create and Cataclysm recipes through EMI's actual item lookups. Repeat it after `/season set mid_winter` and `/season set mid_summer`.
 
 `vendor/adrenaline` is an unused upstream historical Fabric reference, not an input to either pack or server; its archive is left intact.

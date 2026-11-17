@@ -105,13 +105,30 @@ public final class CheckPackIntegrations {
   private static void checkOreProcessing(ClassLoader loader, Object world, PrintWriter out)
       throws Exception {
     requireCrushingOutput(
-        loader, world, "minecraft:diamond_ore", "spelunkery:rough_diamond", 1, out);
+        loader, world, "minecraft:diamond_ore", "minecraft:diamond", 1, 1.0f, 350, out);
     requireCrushingOutput(
-        loader, world, "spelunkery:andesite_diamond_ore", "spelunkery:rough_diamond", 2, out);
+        loader, world, "minecraft:deepslate_diamond_ore", "minecraft:diamond", 2, 1.0f, 450, out);
+    requireCrushingOutput(
+        loader, world, "create:asurine", "create:crushed_raw_zinc", 1, 0.3f, 250, out);
+    requireCrushingOutput(
+        loader, world, "create:crimsite", "create:crushed_raw_iron", 1, 0.4f, 250, out);
+    requireCrushingOutput(
+        loader, world, "create:veridium", "create:crushed_raw_copper", 1, 0.8f, 250, out);
+    requireCrushingOutput(
+        loader, world, "create:ochrum", "create:crushed_raw_gold", 1, 0.2f, 250, out);
+    requireCrushingOutput(
+        loader, world, "minecraft:tuff", "minecraft:flint", 1, 0.25f, 350, out);
   }
 
   private static void requireCrushingOutput(
-      ClassLoader loader, Object world, String inputId, String outputId, int count, PrintWriter out)
+      ClassLoader loader,
+      Object world,
+      String inputId,
+      String outputId,
+      int count,
+      float chance,
+      int duration,
+      PrintWriter out)
       throws Exception {
     Class<?> stackType = loader.loadClass("net.minecraft.world.item.ItemStack");
     Object input =
@@ -137,14 +154,23 @@ public final class CheckPackIntegrations {
         match.orElseThrow(() -> new AssertionError("No Create crushing recipe for " + inputId));
     Object recipe = holder.getClass().getMethod("value").invoke(holder);
     List<?> results = (List<?>) recipe.getClass().getMethod("getRollableResults").invoke(recipe);
+    for (Object result : results) {
+      Object stack = result.getClass().getMethod("getStack").invoke(result);
+      if ((boolean) stackType.getMethod("isEmpty").invoke(stack)) {
+        throw new AssertionError("Invalid Create crushing output for " + inputId);
+      }
+    }
     Object first = results.getFirst();
     Object output = first.getClass().getMethod("getStack").invoke(first);
     if (stackType.getMethod("getItem").invoke(output) != item(loader, outputId)
         || (int) stackType.getMethod("getCount").invoke(output) != count
-        || ((Number) first.getClass().getMethod("getChance").invoke(first)).doubleValue() != 1.0) {
-      throw new AssertionError("Unexpected guaranteed crushing output for " + inputId);
+        || ((Number) first.getClass().getMethod("getChance").invoke(first)).floatValue() != chance
+        || (int) recipe.getClass().getMethod("getProcessingDuration").invoke(recipe) != duration) {
+      throw new AssertionError("Unexpected Create crushing output, chance or duration for " + inputId);
     }
-    out.println("PASS: Create crushes " + inputId + " into " + count + " " + outputId);
+    out.println(
+        "PASS: Create crushes " + inputId + " into " + count + " " + outputId
+            + " at chance " + chance + " in " + duration + " ticks; all outputs are valid");
   }
 
   private static void checkWashingFluids(ClassLoader loader, PrintWriter out) throws Exception {

@@ -32,11 +32,7 @@
     {
       "id": "create:crushed_raw_lead",
       "chance": 0.8
-    },
-    {
-      "item": "spelunkery:raw_lead_nugget",
-      "id": 0.8
     }
   ],
-  "processingTime": 250
+  "processing_time": 250
 }

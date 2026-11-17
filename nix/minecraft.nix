@@ -33,7 +33,7 @@
         autoStart = true;
         openFirewall = true;
 
-        # C2ME's bundled native module requires Java 25.
+        # Java 25 enables C2ME's optional native-math module.
         package = pkgs.neoforgeServers."neoforge-${builtins.replaceStrings ["."] ["_"] "${pack.versions.minecraft}-${pack.versions.neoforge}"}".override {jre_headless = pkgs.jdk25_headless;};
 
         jvmOpts = "-Xms8G -Xmx10G";
