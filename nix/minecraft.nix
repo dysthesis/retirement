@@ -28,7 +28,7 @@
       enable = true;
       eula = true;
 
-      servers.retirement = {
+      servers.retirement-home = {
         enable = true;
         autoStart = true;
         openFirewall = true;
