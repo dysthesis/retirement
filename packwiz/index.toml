@@ -1456,6 +1456,11 @@ hash = "6542133c0bc532709b91a71c50356e98b5fea7ca178a7514e3589c4540fa61e2"
 metafile = true
 
 [[files]]
+file = "mods/the-twilight-forest.pw.toml"
+hash = "9088f93a00bc3242f0239a7115bdcbc4480e19c6120f5396fb3af27d77abda3e"
+metafile = true
+
+[[files]]
 file = "mods/thermoo-patches.pw.toml"
 hash = "c2955cfaed2d7d431c16897d9aeca3a40ada7e05d0c03e2c76377a70b31486e3"
 metafile = true
@@ -1503,6 +1508,11 @@ metafile = true
 [[files]]
 file = "mods/trimmable-tools.pw.toml"
 hash = "512a2d191ed7cf2edd437b1f4b9c795ffe30a1bf273a20415c7b86587958d77c"
+metafile = true
+
+[[files]]
+file = "mods/twilight-delight.pw.toml"
+hash = "f3ac007baf4bfdb17bd3a3186b835ac26ff1999ff70a819c2ebc045418112c0e"
 metafile = true
 
 [[files]]
