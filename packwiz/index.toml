@@ -13,6 +13,14 @@ file = "config/dsurround/dsurround.json"
 hash = "f8b29c4ef11da32c494051f5f4b1471bf09cb70e0efd8fdfad0cce03f91aaaeb"
 
 [[files]]
+file = "config/flerovium.json"
+hash = "95bb737da70b043de49bbccb34f96f79ceece7740e6369a8095dd36159d15967"
+
+[[files]]
+file = "config/lightmanscurrency-common.txt"
+hash = "62709485b77999e2523cc5375ba523cacdaaa9c88e5a3e65a97fca7a5b6bc886"
+
+[[files]]
 file = "config/particle_core_config.toml"
 hash = "621cbc339671bcc38ed846b59a84fb931b980f7abd94747e13feb87069cad201"
 
@@ -111,6 +119,10 @@ hash = "f5df8e272f724bcb241f2db79ffda888b2074f120fc0d8f4b8ff4cb7b229c7df"
 [[files]]
 file = "config/paxi/datapacks/retirement-compat/data/create/tags/fluid/fan_processing_catalysts/splashing.json"
 hash = "589a85777b06079f6556d67c5e2040de6c2362030453e72a741fc0773e705a88"
+
+[[files]]
+file = "config/paxi/datapacks/retirement-compat/data/curios/tags/item/back.json"
+hash = "a96107bb56408c3144bc3e783b60e7402eab84398e9a0cf78e3c4186e0239165"
 
 [[files]]
 file = "config/paxi/datapacks/retirement-compat/data/farmersdelight/recipe/cutting/echo_door.json"
@@ -212,6 +224,10 @@ hash = "ad958e43aca8ae86e762a0e9cc0e83e992fe016fca06fb99433bede9bea6bccf"
 [[files]]
 file = "config/vmp.properties"
 hash = "f2dd819c5c188a0d90d85a303bee8381fd720e7a0b448022a6d3fda746ce78a8"
+
+[[files]]
+file = "config/vss-server-config.yaml"
+hash = "b30b1a678433aedeca3802a0940f51fe4ef808c7f257a3f17d007a85cd0db919"
 
 [[files]]
 file = "config/xaero/minimap/default_radar_categories_client.json"
