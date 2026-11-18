@@ -1570,6 +1570,11 @@ file = "mods/voxy-1.1.0+retirement.3+neoforge.jar"
 hash = "0f2781db79bec5c5aee3e74a2f685416fb26d306f2f30ba4d9be5980498f19fd"
 
 [[files]]
+file = "mods/voxy-server-side.pw.toml"
+hash = "f5a8be6342f053a6bb89078e83291d47b5833d0e8e77582737693cb3fe1572b3"
+metafile = true
+
+[[files]]
 file = "mods/wakes-reforged.pw.toml"
 hash = "ad3c58ce67c1063c917a3764281ac4ca1b6055b0e065ffc1b21d95286ebf2633"
 metafile = true

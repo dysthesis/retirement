@@ -1,0 +1,25 @@
+# Limit distant terrain requests to existing world data.
+generation:
+  enabled: false
+
+# Limit the initial LOD range.
+lod:
+  distance:
+    default_chunks: 256
+    by_dimension:
+      "minecraft:overworld": 256
+      "minecraft:the_nether": 64
+      "minecraft:the_end": 256
+
+# Keep a persistent cache of processed LOD data.
+storage:
+  lod_store:
+    enabled: true
+    max_size_mib: 10240
+    backfill:
+      enabled: true
+      columns_per_second: 100
+
+# Do not reveal distant player positions.
+far_players:
+  mode: "off"
