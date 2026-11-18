@@ -46,9 +46,12 @@
           white-list = true;
         };
 
-        files."config" = "${modpack}/config";
-        # NeoForge bootstrap discovery requires a real mods directory.
-        files.mods = "${modpack}/mods";
+        files = {
+          "config" = "${modpack}/config";
+          "server-icon.png" = ../assets/icons/retirement-home-icon-512.png;
+          # NeoForge bootstrap discovery requires a real mods directory.
+          mods = "${modpack}/mods";
+        };
       };
     };
   };
