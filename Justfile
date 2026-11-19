@@ -19,3 +19,6 @@ export: (pack "modrinth export")
 [positional-arguments]
 rehash *metafiles:
 	python3 scripts/rehash.py "$@"
+
+cmd +command:
+    @printf '%s\n' {{quote(command)}} | ssh archon@10.0.60.2 'test -p /run/minecraft/retirement-home.stdin && cat > /run/minecraft/retirement-home.stdin'
