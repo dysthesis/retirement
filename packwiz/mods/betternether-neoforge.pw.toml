@@ -1,0 +1,13 @@
+name = "BetterNether: New Dawn"
+filename = "BetterNether-21.0.30.jar"
+side = "both"
+
+[download]
+url = "https://cdn.modrinth.com/data/fxX3RlL5/versions/yAcoDLIa/BetterNether-21.0.30.jar"
+hash-format = "sha512"
+hash = "0f3f2ba7487b84c6968e8e1e1347e310aebf9b64d62784dbbfbaae88a6959aed4bef57bea185000d3b268c479811d776b82e82fe9d2f0aa2ebd2ae3e10f31547"
+
+[update]
+[update.modrinth]
+mod-id = "fxX3RlL5"
+version = "yAcoDLIa"

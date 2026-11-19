@@ -342,6 +342,11 @@ hash = "89d5086e2383c436bcedadc91aff9d69ec6a59d2bacbbba6b5d59e2d74576a69"
 metafile = true
 
 [[files]]
+file = "mods/bclib-neoforge.pw.toml"
+hash = "f625927d49a62f8c1dff430aac72063164fca6fe5fdbbe0e38d54190db475eae"
+metafile = true
+
+[[files]]
 file = "mods/better-block-entities.pw.toml"
 hash = "eb0c1e82baced061d551f83b4be1c9996029d8b6571eca5390bc0eca96b9f7a6"
 metafile = true
@@ -354,6 +359,11 @@ metafile = true
 [[files]]
 file = "mods/better-trees.pw.toml"
 hash = "67a20e2da944ec599f9205aea32fbd3033eafea11f65e7a32d69c7ead6947a29"
+metafile = true
+
+[[files]]
+file = "mods/betternether-neoforge.pw.toml"
+hash = "35ad9db98f1a331c617ceaf9425b12a3e071533ee56d180cdf6616c48ee9b018"
 metafile = true
 
 [[files]]
@@ -923,11 +933,6 @@ hash = "29a2a1c085015a76586ac7d9e227e34004c4891208e877ae0a58dfce5abdc54b"
 metafile = true
 
 [[files]]
-file = "mods/incendium.pw.toml"
-hash = "9b70cf99195f0ffdd3c078bf7ffae26c5dd9fe8aee89179b6c93a8fa762c17a2"
-metafile = true
-
-[[files]]
 file = "mods/interiors.pw.toml"
 hash = "e7e6b3effe3022cf1fdb900c857111fdcbfd6b385c2d5bd28c914efaed436ecb"
 metafile = true
@@ -1170,6 +1175,11 @@ metafile = true
 [[files]]
 file = "mods/mystical-agriculture.pw.toml"
 hash = "27f1f04ff481189d2c1d725a07c791f2f19e10b5c68a0180a4e61a07e2d5a636"
+metafile = true
+
+[[files]]
+file = "mods/mythic-upgrades.pw.toml"
+hash = "dc7d09e2ca192b0b0595c577939d7eb042364dbcad77e62de86cb72eb989254d"
 metafile = true
 
 [[files]]
@@ -1676,6 +1686,16 @@ hash = "9ce52d07c0c3d146a2a44f8bc187138ce7a5558a4e3ab540c86234702b6de274"
 metafile = true
 
 [[files]]
+file = "mods/worldweaver-neoforge.pw.toml"
+hash = "c7812eda3fdc8cf823c886707f5d3f51c838754fccff39447c52d991f079bb99"
+metafile = true
+
+[[files]]
+file = "mods/wunderlib-neoforge.pw.toml"
+hash = "59f0ddb50597f1bec9a062ff4a2b11215541494ac74a61214358a4b5994164a8"
+metafile = true
+
+[[files]]
 file = "mods/xaeros-minimap.pw.toml"
 hash = "e7ab6e29c91e1b6c50051782233b40cab5e1901863983eecc19cc07949bc1bba"
 metafile = true
@@ -1703,6 +1723,11 @@ metafile = true
 [[files]]
 file = "mods/yungs-better-mineshafts.pw.toml"
 hash = "0cc13a86488cf89d2989edc1636fa63c7efa2fe819246d42af35113458d5ba5b"
+metafile = true
+
+[[files]]
+file = "mods/yungs-better-nether-fortresses.pw.toml"
+hash = "50c1731148d91a4ef05cfc47f759ca8fb3dad254e15ce4ecc5732d6fbfa68637"
 metafile = true
 
 [[files]]
