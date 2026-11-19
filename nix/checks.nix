@@ -16,8 +16,8 @@
     checks.discord-render = pkgs.runCommand "retirement-discord-render-check" {
       nativeBuildInputs = [pkgs.python3];
     } ''
-      ${pkgs.python3}/bin/python3 ${../scripts/test-render-discord.py} \
-        ${./render-discord.py} \
+      ${pkgs.python3}/bin/python3 ${../scripts/test-render-discord-env.py} \
+        ${./render-discord-env.py} \
         ${../packwiz/config/simple-discord-link/simple-discord-link.toml}
       touch "$out"
     '';
@@ -33,12 +33,12 @@
 
         assertions = [
           {
-            assertion = config.services.minecraft-servers.servers.retirement.package.version == "${pack.versions.minecraft}-${pack.versions.neoforge}";
-            message = "retirement: packwiz requires ${pack.versions.minecraft}-${pack.versions.neoforge}, but the server is ${config.services.minecraft-servers.servers.retirement.package.version}";
+            assertion = config.services.minecraft-servers.servers.retirement-home.package.version == "${pack.versions.minecraft}-${pack.versions.neoforge}";
+            message = "retirement: packwiz requires ${pack.versions.minecraft}-${pack.versions.neoforge}, but the server is ${config.services.minecraft-servers.servers.retirement-home.package.version}";
           }
         ];
         # Fixed seed makes biome coverage reproducible.
-        services.minecraft-servers.servers.retirement.serverProperties.level-seed = "86204277";
+        services.minecraft-servers.servers.retirement-home.serverProperties.level-seed = "86204277";
 
         # Keep the real JVM flags, mods, world generation, authentication and firewall.
         virtualisation = {
@@ -53,10 +53,10 @@
 
       testScript = {nodes, ...}: let
         cfg = nodes.server.services.minecraft-servers;
-        server = cfg.servers.retirement;
+        server = cfg.servers.retirement-home;
         settings = pkgs.writeText "retirement-check.json" (builtins.toJSON {
-          log = "${cfg.dataDir}/retirement/logs/latest.log";
-          tmux = "${pkgs.tmux}/bin/tmux -S ${lib.escapeShellArg (server.managementSystem.tmux.socketPath "retirement")}";
+          log = "${cfg.dataDir}/retirement-home/logs/latest.log";
+          tmux = "${pkgs.tmux}/bin/tmux -S ${lib.escapeShellArg (server.managementSystem.tmux.socketPath "retirement-home")}";
           status = lib.escapeShellArgs [
             "python"
             "${../scripts/check-minecraft-status.py}"

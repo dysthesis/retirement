@@ -24,14 +24,9 @@
     options.retirement.discord = {
       enable = lib.mkEnableOption "SDLink runtime credential injection";
 
-      tokenFile = lib.mkOption {
-        type = lib.types.str;
-        description = "Absolute runtime path to a file containing the Discord bot token.";
-      };
-
-      channelId = lib.mkOption {
-        type = lib.types.strMatching "[0-9]{17,20}";
-        description = "Discord text channel ID (not a secret).";
+      environmentFile = lib.mkOption {
+        type = lib.types.strMatching "/.+";
+        description = "Runtime path to a file containing DISCORD_BOT_TOKEN and DISCORD_CHANNEL_ID assignments.";
       };
     };
 
@@ -41,7 +36,7 @@
       ];
 
       systemd.services.minecraft-server-retirement-home.serviceConfig.LoadCredential =
-        lib.mkIf discord.enable ["discord-bot-token:${discord.tokenFile}"];
+        lib.mkIf discord.enable ["discord-env:${discord.environmentFile}"];
 
       services.minecraft-servers = {
         enable = true;
@@ -60,7 +55,7 @@
           # nix-minecraft copies the modpack before running extraStartPre.
           # Keep decrypted credentials out of Nix evaluation and the store.
           extraStartPre = lib.mkIf discord.enable ''
-            ${lib.getExe pkgs.python3} ${./render-discord.py} ${lib.escapeShellArg discord.channelId}
+            ${lib.getExe pkgs.python3} ${./render-discord-env.py}
           '';
 
           serverProperties = {
