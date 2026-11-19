@@ -1,3 +1,4 @@
+config_version: 1
 # Limit distant terrain requests to existing world data.
 generation:
   enabled: false
