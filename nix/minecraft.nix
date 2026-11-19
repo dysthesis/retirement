@@ -12,7 +12,12 @@
     };
   };
 
-  flake.nixosModules.default = {config, lib, pkgs, ...}: let
+  flake.nixosModules.default = {
+    config,
+    lib,
+    pkgs,
+    ...
+  }: let
     discord = config.retirement.discord;
     modpack = self.packages.${pkgs.stdenv.hostPlatform.system}.modpack-server;
     pack = builtins.fromTOML (builtins.readFile ../packwiz/pack.toml);
@@ -69,7 +74,7 @@
 
           files = {
             "config" = "${modpack}/config";
-            "server-icon.png" = ../assets/icons/retirement-home-icon-512.png;
+            "server-icon.png" = ../assets/icons/retirement-home-icon-64.png;
             # NeoForge bootstrap discovery requires a real mods directory.
             mods = "${modpack}/mods";
           };
