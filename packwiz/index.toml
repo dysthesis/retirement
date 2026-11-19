@@ -211,7 +211,7 @@ metafile = true
 
 [[files]]
 file = "config/simple-discord-link/simple-discord-link.toml"
-hash = "c235c11d6b3575d208ae707def9e3232da33a85859648d91cbec00f5379c963a"
+hash = "0b919742d967c6a942bdc09839ebb853b0434658955e5770464cdbbfa4ea2d2d"
 
 [[files]]
 file = "config/streamsreflowing.properties"
