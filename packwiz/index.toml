@@ -230,6 +230,10 @@ file = "config/vss-server-config.yaml"
 hash = "b30b1a678433aedeca3802a0940f51fe4ef808c7f257a3f17d007a85cd0db919"
 
 [[files]]
+file = "config/wover/client.json"
+hash = "cc34b2a265c4d9224e0f64c403adfc3a9255cbba06f21475858dcc623af4d53d"
+
+[[files]]
 file = "config/xaero/minimap/default_radar_categories_client.json"
 hash = "ffd0dace243e8bd59c5c947b97cf1f42d57f39cc4b163fbb7709f2a597a0b050"
 
