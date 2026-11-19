@@ -35,47 +35,49 @@
       };
     };
 
-    nixpkgs.overlays = [
-      inputs.nix-minecraft.overlay
-    ];
+    config = {
+      nixpkgs.overlays = [
+        inputs.nix-minecraft.overlay
+      ];
 
-    systemd.services.minecraft-server-retirement-home.serviceConfig.LoadCredential =
-      lib.mkIf discord.enable ["discord-bot-token:${discord.tokenFile}"];
+      systemd.services.minecraft-server-retirement-home.serviceConfig.LoadCredential =
+        lib.mkIf discord.enable ["discord-bot-token:${discord.tokenFile}"];
 
-    services.minecraft-servers = {
-      enable = true;
-      eula = true;
-
-      servers.retirement-home = {
+      services.minecraft-servers = {
         enable = true;
-        autoStart = true;
-        openFirewall = true;
+        eula = true;
 
-        # Java 25 enables C2ME's optional native-math module.
-        package = pkgs.neoforgeServers."neoforge-${builtins.replaceStrings ["."] ["_"] "${pack.versions.minecraft}-${pack.versions.neoforge}"}".override {jre_headless = pkgs.jdk25_headless;};
+        servers.retirement-home = {
+          enable = true;
+          autoStart = true;
+          openFirewall = true;
 
-        jvmOpts = "-Xms8G -Xmx10G";
+          # Java 25 enables C2ME's optional native-math module.
+          package = pkgs.neoforgeServers."neoforge-${builtins.replaceStrings ["."] ["_"] "${pack.versions.minecraft}-${pack.versions.neoforge}"}".override {jre_headless = pkgs.jdk25_headless;};
 
-        # nix-minecraft copies the modpack before running extraStartPre.
-        # Keep decrypted credentials out of Nix evaluation and the store.
-        extraStartPre = lib.mkIf discord.enable ''
-          ${lib.getExe pkgs.python3} ${./render-discord.py} ${lib.escapeShellArg discord.channelId}
-        '';
+          jvmOpts = "-Xms8G -Xmx10G";
 
-        serverProperties = {
-          server-port = 25565;
-          max-players = 10;
-          motd = "<INSERT MOTD HERE>";
-          difficulty = "hard";
-          white-list = true;
-          online-mode = true;
-        };
+          # nix-minecraft copies the modpack before running extraStartPre.
+          # Keep decrypted credentials out of Nix evaluation and the store.
+          extraStartPre = lib.mkIf discord.enable ''
+            ${lib.getExe pkgs.python3} ${./render-discord.py} ${lib.escapeShellArg discord.channelId}
+          '';
 
-        files = {
-          "config" = "${modpack}/config";
-          "server-icon.png" = ../assets/icons/retirement-home-icon-512.png;
-          # NeoForge bootstrap discovery requires a real mods directory.
-          mods = "${modpack}/mods";
+          serverProperties = {
+            server-port = 25565;
+            max-players = 10;
+            motd = "<INSERT MOTD HERE>";
+            difficulty = "hard";
+            white-list = true;
+            online-mode = true;
+          };
+
+          files = {
+            "config" = "${modpack}/config";
+            "server-icon.png" = ../assets/icons/retirement-home-icon-512.png;
+            # NeoForge bootstrap discovery requires a real mods directory.
+            mods = "${modpack}/mods";
+          };
         };
       };
     };
