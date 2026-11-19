@@ -657,6 +657,11 @@ hash = "b065a8cb99a887abb2c434b84e3fa84f1e62cf500b1b9f50c86a4b48e4bdcc4f"
 metafile = true
 
 [[files]]
+file = "mods/ct-overhaul-village.pw.toml"
+hash = "c5fca9eb7028486e6d9f71823077465e22946031968f8cc0ede491d317978394"
+metafile = true
+
+[[files]]
 file = "mods/cucumber.pw.toml"
 hash = "b2059d79bf6e41281a26b5b75a8f0cb20804079fe49a22042a26aa5ce28ba7f5"
 metafile = true
@@ -1434,6 +1439,11 @@ metafile = true
 [[files]]
 file = "mods/sparkweave.pw.toml"
 hash = "fd2b9d3767476d9200521917dd71b8aeeba5e0e23f8160457bd864e96190d300"
+metafile = true
+
+[[files]]
+file = "mods/sparsestructures.pw.toml"
+hash = "993b4e4970e1a5ef2fe7c6712212f57a84dcf8b31d4b6863540b6395c4f9ce09"
 metafile = true
 
 [[files]]
