@@ -13,6 +13,15 @@
     pkgs = inputs.nixpkgs.legacyPackages.${lib.replaceStrings ["darwin"] ["linux"] system};
     pack = builtins.fromTOML (builtins.readFile ../packwiz/pack.toml);
   in {
+    checks.discord-render = pkgs.runCommand "retirement-discord-render-check" {
+      nativeBuildInputs = [pkgs.python3];
+    } ''
+      ${pkgs.python3}/bin/python3 ${../scripts/test-render-discord.py} \
+        ${./render-discord.py} \
+        ${../packwiz/config/simple-discord-link/simple-discord-link.toml}
+      touch "$out"
+    '';
+
     checks.minecraft = pkgs.testers.runNixOSTest {
       name = "retirement";
       node.pkgsReadOnly = false;

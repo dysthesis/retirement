@@ -210,6 +210,10 @@ hash = "7884337803babcd6ccbfaae85318547dd9e3384f3838191942d00c14ff93ffe0"
 metafile = true
 
 [[files]]
+file = "config/simple-discord-link/simple-discord-link.toml"
+hash = "c235c11d6b3575d208ae707def9e3232da33a85859648d91cbec00f5379c963a"
+
+[[files]]
 file = "config/streamsreflowing.properties"
 hash = "344ed61452e1ca215a1cf3d254eb8028e025bdec245ead045b87b981d97d0144"
 
@@ -523,6 +527,11 @@ metafile = true
 [[files]]
 file = "mods/crashexploitfixer.pw.toml"
 hash = "15244972e3544c32786ae43d04851e9b0af1b2e9a7de92886923bfdcf0b8fcf6"
+metafile = true
+
+[[files]]
+file = "mods/craterlib.pw.toml"
+hash = "e22afb762eb3161a8114545dc97affda25b4cb519b79b81e9bc7533d9b09e74f"
 metafile = true
 
 [[files]]
@@ -1359,6 +1368,11 @@ metafile = true
 [[files]]
 file = "mods/scorchful.pw.toml"
 hash = "1139128a69b6a31ce272ed60f1090698e7941468f5259fcddceea8a1569e3bdf"
+metafile = true
+
+[[files]]
+file = "mods/sdlink.pw.toml"
+hash = "2037c01b68f261d9ca033b1166cf32d63ddb5dc66b69e03d5d5fb24f22a9707e"
 metafile = true
 
 [[files]]

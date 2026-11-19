@@ -1,0 +1,41 @@
+[botConfig]
+botToken = "YOUR_BOT_TOKEN"
+statusUpdateInterval = 60
+
+[botConfig.topicUpdates]
+doTopicUpdates = false
+
+[channelsAndWebhooks.channels]
+chatChannelID = "YOUR_CHANNEL_ID"
+eventsChannelID = "0"
+consoleChannelID = "0"
+
+[channelsAndWebhooks.webhooks]
+enabled = false
+
+[chat]
+playerMessages = true
+discordMessages = true
+ignoreBots = true
+
+playerJoin = true
+playerLeave = true
+deathMessages = "ALWAYS"
+advancementMessages = "NEVER"
+
+serverStarting = true
+serverStarted = true
+serverStopping = true
+serverStopped = true
+
+broadcastCommands = false
+relayTellRaw = false
+sendConsoleMessages = false
+allowMentionsFromChat = false
+
+[accessControl]
+enabled = false
+optionalVerification = false
+
+[minecraftCommands]
+enabled = false

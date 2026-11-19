@@ -12,7 +12,8 @@
     };
   };
 
-  flake.nixosModules.default = {pkgs, ...}: let
+  flake.nixosModules.default = {config, lib, pkgs, ...}: let
+    discord = config.retirement.discord;
     modpack = self.packages.${pkgs.stdenv.hostPlatform.system}.modpack-server;
     pack = builtins.fromTOML (builtins.readFile ../packwiz/pack.toml);
   in {
@@ -20,9 +21,26 @@
       inputs.nix-minecraft.nixosModules.minecraft-servers
     ];
 
+    options.retirement.discord = {
+      enable = lib.mkEnableOption "SDLink runtime credential injection";
+
+      tokenFile = lib.mkOption {
+        type = lib.types.str;
+        description = "Absolute runtime path to a file containing the Discord bot token.";
+      };
+
+      channelId = lib.mkOption {
+        type = lib.types.strMatching "[0-9]{17,20}";
+        description = "Discord text channel ID (not a secret).";
+      };
+    };
+
     nixpkgs.overlays = [
       inputs.nix-minecraft.overlay
     ];
+
+    systemd.services.minecraft-server-retirement-home.serviceConfig.LoadCredential =
+      lib.mkIf discord.enable ["discord-bot-token:${discord.tokenFile}"];
 
     services.minecraft-servers = {
       enable = true;
@@ -38,12 +56,19 @@
 
         jvmOpts = "-Xms8G -Xmx10G";
 
+        # nix-minecraft copies the modpack before running extraStartPre.
+        # Keep decrypted credentials out of Nix evaluation and the store.
+        extraStartPre = lib.mkIf discord.enable ''
+          ${lib.getExe pkgs.python3} ${./render-discord.py} ${lib.escapeShellArg discord.channelId}
+        '';
+
         serverProperties = {
           server-port = 25565;
           max-players = 10;
           motd = "<INSERT MOTD HERE>";
           difficulty = "hard";
           white-list = true;
+          online-mode = true;
         };
 
         files = {
