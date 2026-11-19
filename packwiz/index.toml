@@ -682,6 +682,11 @@ hash = "20be18fbc6a407db6542485e850b35d89cf7c233c5bb88eda3e25c5c9535714d"
 metafile = true
 
 [[files]]
+file = "mods/deep-aether.pw.toml"
+hash = "e3211d7d54a7203a183ed3b453be5dd52d27f389dbef26dd7e769f20e1dea81f"
+metafile = true
+
+[[files]]
 file = "mods/deeperdarker.pw.toml"
 hash = "bbb3f09fbd5a3ca7aa82c41923f4557429fa465993c2817e9966dd3f8164e318"
 metafile = true
