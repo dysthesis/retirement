@@ -300,6 +300,11 @@ hash = "e735b472ad5c38359636d5abb84ed1baeb461f72aa19c324c349543823a16188"
 metafile = true
 
 [[files]]
+file = "mods/ars-elemental.pw.toml"
+hash = "09a82b4f00e69c7bdd9082104f4191e94214330ff8aab04ac874270e34d29aeb"
+metafile = true
+
+[[files]]
 file = "mods/ars-nouveau.pw.toml"
 hash = "195e22716d6181d55297bfe296716c68ad44cc2a4c09ef2eb6f68048ff00618f"
 metafile = true
@@ -1465,6 +1470,11 @@ hash = "9586073d1516edeb883ac756ba0379976b890b0faffffec7e45faace40b1ccac"
 metafile = true
 
 [[files]]
+file = "mods/sophisticated-storage.pw.toml"
+hash = "589ce9acb7d0fd2cb2323d871daba07615f5b7b5ed6a06cfa813740a4012c2fa"
+metafile = true
+
+[[files]]
 file = "mods/soul-fire-d.pw.toml"
 hash = "aa7a2c186bf1ce65441be06d1c9a5af18b054098e4bdc37273fb4e75f0d27fc5"
 metafile = true
@@ -1716,6 +1726,16 @@ metafile = true
 [[files]]
 file = "mods/what-are-they-up-to.pw.toml"
 hash = "9ce52d07c0c3d146a2a44f8bc187138ce7a5558a4e3ab540c86234702b6de274"
+metafile = true
+
+[[files]]
+file = "mods/when-dungeons-arise-seven-seas.pw.toml"
+hash = "6817acd8f1a98c3e7c00e61507a9178fa9c7398b356f6e92704656a712157dcd"
+metafile = true
+
+[[files]]
+file = "mods/when-dungeons-arise.pw.toml"
+hash = "485906ff55a5d6ad06070abb80663d6adadc3e4b32f8b52240d8596e7aaef9fa"
 metafile = true
 
 [[files]]
