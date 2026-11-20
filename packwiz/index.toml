@@ -1490,6 +1490,11 @@ hash = "993b4e4970e1a5ef2fe7c6712212f57a84dcf8b31d4b6863540b6395c4f9ce09"
 metafile = true
 
 [[files]]
+file = "mods/spartan-weaponry-unofficial.pw.toml"
+hash = "b21fefa47d75eb611495b1496ab415c3c0b34f1c29058fafd12ab73d61dcae06"
+metafile = true
+
+[[files]]
 file = "mods/spectrum.pw.toml"
 hash = "6691fc26d7499b081f03f388e40316cc192c3422f02c4827e27d19cfb123e9fb"
 metafile = true
