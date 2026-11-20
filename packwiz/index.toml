@@ -214,6 +214,10 @@ file = "config/simple-discord-link/simple-discord-link.toml"
 hash = "0b919742d967c6a942bdc09839ebb853b0434658955e5770464cdbbfa4ea2d2d"
 
 [[files]]
+file = "config/sparsestructures.json5"
+hash = "242386933ed3254ce0adf0c39140b0da4cca24df0e52f19a84aff7a0b9af76f4"
+
+[[files]]
 file = "config/streamsreflowing.properties"
 hash = "344ed61452e1ca215a1cf3d254eb8028e025bdec245ead045b87b981d97d0144"
 
@@ -280,6 +284,11 @@ hash = "086cb09b402389a49e01f984e1898dd688b490fba4c42fef9ca274b5dc5f648a"
 metafile = true
 
 [[files]]
+file = "mods/ante.pw.toml"
+hash = "28a347f91bbad2721f385cbfa31c75ddcd35de3e5e226e79abc6b5dce25869cb"
+metafile = true
+
+[[files]]
 file = "mods/appleskin.pw.toml"
 hash = "716d930feff599bf9ce732e05979fbae8025dc8a3c13ccf4f1cb207a70883bc6"
 metafile = true
@@ -301,7 +310,7 @@ metafile = true
 
 [[files]]
 file = "mods/ars-elemental.pw.toml"
-hash = "09a82b4f00e69c7bdd9082104f4191e94214330ff8aab04ac874270e34d29aeb"
+hash = "8e9f867e9c0ff53e08e779ae54fd1bbead92f1d7323b75369e64ade719d5d7c1"
 metafile = true
 
 [[files]]
@@ -372,6 +381,11 @@ metafile = true
 [[files]]
 file = "mods/better-trees.pw.toml"
 hash = "67a20e2da944ec599f9205aea32fbd3033eafea11f65e7a32d69c7ead6947a29"
+metafile = true
+
+[[files]]
+file = "mods/better-tridents.pw.toml"
+hash = "f8a38924e14f920e143eca6225cb2a8151d7c2978bf36869fe3290e1302bd6a4"
 metafile = true
 
 [[files]]
@@ -460,6 +474,11 @@ hash = "581d3ab3dd469a7870eb44d3f909e98da817895273711ba85b11e5280257f7e5"
 metafile = true
 
 [[files]]
+file = "mods/climate-rivers.pw.toml"
+hash = "b468173f5c612f78a2a715a54a7a228d90322c8fd5b619a50be2597fb1e46c50"
+metafile = true
+
+[[files]]
 file = "mods/cloth-config.pw.toml"
 hash = "75181b55e0407d1fca1e2f346c6501f919f5109545990ddfb66db9cd1b771f8a"
 metafile = true
@@ -487,6 +506,11 @@ metafile = true
 [[files]]
 file = "mods/colorwheel.pw.toml"
 hash = "c7f9286eabbfd298a73a92dc91031a27a8551a7cda8656f2173a4ba8cc0ac1a2"
+metafile = true
+
+[[files]]
+file = "mods/common-network.pw.toml"
+hash = "cd8078f4d044e9fb548c2b792f2f1f1c04e1b80e1479446f67de3e8687dfbf67"
 metafile = true
 
 [[files]]
@@ -936,8 +960,23 @@ hash = "4480ede1f6ed684cf8bdf4f5b410bf767559f92a0948c30d7074237cfa7af9b9"
 metafile = true
 
 [[files]]
+file = "mods/hybrid-api.pw.toml"
+hash = "fdc55b26800127cafd9a88b2bd03615fc49ced589cffb036145d98c029af437f"
+metafile = true
+
+[[files]]
+file = "mods/hybrid-aquatic.pw.toml"
+hash = "af60f4cd6512a46528cc606f854354c6a261a79bdf2ced261b89b42905bbd7c0"
+metafile = true
+
+[[files]]
 file = "mods/hypertube.pw.toml"
 hash = "672fe2518a1795814efc943c3e3cf8dc1b993bc7d838cc62950acfaba348c2c7"
+metafile = true
+
+[[files]]
+file = "mods/icarus.pw.toml"
+hash = "32188462762be68dafebf6ebbdfb205beef542306e840f6be8c2bf45ff0d949d"
 metafile = true
 
 [[files]]
@@ -1331,6 +1370,11 @@ hash = "c77a2626f56bf37416c44852bbf06d5cc4876e8e1bad0a5b3c734780596a786c"
 metafile = true
 
 [[files]]
+file = "mods/punchy-fpa.pw.toml"
+hash = "8a33559da1d1dd21462ed5e31e90116473fe61befbb5cd32f4df5890b21d0c0d"
+metafile = true
+
+[[files]]
 file = "mods/puzzles-lib.pw.toml"
 hash = "d465abcc806c0d4fdeefb6a5e774cca4fff0ffd27d7c75954ab4688f4c9eaf05"
 metafile = true
@@ -1418,6 +1462,16 @@ metafile = true
 [[files]]
 file = "mods/simple-voice-chat.pw.toml"
 hash = "6f9502735fcac7a35468358e2aa0fd9333b12df885db3325c472d298ce315a72"
+metafile = true
+
+[[files]]
+file = "mods/simply-swords.pw.toml"
+hash = "f11837c4f049aeb3b7ceb086f4c7b1347bfad1826f47722cbdc8b2b38df0067e"
+metafile = true
+
+[[files]]
+file = "mods/simply-tooltips.pw.toml"
+hash = "bb5dc8ac909aee1955532a65145f7ebfc3a88289610298e821a974fdda5f1822"
 metafile = true
 
 [[files]]

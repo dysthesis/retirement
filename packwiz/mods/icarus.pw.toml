@@ -1,0 +1,13 @@
+name = "Icarus"
+filename = "Icarus-NeoForge-4.8.1.jar"
+side = "both"
+
+[download]
+url = "https://cdn.modrinth.com/data/Dw7M6XKW/versions/WYDi2tl4/Icarus-NeoForge-4.8.1.jar"
+hash-format = "sha512"
+hash = "602266743abf0b6141fb03f8c91387bf08df6ea74c0d78cdced33b2bce0c7b166db332061aa3ded15a61d0b565102f5ffbb3ce58c170c1e0a772c4976fa1a155"
+
+[update]
+[update.modrinth]
+mod-id = "Dw7M6XKW"
+version = "WYDi2tl4"
