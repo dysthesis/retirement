@@ -990,11 +990,6 @@ hash = "32188462762be68dafebf6ebbdfb205beef542306e840f6be8c2bf45ff0d949d"
 metafile = true
 
 [[files]]
-file = "mods/iceandfire-ce.pw.toml"
-hash = "4c233e9518a334c3449b89ff295ea1553450f4118bcd494ae0c55275d3edadcd"
-metafile = true
-
-[[files]]
 file = "mods/immediatelyfast.pw.toml"
 hash = "2863a3b187723e1f69ed2ad2b2c3d834e8442468a1347c80df5b310e243c8753"
 metafile = true
@@ -1042,11 +1037,6 @@ metafile = true
 [[files]]
 file = "mods/jei.pw.toml"
 hash = "6c288753abaa5f8f4e5bdc3220cb84ef7fcb021c969c24832e9eb9f79de38da1"
-metafile = true
-
-[[files]]
-file = "mods/jupiter.pw.toml"
-hash = "a3d803079f7cba47f9d6bf728198f2c335a13938ef50bbdaa3f7ae2457bef58d"
 metafile = true
 
 [[files]]
@@ -1731,11 +1721,6 @@ metafile = true
 [[files]]
 file = "mods/universal-graves.pw.toml"
 hash = "1d35cd67870d906d66d40bae2be65b2ba7275f4fac2bdaef2e603987767b5f7d"
-metafile = true
-
-[[files]]
-file = "mods/uranus.pw.toml"
-hash = "ba468b0e9e8ff229fdbaa7fc1efc6f43236cdafe7570b0ba2b51874ddbc1880b"
 metafile = true
 
 [[files]]
