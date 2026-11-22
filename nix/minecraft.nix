@@ -66,7 +66,7 @@
           serverProperties = {
             server-port = 25565;
             max-players = 10;
-            motd = "<INSERT MOTD HERE>";
+            motd = "Retirement Home";
             difficulty = "hard";
             white-list = true;
             online-mode = true;
