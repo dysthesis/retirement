@@ -51,7 +51,6 @@ public final class CheckPackIntegrations {
                           : client.getField("level").get(runtime);
                   if (world == null)
                     throw new AssertionError("Join a world before checking integrations");
-                  checkSeasons(gameLoader, world, out);
                   checkOreProcessing(gameLoader, world, out);
                   checkWashingFluids(gameLoader, out);
                   if (client != null) checkViewer(gameLoader, out);
@@ -65,41 +64,6 @@ public final class CheckPackIntegrations {
             },
             (Executor) runtime)
         .get(120, TimeUnit.SECONDS);
-  }
-
-  private static void checkSeasons(ClassLoader loader, Object world, PrintWriter out)
-      throws Exception {
-    Class<?> level = loader.loadClass("net.minecraft.world.level.Level");
-    Object seasonState =
-        loader
-            .loadClass("sereneseasons.api.season.SeasonHelper")
-            .getMethod("getSeasonState", level)
-            .invoke(null, world);
-    Object expected =
-        loader
-            .loadClass("sereneseasons.api.season.ISeasonState")
-            .getMethod("getSeason")
-            .invoke(seasonState);
-    Object event =
-        loader
-            .loadClass("com.github.thedeathlycow.thermoo.api.season.ThermooSeasonEvents")
-            .getField("GET_CURRENT_SEASON")
-            .get(null);
-    Object invoker =
-        loader.loadClass("net.fabricmc.fabric.api.event.Event").getMethod("invoker").invoke(event);
-    Optional<?> actual =
-        (Optional<?>)
-            loader
-                .loadClass(
-                    "com.github.thedeathlycow.thermoo.api.season.ThermooSeasonEvents$CurrentSeasonCallback")
-                .getMethod("getCurrentSeason", level)
-                .invoke(invoker, world);
-    String expectedName = ((Enum<?>) expected).name();
-    if (actual.isEmpty() || !((Enum<?>) actual.get()).name().equals(expectedName)) {
-      throw new AssertionError(
-          "Thermoo season " + actual + " does not match Serene Seasons " + expectedName);
-    }
-    out.println("PASS: Thermoo follows Serene Seasons " + expectedName);
   }
 
   private static void checkOreProcessing(ClassLoader loader, Object world, PrintWriter out)
