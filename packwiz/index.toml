@@ -5,10 +5,6 @@ file = "config/biolith/general.json"
 hash = "b53d22bef2bb36b66138da57a389d85d27fbfca14305245b49ce7b1f55baa7f9"
 
 [[files]]
-file = "config/biomesoplenty/generation.toml"
-hash = "57c2e0dd4dd3fd591d61dd0278a335f3e053fa60bc8a7ef1dd333ae031152f11"
-
-[[files]]
 file = "config/dsurround/dsurround.json"
 hash = "f8b29c4ef11da32c494051f5f4b1471bf09cb70e0efd8fdfad0cce03f91aaaeb"
 
@@ -210,6 +206,10 @@ hash = "7884337803babcd6ccbfaae85318547dd9e3384f3838191942d00c14ff93ffe0"
 metafile = true
 
 [[files]]
+file = "config/quark-common.toml"
+hash = "7db306705b6276a3bb23c5074ac3c00e6f998c4b219deebcadb157e68e0c9374"
+
+[[files]]
 file = "config/simple-discord-link/simple-discord-link.toml"
 hash = "0b919742d967c6a942bdc09839ebb853b0434658955e5770464cdbbfa4ea2d2d"
 
@@ -248,6 +248,10 @@ hash = "cc34b2a265c4d9224e0f64c403adfc3a9255cbba06f21475858dcc623af4d53d"
 [[files]]
 file = "config/xaero/minimap/default_radar_categories_client.json"
 hash = "ffd0dace243e8bd59c5c947b97cf1f42d57f39cc4b163fbb7709f2a597a0b050"
+
+[[files]]
+file = "config/xaero/world-map/profiles/default.cfg"
+hash = "e577b65a7f07a3f929f177ad475cd82f77fa4745f19bb2096184996110b9d4ee"
 
 [[files]]
 file = "mods/CrosshairAddons-2.2.2+retirement.1+1.21-1.21.1-neoforge.jar"
@@ -941,11 +945,6 @@ metafile = true
 [[files]]
 file = "mods/jade.pw.toml"
 hash = "4de3e4a1a49e332c1ad313283e0403c4273b628d634c17a9ff0c9da3d6b67f9a"
-metafile = true
-
-[[files]]
-file = "mods/jei.pw.toml"
-hash = "6c288753abaa5f8f4e5bdc3220cb84ef7fcb021c969c24832e9eb9f79de38da1"
 metafile = true
 
 [[files]]
