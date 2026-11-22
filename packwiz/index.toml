@@ -726,11 +726,6 @@ file = "mods/emi-letsdo-compat-2.0.3+retirement.3+neoforge.jar"
 hash = "dfa380dc201c7939ebcbf6c1210f89ddd8cc6d02354a319389d998216631b98a"
 
 [[files]]
-file = "mods/emi-loot.pw.toml"
-hash = "1f7ee5ea0a84276fa059773e57e6b14c76ce1cf2954fe0b3cce938f268047c6e"
-metafile = true
-
-[[files]]
 file = "mods/emi-ores.pw.toml"
 hash = "f2cbcb3d01017133313e1594cb89f052923592b7fa0c78eb9b6d09fb6e03bfb5"
 metafile = true
@@ -738,11 +733,6 @@ metafile = true
 [[files]]
 file = "mods/emi-rechiseled-1.0.0+retirement.3+neoforge.jar"
 hash = "1cbe8967dedfe988744afc7fc7daa565ef94ad0ca756bb39cf6fbb3ab46e9ca2"
-
-[[files]]
-file = "mods/emi.pw.toml"
-hash = "67bb77eae0b644960be3b1074178ceb5d54facbb42f326981b9d94625238a54a"
-metafile = true
 
 [[files]]
 file = "mods/emi_loot-0.7.10+1.21+retirement.1+neoforge.jar"
