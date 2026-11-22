@@ -1,0 +1,13 @@
+name = "Voxy SeedGen"
+filename = "Voxy SeedGen 0.3.1 1.21.1 NeoForge.jar"
+side = "both"
+
+[download]
+url = "https://cdn.modrinth.com/data/Ey3OuBuM/versions/d4Wve2GS/Voxy%20SeedGen%200.3.1%201.21.1%20NeoForge.jar"
+hash-format = "sha512"
+hash = "8a2c61ae5b08d68b5aebb14572e5be792716761650ec92f4ef2afdca32e7341a8ac476c1086e9ef4f614329093f58f5ee81c989928f08c1632a5e25017ba2e4c"
+
+[update]
+[update.modrinth]
+mod-id = "Ey3OuBuM"
+version = "d4Wve2GS"

@@ -769,6 +769,11 @@ hash = "820727a4852072ccad40e99d05fdab98d7d5b214ef2fa1b01fc102408b0d322c"
 metafile = true
 
 [[files]]
+file = "mods/do-a-barrel-roll.pw.toml"
+hash = "fe88386ca7a7c34be094f10e3a012810cec23f21b580dbc1c908cf95a17bf6f8"
+metafile = true
+
+[[files]]
 file = "mods/double-doors.pw.toml"
 hash = "d3c6f05de0c03ad9782c7eeaca201d687a4ea8abeb2d3bff852786e7b00cad13"
 metafile = true
@@ -1756,6 +1761,11 @@ metafile = true
 [[files]]
 file = "mods/voxy-1.1.0+retirement.3+neoforge.jar"
 hash = "0f2781db79bec5c5aee3e74a2f685416fb26d306f2f30ba4d9be5980498f19fd"
+
+[[files]]
+file = "mods/voxy-seedgen.pw.toml"
+hash = "d9530c9fca47cd383d066a1fae06f56524b4311225d48d5b1eac7a9f6526aa89"
+metafile = true
 
 [[files]]
 file = "mods/voxy-server-side.pw.toml"
