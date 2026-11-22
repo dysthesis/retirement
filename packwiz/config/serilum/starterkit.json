@@ -1,0 +1,5 @@
+{
+  "giveStarterKitOnFirstJoin": { "value": true },
+  "giveStarterKitOnRespawn": { "value": false },
+  "randomizeMultipleKitsToggle": { "value": true }
+}
