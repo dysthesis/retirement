@@ -618,11 +618,6 @@ hash = "055a23471c72576d1f79e2edcd6a20bcaa59ac70c84480fc10069c6469b3f528"
 metafile = true
 
 [[files]]
-file = "mods/create-new-age.pw.toml"
-hash = "39499039e11a6e0f50542d80af94c172342fdb686f3a59d5ee4457d978a54e75"
-metafile = true
-
-[[files]]
 file = "mods/create-ore-excavation.pw.toml"
 hash = "10d3389f72e8e8f78518f5b6786ccec4e62dbad117491d2970e8e1f75e390251"
 metafile = true
@@ -660,11 +655,6 @@ metafile = true
 [[files]]
 file = "mods/createbetterfps.pw.toml"
 hash = "b6a535a801939a78f255203f7b28319773becca20cc88348f8764f4078816300"
-metafile = true
-
-[[files]]
-file = "mods/createnuclear.pw.toml"
-hash = "70a3ec14e121837aefc0c7f32d934bdf50d214d5a8d4c0020ce2d7428a22a051"
 metafile = true
 
 [[files]]
@@ -959,11 +949,6 @@ hash = "db1c1e6382878b78e994dba1b9026935f8d1c5ca685c89d2437858e0a0dcab58"
 metafile = true
 
 [[files]]
-file = "mods/iron-furnaces.pw.toml"
-hash = "cd73757a8c093f490d5c7673ad17f4404622a485234b79dc43efa0e67788d66e"
-metafile = true
-
-[[files]]
 file = "mods/item-descriptions.pw.toml"
 hash = "b902e2a8d9a070dec6136632ea901f2bcb7185c41554d08128f377a1825ed495"
 metafile = true
@@ -1124,11 +1109,6 @@ hash = "2726c6991c3cc6ee3644725fd98759b6d8b2cfd96d0fcb7ad8e266924f741f52"
 metafile = true
 
 [[files]]
-file = "mods/mekanism-tools.pw.toml"
-hash = "efafea92ef966ffe7c3c31209b643a9bbcccb3a8a5a02347b49ff50e015980fe"
-metafile = true
-
-[[files]]
 file = "mods/midnightlib.pw.toml"
 hash = "5c4078f8ff8f2ec7aeba3e6b4066a9a67e0d57be42afe16871fd32f0c4429347"
 metafile = true
@@ -1174,18 +1154,8 @@ hash = "cf98a93ea429786de97d9d7b70c72468909e0b9d1799def65b7c29c419c8d362"
 metafile = true
 
 [[files]]
-file = "mods/mystical-agradditions.pw.toml"
-hash = "c21a30355023622d42ba9386ce24fa814473a651ff0f9abd949946f32e1ef86c"
-metafile = true
-
-[[files]]
 file = "mods/mystical-agriculture.pw.toml"
 hash = "27f1f04ff481189d2c1d725a07c791f2f19e10b5c68a0180a4e61a07e2d5a636"
-metafile = true
-
-[[files]]
-file = "mods/mythic-upgrades.pw.toml"
-hash = "dc7d09e2ca192b0b0595c577939d7eb042364dbcad77e62de86cb72eb989254d"
 metafile = true
 
 [[files]]
@@ -1311,11 +1281,6 @@ metafile = true
 [[files]]
 file = "mods/reconnectible-chains.pw.toml"
 hash = "ff8a3f48dc5a384d781b8fb39f5895a07bbd325c024b2ac66dace4dc80aef8a0"
-metafile = true
-
-[[files]]
-file = "mods/refined-storage.pw.toml"
-hash = "aaf0d7287d0b48ed96307ffa1fd8bbe7a3d6bfc837be1e6ba42c09063b988e69"
 metafile = true
 
 [[files]]
@@ -1460,11 +1425,6 @@ metafile = true
 [[files]]
 file = "mods/sparsestructures.pw.toml"
 hash = "993b4e4970e1a5ef2fe7c6712212f57a84dcf8b31d4b6863540b6395c4f9ce09"
-metafile = true
-
-[[files]]
-file = "mods/spectrum.pw.toml"
-hash = "6691fc26d7499b081f03f388e40316cc192c3422f02c4827e27d19cfb123e9fb"
 metafile = true
 
 [[files]]
