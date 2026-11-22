@@ -12,7 +12,7 @@ import shlex
 with open("@settings@") as settings_file:
     settings = json.load(settings_file)
 
-unit = "minecraft-server-retirement.service"
+unit = "minecraft-server-retirement-home.service"
 log_file = settings["log"]
 tmux = settings["tmux"]
 
@@ -154,7 +154,7 @@ try:
         for biome, accepted in [
             ("terralith:lavender_forest", True),
             ("terralith:siberian_taiga", True),
-            ("biomesoplenty:redwood_forest", True),
+            ("minecraft:old_growth_pine_taiga", True),
             ("minecraft:plains", True),
             ("minecraft:desert", False),
         ]:
@@ -163,13 +163,13 @@ try:
             marker = f"retirement-check-squirrel-{biome.split(':')[1]}-{boot}"
             condition = "if" if accepted else "unless"
             expect(
-                f"execute {condition} biome 8 500 8 "
+                f"execute if biome 8 500 8 {biome} {condition} biome 8 500 8 "
                 f"#wildernature:spawns_squirrel run say {marker}",
                 marker,
             )
         for dimension, biome, x, z in [
             ("minecraft:the_end", "nullscape:crystal_peaks", 0, 0),
-            ("minecraft:overworld", "biomesoplenty:redwood_forest", 0, 0),
+            ("twilightforest:twilight_forest", "twilightforest:forest", 0, 0),
             ("minecraft:overworld", "terralith:alpine_highlands", 0, 0),
             # Larger climate regions put this seed's tropical islands beyond /locate's spawn radius.
             ("minecraft:overworld", "fishofthieves:tropical_island", -23936, -18048),
