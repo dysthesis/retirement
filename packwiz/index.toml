@@ -502,11 +502,6 @@ hash = "2994021cbfb1f99607e99d90336364a2b2fe7e28bd91cd1a50287ff29c33a9a9"
 metafile = true
 
 [[files]]
-file = "mods/cool-rain.pw.toml"
-hash = "e8bfe6030b00a3b72b44359ed1e80f956be308b9c6b371619f3776aef33c3ff0"
-metafile = true
-
-[[files]]
 file = "mods/copycats.pw.toml"
 hash = "b6b702e432d0a9089ab5ccbf0c83951f6afe1315822c668659b8b04e4f3b99f7"
 metafile = true
