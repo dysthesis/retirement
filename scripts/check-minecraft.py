@@ -46,6 +46,14 @@ try:
         expect(
             f"execute if block 0 500 0 minecraft:diamond_block run say {marker}", marker
         )
+        server.succeed(command("setblock 9 500 0 minecraft:chest"))
+        server.succeed(command("setblock 8 500 0 minecraft:crafter[orientation=east_up]"))
+        server.succeed(command("item replace block 8 500 0 container.0 with createdeco:red_placard"))
+        server.succeed(command("item replace block 8 500 0 container.1 with minecraft:white_dye"))
+        server.succeed(command("setblock 8 499 0 minecraft:redstone_block"))
+        marker = f"retirement-check-recolor-placard-{boot}"
+        expect(f"execute if items block 9 500 0 container.* create:placard run say {marker}", marker)
+        server.succeed(command("fill 8 499 0 9 500 0 minecraft:air"))
         for x, block in [
             (2, "rechiseled:stone_tiles"),
             (6, "mcwbridges:oak_log_bridge_middle"),
