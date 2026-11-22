@@ -1,2 +1,3 @@
 "giveStarterKitOnFirstJoin": true,
-"giveStarterKitOnRespawn": false
+"giveStarterKitOnRespawn": false,
+"randomizeMultipleKitsToggle": true

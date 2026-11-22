@@ -218,6 +218,10 @@ file = "config/sparsestructures.json5"
 hash = "e5218cceb4fe622501eb968451bd564b69d7a2e540a4658e30bfce6514c93b44"
 
 [[files]]
+file = "config/starterkit.json5"
+hash = "78390116604b0c0833350e17f5a34a50af0f8869c6c479b59148a69d5aa7fea9"
+
+[[files]]
 file = "config/streamsreflowing.properties"
 hash = "344ed61452e1ca215a1cf3d254eb8028e025bdec245ead045b87b981d97d0144"
 
