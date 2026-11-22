@@ -1088,11 +1088,6 @@ hash = "eae3c14c915400de36bf547550f630de727bbf48ae0ce719b99b2ff50ceaab0d"
 metafile = true
 
 [[files]]
-file = "mods/modonomicon.pw.toml"
-hash = "685dd055cd08d821f106b723c8a08c47bc2a15dc70e26a4e8c41e28d0be1e13b"
-metafile = true
-
-[[files]]
 file = "mods/moonlight.pw.toml"
 hash = "b14b3d7f88512f23bccca8e2f133e52e84307679b6eba4e818ce13e8f87e503d"
 metafile = true
@@ -1310,16 +1305,6 @@ metafile = true
 [[files]]
 file = "mods/simple-voice-chat.pw.toml"
 hash = "6f9502735fcac7a35468358e2aa0fd9333b12df885db3325c472d298ce315a72"
-metafile = true
-
-[[files]]
-file = "mods/simply-swords.pw.toml"
-hash = "f11837c4f049aeb3b7ceb086f4c7b1347bfad1826f47722cbdc8b2b38df0067e"
-metafile = true
-
-[[files]]
-file = "mods/simply-tooltips.pw.toml"
-hash = "bb5dc8ac909aee1955532a65145f7ebfc3a88289610298e821a974fdda5f1822"
 metafile = true
 
 [[files]]
@@ -1668,11 +1653,6 @@ metafile = true
 [[files]]
 file = "resourcepacks/even-better-enchants.pw.toml"
 hash = "123aedbad1318ddfaef3173c56994542077ff0f8fd9982bfb3430b331d46323a"
-metafile = true
-
-[[files]]
-file = "resourcepacks/fancy-beds.pw.toml"
-hash = "602f123bdff3b0843472e60a673aab77c2e2cd82a09bd79865893fe299b648c2"
 metafile = true
 
 [[files]]
