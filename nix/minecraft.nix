@@ -19,6 +19,8 @@
     ...
   }: let
     discord = config.retirement.discord;
+    minecraft = config.services.minecraft-servers;
+    home = minecraft.servers.retirement-home;
     modpack = self.packages.${pkgs.stdenv.hostPlatform.system}.modpack-server;
     pack = builtins.fromTOML (builtins.readFile ../packwiz/pack.toml);
   in {
@@ -39,6 +41,9 @@
       nixpkgs.overlays = [
         inputs.nix-minecraft.overlay
       ];
+
+      # Simple Voice Chat listens separately from the Minecraft TCP socket.
+      networking.firewall.allowedUDPPorts = lib.optional (minecraft.enable && home.enable && home.openFirewall) 24454;
 
       systemd.services.minecraft-server-retirement-home.serviceConfig.LoadCredential =
         lib.mkIf discord.enable ["discord-env:${discord.environmentFile}"];
