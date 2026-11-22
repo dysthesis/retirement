@@ -56,19 +56,20 @@ try:
             marker = f"retirement-check-building-{x}-{boot}"
             expect(f"execute if block {x} 500 0 {block} run say {marker}", marker)
         server.succeed(command("setblock 1 500 0 minecraft:chest"))
-        for item, accepted in [
-            ("moredelight:toast", True),
-            ("minecraft:cookie", True),
-            ("minecraft:stone", False),
+        for item, tag, accepted in [
+            ("moredelight:toast", "supplementaries:jar_cookies", True),
+            ("minecraft:cookie", "supplementaries:jar_cookies", True),
+            ("minecraft:stone", "supplementaries:jar_cookies", False),
+            ("sophisticatedbackpacks:backpack", "curios:back", True),
         ]:
             server.succeed(
                 command(f"item replace block 1 500 0 container.0 with {item}")
             )
-            marker = f"retirement-check-jar-{item.split(':')[1]}-{boot}"
+            marker = f"retirement-check-item-tag-{item.split(':')[1]}-{boot}"
             condition = "if" if accepted else "unless"
             expect(
                 f"execute {condition} items block 1 500 0 container.0 "
-                f"#supplementaries:jar_cookies run say {marker}",
+                f"#{tag} run say {marker}",
                 marker,
             )
         for name, enchantment, drop in [

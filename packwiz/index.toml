@@ -117,10 +117,6 @@ file = "config/paxi/datapacks/retirement-compat/data/create/tags/fluid/fan_proce
 hash = "589a85777b06079f6556d67c5e2040de6c2362030453e72a741fc0773e705a88"
 
 [[files]]
-file = "config/paxi/datapacks/retirement-compat/data/curios/tags/item/back.json"
-hash = "a96107bb56408c3144bc3e783b60e7402eab84398e9a0cf78e3c4186e0239165"
-
-[[files]]
 file = "config/paxi/datapacks/retirement-compat/data/farmersdelight/recipe/cutting/echo_door.json"
 hash = "3a6828bbaccdba26fbfbea384a0b74ec1fd841d43548fbd648a9e6f57c03362d"
 
