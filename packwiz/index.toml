@@ -447,11 +447,6 @@ hash = "1d5cc2b6dcfd1fc3adba4566b1c29b57ff1175316678c1f22e63cbc3e28a5ba0"
 metafile = true
 
 [[files]]
-file = "mods/cit-resewn-neoforge.pw.toml"
-hash = "581d3ab3dd469a7870eb44d3f909e98da817895273711ba85b11e5280257f7e5"
-metafile = true
-
-[[files]]
 file = "mods/climate-rivers.pw.toml"
 hash = "b468173f5c612f78a2a715a54a7a228d90322c8fd5b619a50be2597fb1e46c50"
 metafile = true
@@ -477,11 +472,6 @@ hash = "1c9f21b7aa723402f2685c0cd531a90316b06bff0e78f20ab0b60712a56cc274"
 metafile = true
 
 [[files]]
-file = "mods/colorwheel-patcher.pw.toml"
-hash = "caab0399294fca902849b8eb653f56840bc107d5dbd0b0cbaab3d60ca4cc01f9"
-metafile = true
-
-[[files]]
 file = "mods/colorwheel.pw.toml"
 hash = "c7f9286eabbfd298a73a92dc91031a27a8551a7cda8656f2173a4ba8cc0ac1a2"
 metafile = true
@@ -502,18 +492,13 @@ hash = "66e066d2fdecd2750afca6b9cf5296e0fb0c61573ddbbd41c1dc2ce53e8b71a7"
 metafile = true
 
 [[files]]
-file = "mods/connector.pw.toml"
-hash = "a38d72ca403e9064338be6e0cf69532768b0c1aba8f88703a8ce74c2734da522"
-metafile = true
-
-[[files]]
 file = "mods/continuity-neoforged.pw.toml"
 hash = "2994021cbfb1f99607e99d90336364a2b2fe7e28bd91cd1a50287ff29c33a9a9"
 metafile = true
 
 [[files]]
-file = "mods/coolrain.pw.toml"
-hash = "e0c918a024d172de2365c4d95d179aaee56a76c96596d0bafeb054051ade2df4"
+file = "mods/cool-rain.pw.toml"
+hash = "e8bfe6030b00a3b72b44359ed1e80f956be308b9c6b371619f3776aef33c3ff0"
 metafile = true
 
 [[files]]
@@ -678,7 +663,7 @@ metafile = true
 
 [[files]]
 file = "mods/distracting-trims.pw.toml"
-hash = "afd5a0f991dd751a59c4ff98a7362935a38637c475951fc4648094adc8fde6ac"
+hash = "c12a627fb7bf649507836e8f5760a781cdaa521649330f976c24b72186720eb9"
 metafile = true
 
 [[files]]
@@ -745,6 +730,11 @@ file = "mods/emi-letsdo-compat-2.0.3+retirement.3+neoforge.jar"
 hash = "dfa380dc201c7939ebcbf6c1210f89ddd8cc6d02354a319389d998216631b98a"
 
 [[files]]
+file = "mods/emi-loot.pw.toml"
+hash = "1f7ee5ea0a84276fa059773e57e6b14c76ce1cf2954fe0b3cce938f268047c6e"
+metafile = true
+
+[[files]]
 file = "mods/emi-ores.pw.toml"
 hash = "f2cbcb3d01017133313e1594cb89f052923592b7fa0c78eb9b6d09fb6e03bfb5"
 metafile = true
@@ -790,11 +780,6 @@ metafile = true
 [[files]]
 file = "mods/entitytexturefeatures.pw.toml"
 hash = "0945a8a06dd61d09d27eb8b6c286871699bf2dd92ccda67432299aa204ea6aca"
-metafile = true
-
-[[files]]
-file = "mods/esf.pw.toml"
-hash = "7457f90de1a99108b181802a3b9f6b2be24123aa9a90860067e42e23ffce7011"
 metafile = true
 
 [[files]]
@@ -1208,6 +1193,11 @@ hash = "7333c29c224d843384e26b2c7d9af1d31dada870d776fb1ad8f3d8c3040b313d"
 metafile = true
 
 [[files]]
+file = "mods/particle-rain.pw.toml"
+hash = "5a91a3d12946bd88686920cfaa7fb202c5f0c4bb034e39a280b2f1657e9630e6"
+metafile = true
+
+[[files]]
 file = "mods/particular-reforged.pw.toml"
 hash = "35ad8f80648d56ba65b0272af026d6ccab662f5ce7e4869c9cf87060bbbc3299"
 metafile = true
@@ -1224,7 +1214,7 @@ metafile = true
 
 [[files]]
 file = "mods/polymorph.pw.toml"
-hash = "ad447a2dd2f75a48a4bea59bc2d709a9af427aa7583fede93c8b864a0fe0ac88"
+hash = "d935e4ce118d15c88b10809df85e801f0e9577855f870f3c28e5a0bd5e7fecf6"
 metafile = true
 
 [[files]]
@@ -1698,11 +1688,6 @@ metafile = true
 [[files]]
 file = "resourcepacks/icon-fresh.pw.toml"
 hash = "4eac41dec26bd3e8b0298f1753d8888c60c0dfd0f0dc40b04a54144e66b7fe07"
-metafile = true
-
-[[files]]
-file = "resourcepacks/icon-xaeros.pw.toml"
-hash = "138782de21338a65a0ead81c88e1f6b6046dd20f1a9952a07d503dab948d0cd3"
 metafile = true
 
 [[files]]
