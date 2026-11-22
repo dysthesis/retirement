@@ -287,6 +287,11 @@ hash = "3cf42a50b82f08f77419d55188b2d0e8916792eca0021dc5a34a5bc8714652c8"
 metafile = true
 
 [[files]]
+file = "mods/almostunified.pw.toml"
+hash = "3805fe2877cffdae5e7bf74d85069a2535daa39a0f3ed766755be49294a07680"
+metafile = true
+
+[[files]]
 file = "mods/ante.pw.toml"
 hash = "28a347f91bbad2721f385cbfa31c75ddcd35de3e5e226e79abc6b5dce25869cb"
 metafile = true
