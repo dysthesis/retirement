@@ -1622,7 +1622,7 @@ metafile = true
 
 [[files]]
 file = "options.txt"
-hash = "6aa1bdf1352c62626f6afa0fcddd22e00bf6a581adca67a53bd87142651b26a2"
+hash = "50e76109bd231693083fafa32ec274010cdef04da036b2bb699699669f60213a"
 preserve = true
 
 [[files]]
