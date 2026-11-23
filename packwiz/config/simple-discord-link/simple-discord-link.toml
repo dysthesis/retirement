@@ -2,7 +2,7 @@
 enabled = true
 debugging = false
 language = "en_us"
-configVersion = 37
+configVersion = 36
 
 [botConfig]
 botToken = ""
