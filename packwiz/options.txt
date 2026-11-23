@@ -1,4 +1,8 @@
 version:3955
+key_key.voice_chat:key.keyboard.v:ALT
+key_key.voice_chat_group:key.keyboard.g:ALT
+key_key.mute_microphone:key.keyboard.m:ALT
+key_key.disable_voice_chat:key.keyboard.n:ALT
 key_key.wands.wand_menu:key.keyboard.semicolon
 key_key.wands.wand_undo:key.keyboard.apostrophe
 key_key.wands.wand_orientation:key.keyboard.left.bracket
