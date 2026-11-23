@@ -21,8 +21,12 @@ file = "config/modpack_defaults/config/entity_model_features.json"
 hash = "ca181a7847fc622c0a0db99b260845fb3ad13c66e6228f39de58cc0154ca947d"
 
 [[files]]
+file = "config/modpack_defaults/config/sound_physics_remastered/soundphysics.properties"
+hash = "b9e6f16bde055c9de6ce1a6957e326793a66967c2671ca72d4c87928c5374c64"
+
+[[files]]
 file = "config/modpack_defaults/config/voxy-config.json"
-hash = "ac54d6f7fc5f1b5c3df49cf2c16fed47e78f5ad167d8809712f2e741fd874036"
+hash = "0770094370c564fd85a519f56b8aba85e27a18ce53241746742dee9675478ba4"
 
 [[files]]
 file = "config/particle_core_config.toml"
@@ -223,7 +227,7 @@ hash = "250e86b76a81c82b3d4a7f9f87424bb66b024c40e5801eaadafc70ff36068e4d"
 
 [[files]]
 file = "config/simple-discord-link/simple-discord-link.toml"
-hash = "c0b1d3a5eb6d3d9d51f3622f7130a6c2c5afe3974a0e202acefd6a0b65f4acec"
+hash = "0e1843dae78267ba764f91f4870c4e22bccaf72749205adcd424949807ac7f72"
 
 [[files]]
 file = "config/sparsestructures.json5"
@@ -255,7 +259,7 @@ hash = "cc34b2a265c4d9224e0f64c403adfc3a9255cbba06f21475858dcc623af4d53d"
 
 [[files]]
 file = "config/xaero/minimap/default_radar_categories_client.json"
-hash = "ffd0dace243e8bd59c5c947b97cf1f42d57f39cc4b163fbb7709f2a597a0b050"
+hash = "f523d5e91eb6bedd27b9c828551b85a90fb77917b6e3b79450792171cf57c63c"
 
 [[files]]
 file = "config/xaero/world-map/profiles/default.cfg"
