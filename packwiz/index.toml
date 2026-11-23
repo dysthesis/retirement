@@ -215,7 +215,7 @@ hash = "250e86b76a81c82b3d4a7f9f87424bb66b024c40e5801eaadafc70ff36068e4d"
 
 [[files]]
 file = "config/simple-discord-link/simple-discord-link.toml"
-hash = "3cdfad500e347984ef9d69cded6d26cbb128cbc028852090464d90b3f1e6441e"
+hash = "c0b1d3a5eb6d3d9d51f3622f7130a6c2c5afe3974a0e202acefd6a0b65f4acec"
 
 [[files]]
 file = "config/sparsestructures.json5"
@@ -239,7 +239,7 @@ hash = "f2dd819c5c188a0d90d85a303bee8381fd720e7a0b448022a6d3fda746ce78a8"
 
 [[files]]
 file = "config/vss-server-config.yaml"
-hash = "aee486651fb7dc106fb0ed59450b3cf38143c21258479dcd8f917201f3730833"
+hash = "f8db9c1d7eb722ca7691fd27b078162384ed25fbcf107c263414c57da9a49023"
 
 [[files]]
 file = "config/wover/client.json"
