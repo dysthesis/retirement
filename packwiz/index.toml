@@ -17,6 +17,14 @@ file = "config/lightmanscurrency-common.txt"
 hash = "62709485b77999e2523cc5375ba523cacdaaa9c88e5a3e65a97fca7a5b6bc886"
 
 [[files]]
+file = "config/modpack_defaults/config/entity_model_features.json"
+hash = "ca181a7847fc622c0a0db99b260845fb3ad13c66e6228f39de58cc0154ca947d"
+
+[[files]]
+file = "config/modpack_defaults/config/voxy-config.json"
+hash = "ac54d6f7fc5f1b5c3df49cf2c16fed47e78f5ad167d8809712f2e741fd874036"
+
+[[files]]
 file = "config/particle_core_config.toml"
 hash = "621cbc339671bcc38ed846b59a84fb931b980f7abd94747e13feb87069cad201"
 

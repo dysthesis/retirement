@@ -6,12 +6,12 @@ pack-format = "packwiz:1.1.0"
 [index]
 file = "index.toml"
 hash-format = "sha256"
-hash = "ba87e83427d5db3f98f2f8c6187c3ff0257bfed520b446cf383c1b74a5d73dfa"
+hash = "d15c4ac6a28dc16774ad5d1348113e053f742110baaedb37c263f2195501e99f"
 
 [versions]
 minecraft = "1.21.1"
 neoforge = "21.1.265"
 
 [options]
-client-only-overrides = ["mods/CrosshairAddons-2.2.2+retirement.1+1.21-1.21.1-neoforge.jar", "mods/WalksyLib-2.0.5+retirement.1+1.21-1.21.1-neoforge.jar", "mods/emi-rechiseled-1.0.0+retirement.3+neoforge.jar", "mods/voxy-1.1.0+retirement.3+neoforge.jar", "config/xaero/world-map/profiles/default.cfg", "config/quark-common.toml"]
+client-only-overrides = ["mods/CrosshairAddons-2.2.2+retirement.1+1.21-1.21.1-neoforge.jar", "mods/WalksyLib-2.0.5+retirement.1+1.21-1.21.1-neoforge.jar", "mods/emi-rechiseled-1.0.0+retirement.3+neoforge.jar", "mods/voxy-1.1.0+retirement.3+neoforge.jar", "config/xaero/world-map/profiles/default.cfg", "config/quark-common.toml", "config/modpack_defaults/config/voxy-config.json", "config/modpack_defaults/config/entity_model_features.json"]
 datapack-folder = "config/paxi/datapacks"
