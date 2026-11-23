@@ -6,7 +6,7 @@ hash = "ee003f836e6f9832da591018a3266d183d63199bfdd359a9403d7d72997717f9"
 
 [[files]]
 file = "config/dsurround/dsurround.json"
-hash = "09f6e1e66a5091df878afb5b7cd5bad1e08dea02b3a8f5740f8da04e014dca89"
+hash = "26d9ff4750b49d0e98de770e5508a37048c1e1fe2fdb1483dc8a6d5c165ab707"
 
 [[files]]
 file = "config/flerovium.json"
@@ -27,6 +27,10 @@ hash = "b9e6f16bde055c9de6ce1a6957e326793a66967c2671ca72d4c87928c5374c64"
 [[files]]
 file = "config/modpack_defaults/config/voxy-config.json"
 hash = "0770094370c564fd85a519f56b8aba85e27a18ce53241746742dee9675478ba4"
+
+[[files]]
+file = "config/modpack_defaults/config/watut-client.toml"
+hash = "9b044f160afa2060c1acb307995fb62afa15307b376ea8bcc35430b5f8243c76"
 
 [[files]]
 file = "config/particle_core_config.toml"
