@@ -6,11 +6,11 @@ generation:
 # Limit the initial LOD range.
 lod:
   distance:
-    default_chunks: 256
+    default_chunks: 2048
     by_dimension:
-      "minecraft:overworld": 256
-      "minecraft:the_nether": 64
-      "minecraft:the_end": 256
+      "minecraft:overworld": 2048
+      "minecraft:the_nether": 2048
+      "minecraft:the_end": 2048
 
 # Keep a persistent cache of processed LOD data.
 storage:
