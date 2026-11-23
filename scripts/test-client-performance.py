@@ -31,7 +31,8 @@ class ClientPerformanceTest(unittest.TestCase):
         self.assertEqual(before, {p: p.read_bytes() for p in before})
         self.invoke("--apply")
         self.assertEqual(json.loads(self.voxy.read_text()),
-                         {"section_render_distance": 8, "service_threads": 7, "color_fix": True})
+                         {"section_render_distance": 8, "service_threads": 7, "color_fix": True,
+                          "sub_division_size": 96, "adapt_cloud_distance": False, "cloud_distance": 0})
         self.assertEqual(json.loads(self.emf.read_text()),
                          {"animationLODDistance": 16, "retainDetailOnLowFps": False, "custom": [1, 2]})
         for path, original in before.items():

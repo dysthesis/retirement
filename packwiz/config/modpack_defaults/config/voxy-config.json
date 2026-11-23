@@ -1,3 +1,6 @@
 {
-  "section_render_distance": 8
+  "section_render_distance": 8,
+  "sub_division_size": 96,
+  "adapt_cloud_distance": false,
+  "cloud_distance": 0
 }

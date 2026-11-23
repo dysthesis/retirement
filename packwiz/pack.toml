@@ -13,5 +13,5 @@ minecraft = "1.21.1"
 neoforge = "21.1.265"
 
 [options]
-client-only-overrides = ["mods/CrosshairAddons-2.2.2+retirement.1+1.21-1.21.1-neoforge.jar", "mods/WalksyLib-2.0.5+retirement.1+1.21-1.21.1-neoforge.jar", "mods/emi-rechiseled-1.0.0+retirement.3+neoforge.jar", "mods/voxy-1.1.0+retirement.3+neoforge.jar", "config/xaero/world-map/profiles/default.cfg", "config/quark-common.toml", "config/modpack_defaults/config/voxy-config.json", "config/modpack_defaults/config/entity_model_features.json"]
+client-only-overrides = ["mods/CrosshairAddons-2.2.2+retirement.1+1.21-1.21.1-neoforge.jar", "mods/WalksyLib-2.0.5+retirement.1+1.21-1.21.1-neoforge.jar", "mods/emi-rechiseled-1.0.0+retirement.3+neoforge.jar", "mods/voxy-1.1.0+retirement.3+neoforge.jar", "config/xaero/world-map/profiles/default.cfg", "config/quark-common.toml", "config/modpack_defaults/config/voxy-config.json", "config/modpack_defaults/config/entity_model_features.json", "config/modpack_defaults/config/sound_physics_remastered/soundphysics.properties"]
 datapack-folder = "config/paxi/datapacks"
