@@ -215,7 +215,7 @@ hash = "250e86b76a81c82b3d4a7f9f87424bb66b024c40e5801eaadafc70ff36068e4d"
 
 [[files]]
 file = "config/simple-discord-link/simple-discord-link.toml"
-hash = "0b919742d967c6a942bdc09839ebb853b0434658955e5770464cdbbfa4ea2d2d"
+hash = "8cf5695c673c8ac1e388bbf7b05d9d6714810a014bb0a07de89a4f436db433fe"
 
 [[files]]
 file = "config/sparsestructures.json5"

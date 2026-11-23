@@ -2,10 +2,10 @@
 enabled = true
 debugging = false
 language = "en_us"
-configVersion = 30
+configVersion = 37
 
 [botConfig]
-botToken = "YOUR_BOT_TOKEN"
+botToken = ""
 statusUpdateInterval = 60
 
 [botConfig.topicUpdates]
