@@ -598,6 +598,11 @@ hash = "69fc8e5bb97d5ed685c2344572caa78498beb58cda9ab4735076426f0b555ea5"
 metafile = true
 
 [[files]]
+file = "mods/create-nowheel.pw.toml"
+hash = "b5c4217d430af59d3243e8717ad09398864b726272e1ded301f182604d704a45"
+metafile = true
+
+[[files]]
 file = "mods/create-ore-excavation.pw.toml"
 hash = "10d3389f72e8e8f78518f5b6786ccec4e62dbad117491d2970e8e1f75e390251"
 metafile = true
