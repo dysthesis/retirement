@@ -573,7 +573,7 @@ metafile = true
 
 [[files]]
 file = "mods/create-liquid-fuel.pw.toml"
-hash = "810e114e3f827cb7f78a0c2cdb9087d50bb1393ebb20682daf554747e141322e"
+hash = "69fc8e5bb97d5ed685c2344572caa78498beb58cda9ab4735076426f0b555ea5"
 metafile = true
 
 [[files]]
@@ -824,7 +824,7 @@ metafile = true
 
 [[files]]
 file = "mods/forgiving-void.pw.toml"
-hash = "b3e2786cd6d151651aa8ddc6548bc8e8bb7f67a10884f9570608ea11fc1197f6"
+hash = "ad797a4747adf0a547aff1f6bdb0c99d27b96324356fd0420fe9167e526d7185"
 metafile = true
 
 [[files]]
@@ -1114,7 +1114,7 @@ metafile = true
 
 [[files]]
 file = "mods/naturally-trimmed.pw.toml"
-hash = "bae766c699d534296ce3136eedb3d2463668bbb0ae223452efb602cbb2afd683"
+hash = "54e1ee024ed76dd241801f96d298b9502918224df50d562bc2653d950f314656"
 metafile = true
 
 [[files]]
@@ -1274,7 +1274,7 @@ metafile = true
 
 [[files]]
 file = "mods/seasonal-lets-do.pw.toml"
-hash = "ddd75a02997d5856de28bdaf36fc5d08a0d6d6d3401692650f13f04f09d5eaed"
+hash = "00395cb1d58a0532352b8741ec7da6c631cebd509cd8498820e4dee16be4800a"
 metafile = true
 
 [[files]]
@@ -1299,7 +1299,7 @@ metafile = true
 
 [[files]]
 file = "mods/skeleton-ai-fix.pw.toml"
-hash = "8939b1e09998a35e06ad499a0b9c34f1240379e7343976cbfc1985068cde8850"
+hash = "96e51a1ab6e2c52235f335c20bee2051128de204437f80ada89c599c267fe86a"
 metafile = true
 
 [[files]]
