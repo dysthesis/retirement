@@ -1,6 +1,6 @@
 name = "Cubic Sun & Moon"
 filename = "cubic-sun-moon-v1.8.5.zip"
-side = "both"
+side = "client"
 
 [download]
 url = "https://cdn.modrinth.com/data/g4bSYbrU/versions/zHa4qeKn/cubic-sun-moon-v1.8.5.zip"

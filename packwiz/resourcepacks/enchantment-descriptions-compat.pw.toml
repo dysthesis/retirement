@@ -1,6 +1,6 @@
 name = "Enchantment Descriptions Compat"
 filename = "Enchantment Descriptions Compat 1.4.zip"
-side = "both"
+side = "client"
 
 [download]
 url = "https://cdn.modrinth.com/data/FHrgg7t3/versions/hmElh7Fa/Enchantment%20Descriptions%20Compat%201.4.zip"

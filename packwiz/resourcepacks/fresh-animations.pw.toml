@@ -1,7 +1,7 @@
 # Custom entity models require the client-side EMF and ETF mods.
 name = "Fresh Animations"
 filename = "FreshAnimations_v1.11.2_1.20+.zip"
-side = "both"
+side = "client"
 
 [download]
 url = "https://cdn.modrinth.com/data/50dA9Sha/versions/HC1XRKGD/FreshAnimations_v1.11.2_1.20%2B.zip"

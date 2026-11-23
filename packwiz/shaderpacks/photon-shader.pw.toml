@@ -1,6 +1,6 @@
 name = "Photon Shaders"
 filename = "photon_v1.4.zip"
-side = "both"
+side = "client"
 
 [download]
 url = "https://cdn.modrinth.com/data/lLqFfGNs/versions/BnGklH5y/photon_v1.4.zip"

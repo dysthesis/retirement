@@ -1636,65 +1636,65 @@ preserve = true
 
 [[files]]
 file = "resourcepacks/cubic-sun-moon.pw.toml"
-hash = "ebfdff9b02642888c669cacd36e764b48b27d78744b958e330f5f6d20a48e116"
+hash = "6d198fcead3ae516d33d9011f3ecf9717a72b963aadea7a6b3ad7f0c7cada070"
 metafile = true
 
 [[files]]
 file = "resourcepacks/default-dark-mode.pw.toml"
-hash = "4aead38bb5d9ffcb8df8512b0cac7e03a238239fe81f33179126415662cc93bb"
+hash = "19e48b773677cc0d4a448e7ec5f4d82d7c9bd21063aac3c1bf710b4a78865c53"
 metafile = true
 
 [[files]]
 file = "resourcepacks/enchantment-descriptions-compat.pw.toml"
-hash = "96b525021bf6d4b3e6083aa5ebf1c20a744ba8680712ed60bbc4ab1ee65192c1"
+hash = "8a0875502cc46d7d1e8ed5a2e8b2cdbc52b697cf4cffb5c1869a24e653de29f8"
 metafile = true
 
 [[files]]
 file = "resourcepacks/even-better-enchants.pw.toml"
-hash = "123aedbad1318ddfaef3173c56994542077ff0f8fd9982bfb3430b331d46323a"
+hash = "590d63ddd680c1a9ce96945cec48c1b1dca146090003c850cf7a9cb855452699"
 metafile = true
 
 [[files]]
 file = "resourcepacks/fast-better-grass.pw.toml"
-hash = "9bec6ecb763a81e7ddd77ce07f354c287085f585eb1e8d2442d93520975eae7b"
+hash = "b9362da7ce0d258d671a6b57177fe4816a326efda27ace533be93ce86c611857"
 metafile = true
 
 [[files]]
 file = "resourcepacks/fresh-animations-extensions.pw.toml"
-hash = "cc45eddc38491d24d9060f7737863cc5d4719f558e1acde8c8b9b1ce31054ff2"
+hash = "83a9010fd46fb9560b37cf343bbdcc88c902064b381884b0bb87cf1e28c80d5c"
 metafile = true
 
 [[files]]
 file = "resourcepacks/fresh-animations.pw.toml"
-hash = "871f06ae7465ba64ea565ff43b7065fabe53169fe3d2d21034dfddb977153bf0"
+hash = "05d0142e43cf4fd17b7784488106bbd05c46282ca7cf03e03dfd5dad4f532f86"
 metafile = true
 
 [[files]]
 file = "resourcepacks/icon-fresh.pw.toml"
-hash = "4eac41dec26bd3e8b0298f1753d8888c60c0dfd0f0dc40b04a54144e66b7fe07"
+hash = "21f19123eb37d3bb48d100cff35b06db83519d9eb52bee62df92960b24095500"
 metafile = true
 
 [[files]]
 file = "resourcepacks/icons.pw.toml"
-hash = "1e34347e78a18e3d1b25969a841d78ea61ab4380cc1bb87899b0ad5ab0b7e788"
+hash = "ebba2a571a5a4a50341b0c6aab8a4b8a84a1fc68a7d5aa6ddaf4f85a0c91eb5b"
 metafile = true
 
 [[files]]
 file = "resourcepacks/mod-descriptions.pw.toml"
-hash = "149050c47d8a76b1ac220f9820eb4b5b5174c625d414acfd2941118c01fba664"
+hash = "b53395f427a4b5f5719041db2d35cbd2052930e67801228b0c95ff69f70136f3"
 metafile = true
 
 [[files]]
 file = "shaderpacks/complementary-reimagined.pw.toml"
-hash = "507cb3963240110bc71ed7c75cac1682e66d3609536b0bc5ef90a01db3cce21f"
+hash = "75d1d2488a0c332a9a58af7e57f980a1b006c02b3a1c580fbd50443088e4eab0"
 metafile = true
 
 [[files]]
 file = "shaderpacks/complementary-unbound.pw.toml"
-hash = "d28a3f3e991a4d65cda9d18b37bc3672bc87f3e04aeeaf47b59d7e63581e3c3f"
+hash = "1a3d3663c44dc21e227c39c42ea9b5e3c4f3b2e3b5272ed55b45da9e247a46d7"
 metafile = true
 
 [[files]]
 file = "shaderpacks/photon-shader.pw.toml"
-hash = "3dd66fbe29d1f5e00305e2851666de8b359584fa48c787736e233fe56ccb6992"
+hash = "1e4109987a9d4b0bab4302601e08b365b0e3d5b3a39b14b7134f8655c29a6bcc"
 metafile = true

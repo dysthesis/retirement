@@ -1,6 +1,6 @@
 name = "Even Better Enchants"
 filename = "EvenBetterEnchants_v2_r1.zip"
-side = "both"
+side = "client"
 
 [download]
 url = "https://cdn.modrinth.com/data/6udpuGCH/versions/mXaMyhFE/EvenBetterEnchants_v2_r1.zip"
