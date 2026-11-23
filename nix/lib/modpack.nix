@@ -49,7 +49,11 @@
     + "\n");
 in
   assert builtins.elem side ["client" "server"];
-    runCommand "${pack.name}-${pack.version}-${side}" {} ''
+    runCommand "${pack.name}-${pack.version}-${side}" {
+      passthru.configPaths =
+        map (entry: entry.destination)
+        (builtins.filter (entry: lib.hasPrefix "config/" entry.destination) installed);
+    } ''
       mkdir -p "$out"
       install -m644 ${src}/pack.toml "$out/pack.toml"
       install -m644 ${state} "$out/packwiz.json"

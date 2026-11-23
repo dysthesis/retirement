@@ -77,12 +77,14 @@
             online-mode = true;
           };
 
-          files = {
-            "config" = "${modpack}/config";
-            "server-icon.png" = ../assets/icons/retirement-home-icon-64.png;
-            # NeoForge bootstrap discovery requires a real mods directory.
-            mods = "${modpack}/mods";
-          };
+          # Back up config/ before stopping an old deployment that still manages the whole directory.
+          files =
+            lib.genAttrs modpack.configPaths (path: "${modpack}/${path}")
+            // {
+              "server-icon.png" = ../assets/icons/retirement-home-icon-64.png;
+              # NeoForge bootstrap discovery requires a real mods directory.
+              mods = "${modpack}/mods";
+            };
         };
       };
     };

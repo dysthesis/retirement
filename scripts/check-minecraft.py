@@ -8,6 +8,7 @@ Authenticated logins, existing-world upgrades, backups and sustained load are un
 
 import json
 import shlex
+from pathlib import Path
 
 with open("@settings@") as settings_file:
     settings = json.load(settings_file)
@@ -15,6 +16,7 @@ with open("@settings@") as settings_file:
 unit = "minecraft-server-retirement-home.service"
 log_file = settings["log"]
 tmux = settings["tmux"]
+kits = shlex.quote(str(Path(log_file).parents[1] / "config/serilum/starterkit/kits"))
 
 
 def command(text):
@@ -36,6 +38,10 @@ try:
         server.wait_for_unit(unit)
         # A separate machine exercises the firewall and the Minecraft protocol.
         client.wait_until_succeeds(settings["status"], timeout=600)
+        if boot == 0:
+            server.succeed(f"cd {kits} && cp Default.txt Local.txt")
+        else:
+            server.succeed(f"cd {kits} && cmp Default.txt Local.txt")
         server.succeed(command("forceload add 0 0"))
         marker = f"retirement-check-loaded-{boot}"
         expect(f"execute if loaded 0 500 0 run say {marker}", marker)
