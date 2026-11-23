@@ -8,6 +8,7 @@ configVersion = 37
 botToken = ""
 statusUpdateInterval = 60
 printInviteLink = true
+silentReplies = true
 
 [botConfig.topicUpdates]
 doTopicUpdates = false
