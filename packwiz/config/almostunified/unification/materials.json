@@ -1,0 +1,3 @@
+{
+  "ignored_recipe_ids": ["create:crushing/.*_ore"]
+}

@@ -1,6 +1,10 @@
 hash-format = "sha256"
 
 [[files]]
+file = "config/almostunified/unification/materials.json"
+hash = "ee003f836e6f9832da591018a3266d183d63199bfdd359a9403d7d72997717f9"
+
+[[files]]
 file = "config/biolith/general.json"
 hash = "b53d22bef2bb36b66138da57a389d85d27fbfca14305245b49ce7b1f55baa7f9"
 
