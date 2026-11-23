@@ -10,4 +10,4 @@ key_key.wands.wand_invert:key.keyboard.f6
 key_key.wands.wand_rotate:key.keyboard.f7
 key_key.wands.wand_fill_circle:key.keyboard.f8
 key_key.wands.wand_palette_mode:key.keyboard.f9
-resourcePacks:["vanilla","file/FreshAnimations_v1.11.2_1.20+.zip","file/FA+All_Extensions-v1.10.1.zip","file/Icons v.1.14.zip","file/Icon Xaero's 1.22.zip","file/Icon Fresh 1.2.zip","file/Default-Dark-Mode-1.20.2+-2025.5.0.zip","file/EvenBetterEnchants_v2_r1.zip","file/Fast Better Grass.zip"]
+resourcePacks:["vanilla","file/FreshAnimations_v1.11.2_1.20+.zip","file/FA+All_Extensions-v1.10.1.zip","file/Icons v.1.14.zip","file/Icon Fresh 1.2.zip","file/Default-Dark-Mode-1.20.2+-2025.5.0.zip","file/EvenBetterEnchants_v2_r1.zip","file/Fast Better Grass.zip"]

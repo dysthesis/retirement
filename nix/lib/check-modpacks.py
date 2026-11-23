@@ -57,3 +57,8 @@ for side, output in (("client", client), ("server", server)):
 
     assert actual_files == expected_files, (side, actual_files ^ expected_files)
     print(f"{side}: verified {len(actual_files)} files and installer state")
+
+options = dict(line.split(":", 1) for line in (client / "options.txt").read_text().splitlines() if ":" in line)
+for selected in json.loads(options["resourcePacks"]):
+    if selected.startswith("file/"):
+        assert (client / "resourcepacks" / selected.removeprefix("file/")).is_file(), selected
