@@ -3,12 +3,19 @@
   "fogOptions": {
     "enableFogEffects": false
   },
+  // Leave cloud rendering to Sodium/Voxy or the active shader pack.
+  "weatherOptions": {
+    "enableGroundFog": false,
+    "enableDynamicClouds": false
+  },
   // Sound Physics Remastered owns reverb and occlusion.
   "enhancedSounds": {
     "enableEnhancedSounds": false
   },
   // Particular supplies water ripples, waterfall particles and fireflies.
   "blockEffects": {
+    // Limit environmental block-effect scans; keep nearby effects.
+    "blockEffectRange": 24,
     "waterRippleStyle": "NONE"
   },
   "waterfallOptions": {
