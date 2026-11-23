@@ -45,6 +45,7 @@ try:
         server.succeed(command("forceload add 0 0"))
         marker = f"retirement-check-loaded-{boot}"
         expect(f"execute if loaded 0 500 0 run say {marker}", marker)
+        expect("biolith describe at 0 80 0", f": {5 if boot == 0 else 4}) ")
         if boot == 0:
             server.succeed(command("setblock 0 500 0 minecraft:diamond_block"))
         # Above vanilla's height limit: also catches Tectonic falling back to defaults.
@@ -214,6 +215,9 @@ try:
             == "0"
         )
         if boot == 0:
+            # Simulate a previous installation's generated Biolith scale.
+            config = Path(log_file).parents[1] / "defaultconfigs/biolith/general.json"
+            server.succeed(f"""echo '{{"overworld_replacement_scale":4}}' > {shlex.quote(str(config))}""")
             server.succeed(f"systemctl start {unit}")
 finally:
     print(server.execute(f"journalctl -u {unit} --no-pager")[1])

@@ -62,11 +62,17 @@
 
           jvmOpts = "-Xms10G -Xmx12G";
 
-          # nix-minecraft copies the modpack before running extraStartPre.
-          # Keep decrypted credentials out of Nix evaluation and the store.
-          extraStartPre = lib.mkIf discord.enable ''
-            ${lib.getExe pkgs.python3} ${./render-discord-env.py}
-          '';
+          extraStartPre =
+            ''
+              # Don't move biome boundaries in installations that already generated chunks.
+              biome=defaultconfigs/biolith/general.json
+              if [[ ! -e "$biome" ]]; then
+                install -Dm644 "${modpack}/$biome" "$biome"
+              fi
+            ''
+            + lib.optionalString discord.enable ''
+              ${lib.getExe pkgs.python3} ${./render-discord-env.py}
+            '';
 
           serverProperties = {
             server-port = 25565;

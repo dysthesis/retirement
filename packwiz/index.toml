@@ -5,10 +5,6 @@ file = "config/almostunified/unification/materials.json"
 hash = "ee003f836e6f9832da591018a3266d183d63199bfdd359a9403d7d72997717f9"
 
 [[files]]
-file = "config/biolith/general.json"
-hash = "b53d22bef2bb36b66138da57a389d85d27fbfca14305245b49ce7b1f55baa7f9"
-
-[[files]]
 file = "config/dsurround/dsurround.json"
 hash = "f8b29c4ef11da32c494051f5f4b1471bf09cb70e0efd8fdfad0cce03f91aaaeb"
 
@@ -256,6 +252,11 @@ hash = "ffd0dace243e8bd59c5c947b97cf1f42d57f39cc4b163fbb7709f2a597a0b050"
 [[files]]
 file = "config/xaero/world-map/profiles/default.cfg"
 hash = "e577b65a7f07a3f929f177ad475cd82f77fa4745f19bb2096184996110b9d4ee"
+
+[[files]]
+file = "defaultconfigs/biolith/general.json"
+hash = "b53d22bef2bb36b66138da57a389d85d27fbfca14305245b49ce7b1f55baa7f9"
+preserve = true
 
 [[files]]
 file = "mods/CrosshairAddons-2.2.2+retirement.1+1.21-1.21.1-neoforge.jar"
