@@ -21,6 +21,7 @@
         ../../scripts/build-voxy.sh
         ../../scripts/voxy.patch
         ../../scripts/voxy-memory.patch
+        ../../scripts/materialize-source-patch.py
         ../../scripts/promote-voxy-memory.py
       ];
     };
@@ -30,6 +31,7 @@
       files = [
         ../../scripts/build-create-panel.sh
         ../../scripts/create-panel-render-only.patch
+        ../../scripts/materialize-source-patch.py
         ../../scripts/create-panel-reproducible.patch
       ];
     };

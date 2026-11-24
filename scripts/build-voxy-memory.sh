@@ -23,8 +23,7 @@ git -C "$work" checkout --quiet --detach FETCH_HEAD
 test "$(git -C "$work" rev-parse HEAD)" = "$source_commit"
 git -C "$work" apply --check "$root/scripts/voxy.patch"
 git -C "$work" apply "$root/scripts/voxy.patch"
-git -C "$work" apply --check "$root/scripts/voxy-memory.patch"
-git -C "$work" apply "$root/scripts/voxy-memory.patch"
+python3 "$root/scripts/materialize-source-patch.py" "$work" "$root/scripts/voxy-memory.patch"
 (
   cd "$work"
   GITHUB_ACTIONS=true ./gradlew --no-daemon --max-workers=2 \
