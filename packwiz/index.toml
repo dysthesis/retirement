@@ -6,7 +6,7 @@ hash = "ee003f836e6f9832da591018a3266d183d63199bfdd359a9403d7d72997717f9"
 
 [[files]]
 file = "config/dsurround/dsurround.json"
-hash = "26d9ff4750b49d0e98de770e5508a37048c1e1fe2fdb1483dc8a6d5c165ab707"
+hash = "4dd29860ecaa7c4daa24b252aaf0fa2464581de4e4aaea650b79c57c0004fb6d"
 
 [[files]]
 file = "config/flerovium.json"
@@ -17,8 +17,16 @@ file = "config/lightmanscurrency-common.txt"
 hash = "62709485b77999e2523cc5375ba523cacdaaa9c88e5a3e65a97fca7a5b6bc886"
 
 [[files]]
+file = "config/modernfix-mixins.properties"
+hash = "ca92e91a2d856d42e4a5b1ba1900fbed0e942bcbeddd75c0195a2375ade75695"
+
+[[files]]
 file = "config/modpack_defaults/config/entity_model_features.json"
 hash = "ca181a7847fc622c0a0db99b260845fb3ad13c66e6228f39de58cc0154ca947d"
+
+[[files]]
+file = "config/modpack_defaults/config/sound_physics_remastered/sound_rates.properties"
+hash = "2cddcf622b7e647491c9154d45bfb96e117e26fd370fb8f4974cec450c71310c"
 
 [[files]]
 file = "config/modpack_defaults/config/sound_physics_remastered/soundphysics.properties"
