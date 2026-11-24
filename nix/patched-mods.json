@@ -1,10 +1,10 @@
 {
   "voxy": {
-    "enable": false,
-    "sha256": null
+    "enable": true,
+    "sha256": "1ef2d8195940f5e149d740280b3b4aa512f49e80b1577690f69d5958a6aa1d25"
   },
   "create": {
-    "enable": false,
-    "sha256": null
+    "enable": true,
+    "sha256": "77f8df80fc0f710eaa5d583b591512b621e8f94ce43d8e7479501b6e69947f57"
   }
 }
