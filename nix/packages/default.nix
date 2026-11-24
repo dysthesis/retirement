@@ -27,6 +27,15 @@
       replacements = selected;
     };
     sources = withReplacements replacements;
+    # A filtered source is a coercible attribute set, not a flake package.
+    # Keep the selected-source derivation when present; materialise stock otherwise.
+    asSourcePackage = src:
+      if lib.isDerivation src
+      then src
+      else pkgs.runCommand "retirement-stock-packwiz-source" {} ''
+        mkdir -p "$out"
+        cp -r ${src}/. "$out/"
+      '';
     makeModpacks = selectedSources: lib.makeScope pkgs.newScope (scope: {
       inherit packwiz;
       sources = selectedSources;
@@ -47,7 +56,7 @@
       inherit packwiz;
       voxy-memory = candidates.voxy;
       create-panel = candidates.create;
-      packwiz-source = sources.src;
+      packwiz-source = asSourcePackage sources.src;
       modpack-client-stock = stock.client;
       modpack-server-stock = stock.server;
       modrinth-stock = stock.modrinth;
@@ -60,7 +69,8 @@
     checks.patched-metadata = pkgs.runCommand "retirement-patched-metadata-check" {
       nativeBuildInputs = [pkgs.python3];
     } ''
-      python3 ${../lib/check-patched-sources.py} ${stockSources.src} ${fixtureSources.src}
+      diff -r ${stockSources.src} ${asSourcePackage stockSources.src}
+      python3 ${../lib/check-patched-sources.py} ${asSourcePackage stockSources.src} ${asSourcePackage fixtureSources.src}
       touch "$out"
     '';
     checks.modpacks = pkgs.callPackage ../lib/check-modpacks.nix {
