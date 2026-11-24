@@ -5,6 +5,14 @@ file = "config/almostunified/unification/materials.json"
 hash = "ee003f836e6f9832da591018a3266d183d63199bfdd359a9403d7d72997717f9"
 
 [[files]]
+file = "config/bluemap/core.conf"
+hash = "bd3305e34ac36e8f7e942419841c73e80c672bffec5db261c2c79f6767b8bfdf"
+
+[[files]]
+file = "config/bluemap/webserver.conf"
+hash = "08f1ac60d80e10b867b5467d7670d3073bc306dd5c143d223cb6299fbe9e9a60"
+
+[[files]]
 file = "config/dsurround/dsurround.json"
 hash = "4dd29860ecaa7c4daa24b252aaf0fa2464581de4e4aaea650b79c57c0004fb6d"
 
@@ -423,6 +431,11 @@ metafile = true
 [[files]]
 file = "mods/biolith.pw.toml"
 hash = "cc79b689faf345a5aa19ead3423726b6f87c267d686fb5807738e0cd20756679"
+metafile = true
+
+[[files]]
+file = "mods/bluemap.pw.toml"
+hash = "f33a4720ef4f315b6d1f778039e9f7bdb8f5ef1b58a57d565c30fd1d8adee207"
 metafile = true
 
 [[files]]
