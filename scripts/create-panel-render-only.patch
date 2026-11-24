@@ -1,0 +1,25 @@
+diff --git a/src/main/java/com/simibubi/create/foundation/blockEntity/behaviour/filtering/FilteringRenderer.java b/src/main/java/com/simibubi/create/foundation/blockEntity/behaviour/filtering/FilteringRenderer.java
+--- a/src/main/java/com/simibubi/create/foundation/blockEntity/behaviour/filtering/FilteringRenderer.java
++++ b/src/main/java/com/simibubi/create/foundation/blockEntity/behaviour/filtering/FilteringRenderer.java
+@@ -8,2 +8,3 @@
+ import com.simibubi.create.CreateClient;
++import com.simibubi.create.content.logistics.factoryBoard.FactoryPanelBehaviour;
+ import com.simibubi.create.content.logistics.filter.FilterItem;
+@@ -16,2 +17,3 @@
+ import com.simibubi.create.foundation.blockEntity.behaviour.ValueBoxTransform.Sided;
++import com.simibubi.create.infrastructure.config.AllConfigs;
+ import net.createmod.catnip.data.Iterate;
+@@ -114,3 +116,5 @@
+ 				if (cameraEntity != null && level == cameraEntity.level()) {
+ 					float max = behaviour.getRenderDistance();
++					if (behaviour instanceof FactoryPanelBehaviour)
++						max = Math.min(max, AllConfigs.client().factoryPanelItemRenderDistance.getF());
+ 					if (cameraEntity.position()
+diff --git a/src/main/java/com/simibubi/create/infrastructure/config/CClient.java b/src/main/java/com/simibubi/create/infrastructure/config/CClient.java
+--- a/src/main/java/com/simibubi/create/infrastructure/config/CClient.java
++++ b/src/main/java/com/simibubi/create/infrastructure/config/CClient.java
+@@ -22,2 +22,4 @@
+ 	public final ConfigFloat filterItemRenderDistance = f(10f, 1, "filterItemRenderDistance", Comments.filterItemRenderDistance);
++	public final ConfigFloat factoryPanelItemRenderDistance = f(24f, 1, 64, "factoryPanelItemRenderDistance",
++			"Maximum distance in blocks for factory panel filter item rendering");
+ 	// no group

@@ -1,0 +1,175 @@
+diff --git a/src/main/java/me/cortex/voxy/client/config/VoxyConfig.java b/src/main/java/me/cortex/voxy/client/config/VoxyConfig.java
+--- a/src/main/java/me/cortex/voxy/client/config/VoxyConfig.java
++++ b/src/main/java/me/cortex/voxy/client/config/VoxyConfig.java
+@@ -31,2 +31,6 @@
+     public int sectionRenderDistance = 16;
++    // Restart the client after changing memory budgets. Defaults retain upstream behaviour.
++    public int nativeGeometryCacheMib = 4096;
++    public int secondarySectionCacheLimit = 0;
++    public int gpuGeometryLimitMib = 0;
+     public int serviceThreads = (int) Math.max(CpuLayout.getCoreCount()/1.5, 1);
+@@ -157,2 +161,5 @@
+     private void sanitize() {
++        this.nativeGeometryCacheMib = Math.clamp(this.nativeGeometryCacheMib, 256, 4096);
++        this.secondarySectionCacheLimit = this.secondarySectionCacheLimit <= 0 ? 0 : Math.clamp(this.secondarySectionCacheLimit, 256, 2048);
++        this.gpuGeometryLimitMib = this.gpuGeometryLimitMib <= 0 ? 0 : Math.clamp(this.gpuGeometryLimitMib, 512, 4095);
+         this.skyFogDistance = Math.clamp(this.skyFogDistance, 0, 1024);
+diff --git a/src/main/java/me/cortex/voxy/client/core/rendering/hierachical/AsyncNodeManager.java b/src/main/java/me/cortex/voxy/client/core/rendering/hierachical/AsyncNodeManager.java
+--- a/src/main/java/me/cortex/voxy/client/core/rendering/hierachical/AsyncNodeManager.java
++++ b/src/main/java/me/cortex/voxy/client/core/rendering/hierachical/AsyncNodeManager.java
+@@ -5,2 +5,3 @@
+ import me.cortex.voxy.client.TimingStatistics;
++import me.cortex.voxy.client.config.VoxyConfig;
+ import me.cortex.voxy.client.core.gl.GlBuffer;
+@@ -65,3 +66,4 @@
+-    private final GeometryCache geometryCache = new GeometryCache(1L<<32);
++    private final GeometryCache geometryCache = new GeometryCache(
++            ((long) Math.clamp(VoxyConfig.CONFIG.nativeGeometryCacheMib, 256, 4096)) << 20);
+ 
+     private final AtomicInteger workCounter = new AtomicInteger();
+@@ -98,3 +100,3 @@
+         this.router.setCallbacks(pos->{//On initial render gen, try get from geometry cache
+-            var cachedGeometry = this.geometryCache.remove(pos);
++            var cachedGeometry = this.geometryCache.takeForReuse(pos);
+             if (cachedGeometry != null) {//Use the cached geometry
+@@ -692,2 +694,3 @@
+     public void addDebug(List<String> debug) {
++        debug.add(this.geometryCache.debugSummary());
+         debug.add("UC/GC: " + (this.getUsedGeometryCapacity()/(1<<20))+"/"+(this.getGeometryCapacity()/(1<<20)) + " PU: " + this.getPendingUploadCount());
+diff --git a/src/main/java/me/cortex/voxy/client/core/rendering/GeometryCache.java b/src/main/java/me/cortex/voxy/client/core/rendering/GeometryCache.java
+--- a/src/main/java/me/cortex/voxy/client/core/rendering/GeometryCache.java
++++ b/src/main/java/me/cortex/voxy/client/core/rendering/GeometryCache.java
+@@ -8,4 +8,5 @@
+     private final ReentrantLock lock = new ReentrantLock();
+     private long maxCombinedSize;
+     private long currentSize;
++    private long hits, misses, evictions, peakSize;
+     private final Long2ObjectLinkedOpenHashMap<BuiltSection> cache = new Long2ObjectLinkedOpenHashMap<>();
+@@ -16,4 +17,21 @@
+     public void setMaxTotalSize(long size) {
+-        this.maxCombinedSize = size;
++        if (size <= 0) throw new IllegalArgumentException("Geometry cache capacity must be positive");
++        this.lock.lock();
++        try {
++            this.maxCombinedSize = size;
++            this.evictOverBudget();
++        } finally {
++            this.lock.unlock();
++        }
++    }
++
++    // Caller holds the cache lock. Preserve upstream's strict-below-budget rule.
++    private void evictOverBudget() {
++        while (this.maxCombinedSize <= this.currentSize && !this.cache.isEmpty()) {
++            var entry = this.cache.removeFirst();
++            this.currentSize -= entry.geometryBuffer.size;
++            this.evictions++;
++            entry.free();
++        }
+     }
+     //Puts the section into the cache
+@@ -27,6 +45,3 @@
+-        while (this.maxCombinedSize <= this.currentSize) {
+-            var entry = this.cache.removeFirst();
+-            this.currentSize -= entry.geometryBuffer.size;
+-            entry.free();
+-        }
++        this.evictOverBudget();
++        this.peakSize = Math.max(this.peakSize, this.currentSize);
+         this.lock.unlock();
+@@ -37,11 +52,38 @@
+     public BuiltSection remove(long position) {
++        return this.remove(position, false);
++    }
++
++    public BuiltSection takeForReuse(long position) {
++        return this.remove(position, true);
++    }
++
++    private BuiltSection remove(long position, boolean reuse) {
+         this.lock.lock();
+-        var section = this.cache.remove(position);
+-        if (section != null) {
+-            this.currentSize -= section.geometryBuffer.size;
++        try {
++            var section = this.cache.remove(position);
++            if (section != null) {
++                this.currentSize -= section.geometryBuffer.size;
++                if (reuse) this.hits++;
++            } else if (reuse) {
++                this.misses++;
++            }
++            return section;
++        } finally {
++            this.lock.unlock();
+         }
+-        this.lock.unlock();
+-        return section;
++    }
++
++    // Debug rendering must not block waiting for a cache update or eviction.
++    public String debugSummary() {
++        if (!this.lock.tryLock()) return "Voxy native geometry cache: busy";
++        try {
++            return "Voxy native geometry cache MiB used/limit/peak: " + (this.currentSize >> 20)
++                    + "/" + (this.maxCombinedSize >> 20) + "/" + (this.peakSize >> 20)
++                    + " entries: " + this.cache.size() + " hit/miss/evict: "
++                    + this.hits + "/" + this.misses + "/" + this.evictions;
++        } finally {
++            this.lock.unlock();
++        }
+     }
+ 
+     public void clear(long position) {
+@@ -55,3 +97,4 @@
+         this.cache.values().forEach(BuiltSection::free);
+         this.cache.clear();
++        this.currentSize = 0;
+         this.lock.unlock();
+diff --git a/src/main/java/me/cortex/voxy/commonImpl/VoxyInstance.java b/src/main/java/me/cortex/voxy/commonImpl/VoxyInstance.java
+--- a/src/main/java/me/cortex/voxy/commonImpl/VoxyInstance.java
++++ b/src/main/java/me/cortex/voxy/commonImpl/VoxyInstance.java
+@@ -155,2 +155,8 @@
+     protected abstract SectionStorage createStorage(WorldIdentifier identifier);
++
++    // Only the client implementation opts into a smaller secondary cache.
++    public int secondaryCacheCapacity(int automaticCapacity) {
++        return automaticCapacity;
++    }
++
+     private WorldEngine createWorld(WorldIdentifier identifier) {
+diff --git a/src/main/java/me/cortex/voxy/client/VoxyClientInstance.java b/src/main/java/me/cortex/voxy/client/VoxyClientInstance.java
+--- a/src/main/java/me/cortex/voxy/client/VoxyClientInstance.java
++++ b/src/main/java/me/cortex/voxy/client/VoxyClientInstance.java
+@@ -53,2 +53,8 @@
++    @Override
++    public int secondaryCacheCapacity(int automaticCapacity) {
++        int limit = VoxyConfig.CONFIG.secondarySectionCacheLimit;
++        return limit <= 0 ? automaticCapacity : Math.min(automaticCapacity, Math.clamp(limit, 256, 2048));
++    }
++
+     @Override
+     protected ImportManager createImportManager() {
+diff --git a/src/main/java/me/cortex/voxy/common/world/WorldEngine.java b/src/main/java/me/cortex/voxy/common/world/WorldEngine.java
+--- a/src/main/java/me/cortex/voxy/common/world/WorldEngine.java
++++ b/src/main/java/me/cortex/voxy/common/world/WorldEngine.java
+@@ -53,3 +53,6 @@
++        }
++        if (instance != null) {
++            cacheSize = instance.secondaryCacheCapacity(cacheSize);
+         }
+         this.storage = storage;
+         this.mapper = new Mapper(this.storage);
+diff --git a/src/main/java/me/cortex/voxy/client/core/VoxyRenderSystem.java b/src/main/java/me/cortex/voxy/client/core/VoxyRenderSystem.java
+--- a/src/main/java/me/cortex/voxy/client/core/VoxyRenderSystem.java
++++ b/src/main/java/me/cortex/voxy/client/core/VoxyRenderSystem.java
+@@ -535,5 +535,9 @@
+         var override = System.getProperty("voxy.geometryBufferSizeOverrideMB", "");
+         if (!override.isEmpty()) {
+             geometryCapacity = Long.parseLong(override)*1024L*1024L;
+         }
++        int limitMiB = VoxyConfig.CONFIG.gpuGeometryLimitMib;
++        if (limitMiB > 0) {
++            geometryCapacity = Math.min(geometryCapacity, ((long) Math.clamp(limitMiB, 512, 4095)) << 20);
++        }
+         return geometryCapacity;

@@ -1,4 +1,10 @@
 {
+  // Experimental: skip particle batch repair state queries. Re-enable if particles corrupt.
+  "diagnostics": {
+    "guards": {
+      "repairParticleBatches": false
+    }
+  },
   // Photon and Voxy own fog for both nearby and distant terrain.
   "fogOptions": {
     "enableFogEffects": false
