@@ -20,6 +20,8 @@ git -C "$work" checkout --quiet --detach FETCH_HEAD
 test "$(git -C "$work" rev-parse HEAD)" = "$commit"
 git -C "$work" apply --check "$root/scripts/create-panel-render-only.patch"
 git -C "$work" apply "$root/scripts/create-panel-render-only.patch"
+git -C "$work" apply --check "$root/scripts/create-panel-reproducible.patch"
+git -C "$work" apply "$root/scripts/create-panel-reproducible.patch"
 (
   cd "$work"
   # Keep original release mod version and the bundled dependency versions.

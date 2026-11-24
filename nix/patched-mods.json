@@ -1,0 +1,10 @@
+{
+  "voxy": {
+    "enable": false,
+    "sha256": null
+  },
+  "create": {
+    "enable": false,
+    "sha256": null
+  }
+}

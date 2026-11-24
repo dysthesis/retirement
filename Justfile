@@ -12,8 +12,9 @@ install from="modrinth" *args: (pack from "install" args)
 # Remove a mod
 rm mod: (pack "remove" mod)
 
-# Export a deterministic private mrpack using the devShell's patched Packwiz (also used by .#modrinth).
-export: (pack "modrinth export")
+# Export the effective Nix pack, including any enabled private builds.
+export:
+	nix build .#modrinth --no-link --print-out-paths
 
 # Refresh pack/index hashes; pass Packwiz-relative metafiles to re-pin downloads too.
 [positional-arguments]

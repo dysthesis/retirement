@@ -1,0 +1,33 @@
+diff --git a/gradle/java.gradle b/gradle/java.gradle
+--- a/gradle/java.gradle
++++ b/gradle/java.gradle
+@@ -12,12 +12,16 @@
+                 'Implementation-Title'    : project.name,
+                 'Implementation-Version'  : project.jar.archiveVersion,
+                 'Implementation-Vendor'   : mod_author,
+-                'Implementation-Timestamp': new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
+-                'Timestampe'              : System.currentTimeMillis(),
++                'Implementation-Timestamp': "1970-01-01T00:00:00+0000",
++                'Timestampe'              : 0L,
+                 'Built-On-Java'           : "${System.getProperty('java.vm.version')} (${System.getProperty('java.vm.vendor')})",
+                 'Built-On-Minecraft'      : minecraft_version
+         ])
+     }
++}
++tasks.withType(org.gradle.api.tasks.bundling.AbstractArchiveTask).configureEach {
++    preserveFileTimestamps = false
++    reproducibleFileOrder = true
+ }
+ tasks.withType(JavaCompile).configureEach {
+     it.options.encoding = 'UTF-8'
+diff --git a/gradle/wrapper/gradle-wrapper.properties b/gradle/wrapper/gradle-wrapper.properties
+--- a/gradle/wrapper/gradle-wrapper.properties
++++ b/gradle/wrapper/gradle-wrapper.properties
+@@ -1,6 +1,7 @@
+ distributionBase=GRADLE_USER_HOME
+ distributionPath=wrapper/dists
+ distributionUrl=https\://services.gradle.org/distributions/gradle-8.14.3-bin.zip
++distributionSha256Sum=bd71102213493060956ec229d946beee57158dbd89d0e62b91bca0fa2c5f3531
+ networkTimeout=10000
+ validateDistributionUrl=true
+ zipStoreBase=GRADLE_USER_HOME
