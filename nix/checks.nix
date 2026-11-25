@@ -35,6 +35,8 @@
         touch "$out"
       '';
 
+    checks.staging = import ./staging.nix {inherit pkgs self;};
+
     checks.minecraft = pkgs.testers.runNixOSTest {
       name = "retirement";
       node.pkgsReadOnly = false;

@@ -67,8 +67,38 @@
       # Simple Voice Chat listens separately from the Minecraft TCP socket.
       networking.firewall.allowedUDPPorts = lib.optional (minecraft.enable && home.enable && home.openFirewall) 24454;
 
-      systemd.services.minecraft-server-retirement-home.serviceConfig.LoadCredential =
-        lib.mkIf discord.enable ["discord-env:${discord.environmentFile}"];
+      # Content waits for restart. Do not silently change the live listener.
+      # Stop the JVM before a listener change.
+      system.preSwitchChecks.minecraftEndpoint = ''
+        case "$2" in
+          switch|test|dry-activate|check)
+            state=$(${config.systemd.package}/bin/systemctl show minecraft-server-retirement-home.service --property=ActiveState --value)
+            if [ "$state" != inactive ] && [ "$state" != failed ] &&
+               ! ${pkgs.gnugrep}/bin/grep -Fxq ${lib.escapeShellArg "server-port=${toString home.serverProperties.server-port}"} ${lib.escapeShellArg "${minecraft.dataDir}/retirement-home/server.properties"}; then
+              echo "Minecraft port change requires maintenance: stop minecraft-server-retirement-home.service, switch, then start it if autoStart is disabled." >&2
+              exit 1
+            fi
+            ;;
+        esac
+      '';
+
+      # Spark's async-profiler needs access to native kernel call frames.
+      boot.kernel.sysctl."kernel.perf_event_paranoid" = lib.mkDefault 1;
+
+      systemd.services.minecraft-server-retirement-home = {
+        # Neither restart nor reload: nix-minecraft's reload replaces files beneath the running JVM.
+        restartIfChanged = lib.mkForce false;
+        reloadIfChanged = lib.mkForce false;
+
+        # Limit the native async-profiler dependency to this service.
+        environment.LD_LIBRARY_PATH = lib.makeLibraryPath [pkgs.stdenv.cc.cc.lib];
+
+        serviceConfig = {
+          LoadCredential = lib.mkIf discord.enable ["discord-env:${discord.environmentFile}"];
+          # glibc uses AF_NETLINK before DNS resolution.
+          RestrictAddressFamilies = lib.mkForce ["AF_UNIX" "AF_INET" "AF_INET6" "AF_NETLINK"];
+        };
+      };
 
       services.minecraft-servers = {
         enable = true;
