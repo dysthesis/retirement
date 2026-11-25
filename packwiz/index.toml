@@ -22,7 +22,7 @@ hash = "95bb737da70b043de49bbccb34f96f79ceece7740e6369a8095dd36159d15967"
 
 [[files]]
 file = "config/friendsandfoes.json"
-hash = "4a094ec29f551de07cfeb12e4b1ab76564c2f496f7488bde868ad20eb90c9640"
+hash = "9f4e2776bd70a51e9fd7e905adb96725c17d4e5bb8fb79deefddefbae977334d"
 
 [[files]]
 file = "config/lightmanscurrency-common.txt"
