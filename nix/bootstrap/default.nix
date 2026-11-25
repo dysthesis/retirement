@@ -102,7 +102,7 @@ in
       Initial/minimum Java heap: 4096 MiB
       Maximum Java heap: 12288 MiB
       JVM GC and safepoint log: gc.log in the Java process's working directory
-      Logs rotate: up to 5 x 20 MiB files
+      Logs rotate: up to 10 x 50 MiB files
 
     These are client heap limits, NOT a measure of total Minecraft process RAM.
     On machines with about 16 GiB physical RAM, reduce the Prism maximum heap
