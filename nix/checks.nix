@@ -22,6 +22,19 @@
       touch "$out"
     '';
 
+    checks.bootstrap = let
+      bootstrap = pkgs.callPackage ./bootstrap {domain = "mc.example.test";};
+    in
+      pkgs.runCommand "retirement-bootstrap-check" {
+        nativeBuildInputs = [(pkgs.python3.withPackages (ps: [ps.pyqt6]))];
+      } ''
+        python3 ${./bootstrap/check.py} \
+          ${bootstrap}/RetirementHome-bootstrap.zip \
+          ${../packwiz/pack.toml} \
+          ${lib.escapeShellArgs [bootstrap.domain bootstrap.clientJvmArgs]}
+        touch "$out"
+      '';
+
     checks.minecraft = pkgs.testers.runNixOSTest {
       name = "retirement";
       node.pkgsReadOnly = false;

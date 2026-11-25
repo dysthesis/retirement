@@ -18,7 +18,7 @@
     pkgs,
     ...
   }: let
-    discord = config.retirement.discord;
+    inherit (config.retirement) bootstrap discord;
     minecraft = config.services.minecraft-servers;
     home = minecraft.servers.retirement-home;
     modpack = self.packages.${pkgs.stdenv.hostPlatform.system}.modpack-server;
@@ -34,6 +34,28 @@
       environmentFile = lib.mkOption {
         type = lib.types.strMatching "/.+";
         description = "Runtime path to a file containing DISCORD_BOT_TOKEN and DISCORD_CHANNEL_ID assignments.";
+      };
+    };
+
+    options.retirement.bootstrap = {
+      domain = lib.mkOption {
+        type = lib.types.nullOr lib.types.str;
+        default = null;
+        description = "Host that serves the game and the Packwiz tree at /modpack/. Null disables the bootstrap.";
+      };
+
+      package = lib.mkOption {
+        type = lib.types.nullOr lib.types.package;
+        readOnly = true;
+        description = "Prism Launcher import ZIP for this server's address and port.";
+        default =
+          if bootstrap.domain == null
+          then null
+          else
+            pkgs.callPackage ./bootstrap {
+              inherit (bootstrap) domain;
+              port = home.serverProperties.server-port;
+            };
       };
     };
 
