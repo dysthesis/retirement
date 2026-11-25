@@ -87,7 +87,7 @@
           files =
             lib.genAttrs modpack.configPaths (path: "${modpack}/${path}")
             // {
-              "server-icon.png" = ../assets/icons/retirement-home-icon-64.png;
+              "server-icon.png" = "${../assets/icons/retirement-home-icon-64.png}";
               # NeoForge bootstrap discovery requires a real mods directory.
               mods = "${modpack}/mods";
             };
