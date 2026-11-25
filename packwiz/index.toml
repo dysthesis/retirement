@@ -65,6 +65,34 @@ file = "config/paxi/datapack_load_order.json"
 hash = "e305ca86eb2a550f86e9c608b07e6adba6aff3658b74d85c0adc7eb05d736e84"
 
 [[files]]
+file = "config/paxi/datapacks/retirement-compat/data/c/tags/item/foods/cooked_bacon.json"
+hash = "d728553b0847c3ddffb91b02ab2f7bd05a175978c19e2a814ef716fe463e8f18"
+
+[[files]]
+file = "config/paxi/datapacks/retirement-compat/data/c/tags/item/foods/onion.json"
+hash = "4beeec03185794cbbffde1ab99b33d1f2ae2ea66bcc417d44f0b3e5bd5c73ad2"
+
+[[files]]
+file = "config/paxi/datapacks/retirement-compat/data/c/tags/item/foods/pasta.json"
+hash = "90731c16fc74ca350df790ba17680f29c8b30c367e9cf2a0cbd13da719901072"
+
+[[files]]
+file = "config/paxi/datapacks/retirement-compat/data/c/tags/item/foods/raw_bacon.json"
+hash = "accd6b6e9706d7963daca7671c83de6e599b1890d9081debdbaf083d306600ec"
+
+[[files]]
+file = "config/paxi/datapacks/retirement-compat/data/c/tags/item/foods/tomato.json"
+hash = "7c1d15309d1bd2cf3214ca376fca9e5cdf82d2dcb4ff2dda83c37a5f9630fb4f"
+
+[[files]]
+file = "config/paxi/datapacks/retirement-compat/data/c/tags/item/pasta.json"
+hash = "9e0bc17dbc5a8b7c3d3dfba4991ba593152d72911bf49ec9909770da60a778e8"
+
+[[files]]
+file = "config/paxi/datapacks/retirement-compat/data/c/tags/item/raw_bacon.json"
+hash = "c8f24765fbd4c22a43d5eaf33a5718d5154c8b4d792bd5b01078dc55e03dbed0"
+
+[[files]]
 file = "config/paxi/datapacks/retirement-compat/data/create/recipe/crushing/gloomslate_coal_ore.json"
 hash = "9ae9cd9c370dae686011a680f782a6bb8a6ffd4e62790bf1ec3dc01a952362ae"
 
