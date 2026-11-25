@@ -335,6 +335,16 @@ file = "mods/WalksyLib-2.0.5+retirement.1+1.21-1.21.1-neoforge.jar"
 hash = "42b2799424f0a8c2ccbec634e6e477ad42dba0387b8c9de83795f0d885af7130"
 
 [[files]]
+file = "mods/accessories-compat-layer.pw.toml"
+hash = "b77da93300cfb9a239aa33ad731f9672ae3c74d3218aa149df89449962cb8594"
+metafile = true
+
+[[files]]
+file = "mods/accessories.pw.toml"
+hash = "2017362c793d95887d38b3353abb7c77f212175e82ed848296575ea0e466b7d7"
+metafile = true
+
+[[files]]
 file = "mods/ad-astra-giselle-addon.pw.toml"
 hash = "76b0b436c7a47689c9a9eaf1b064dfb27b3a79347323839e4be0d78a3296d705"
 metafile = true
