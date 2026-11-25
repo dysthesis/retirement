@@ -1,0 +1,21 @@
+# Wildernature, Hybrid Aquatic, Quark and Critters and Companions already supply these mobs.
+[disable_mobs.aquatic_mobs]
+	anglerfish_removed = true
+	blobfish_removed = true
+	giant_isopod_removed = true
+	great_white_shark_removed = true
+	piranha_removed = true
+	starfish_removed = true
+[disable_mobs.land_mobs]
+	boar_removed = true
+	crab_removed = true
+	deer_removed = true
+	elephant_removed = true
+	giraffe_removed = true
+	hedgehog_removed = true
+	hippo_removed = true
+	lion_removed = true
+	turkey_removed = true
+[disable_mobs.bugs]
+	dragonfly_removed = true
+	snail_removed = true

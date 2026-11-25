@@ -53,6 +53,10 @@ file = "config/modpack_defaults/config/watut-client.toml"
 hash = "9b044f160afa2060c1acb307995fb62afa15307b376ea8bcc35430b5f8243c76"
 
 [[files]]
+file = "config/naturalist-server.toml"
+hash = "1288bcf709a9097af8c93f301b42f8c01a180d57605f87e2a27494f55effc577"
+
+[[files]]
 file = "config/particle_core_config.toml"
 hash = "621cbc339671bcc38ed846b59a84fb931b980f7abd94747e13feb87069cad201"
 
