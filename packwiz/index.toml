@@ -21,6 +21,10 @@ file = "config/flerovium.json"
 hash = "95bb737da70b043de49bbccb34f96f79ceece7740e6369a8095dd36159d15967"
 
 [[files]]
+file = "config/friendsandfoes.json"
+hash = "4a094ec29f551de07cfeb12e4b1ab76564c2f496f7488bde868ad20eb90c9640"
+
+[[files]]
 file = "config/lightmanscurrency-common.txt"
 hash = "62709485b77999e2523cc5375ba523cacdaaa9c88e5a3e65a97fca7a5b6bc886"
 

@@ -1,0 +1,7 @@
+{
+  "enableCopperGolem": false,
+  "enableCopperGolemsInTrialChambers": false,
+  "generateCopperGolemWorkstationStructureInVillages": false,
+  "generateCopperGolemInAncientCity": false,
+  "enableLightningRodOxidation": false
+}
