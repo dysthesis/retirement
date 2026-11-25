@@ -7,8 +7,9 @@ import zipfile
 from pathlib import Path
 from PyQt6.QtCore import QSettings
 
-# Prism parses instance.cfg with QSettings. Commas in JVM arguments must survive it.
-archive_path, pack_path, domain, jvm_args = sys.argv[1:]
+# Prism parses instance.cfg with QSettings. Quotes and commas must survive it.
+archive_path, pack_path, domain, general_path = sys.argv[1:]
+general = json.loads(Path(general_path).read_text())
 pack = tomllib.loads(Path(pack_path).read_text())
 with zipfile.ZipFile(archive_path) as archive:
     names = set(archive.namelist())
@@ -23,15 +24,14 @@ with zipfile.ZipFile(archive_path) as archive:
         ("net.minecraft", pack["versions"]["minecraft"]),
         ("net.neoforged", pack["versions"]["neoforge"]),
     ]
-    cfg = archive.read("instance.cfg").decode()
-    assert f"-s client https://{domain}/modpack/pack.toml" in cfg
-    assert "OverrideJavaArgs=true" in cfg and "OverrideMemory=true" in cfg
     settings = QSettings(archive.extract("instance.cfg"), QSettings.Format.IniFormat)
-    assert (
-        settings.value("MaxMemAlloc") == "12288"
-        and settings.value("MinMemAlloc") == "4096"
+    for key, value in general.items():
+        expected = str(value).lower() if isinstance(value, bool) else str(value)
+        assert settings.value(key) == expected, key
+    assert general["PreLaunchCommand"].startswith('"$INST_JAVA" ')
+    assert general["PreLaunchCommand"].endswith(
+        f" -s client https://{domain}/modpack/pack.toml"
     )
-    assert settings.value("JvmArgs") == jvm_args
     # Verify the embedded JAR is a nonempty ZIP archive.
     with zipfile.ZipFile(
         io.BytesIO(archive.read("minecraft/packwiz-installer-bootstrap.jar"))

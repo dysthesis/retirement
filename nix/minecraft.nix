@@ -44,6 +44,13 @@
         description = "Host that serves the game and the Packwiz tree at /modpack/. Null disables the bootstrap.";
       };
 
+      settings = lib.mkOption {
+        type = with lib.types; attrsOf (attrsOf (oneOf [bool int str]));
+        default = {};
+        example = {General.MaxMemAlloc = 8192;};
+        description = "instance.cfg values merged over the bootstrap defaults.";
+      };
+
       package = lib.mkOption {
         type = lib.types.nullOr lib.types.package;
         readOnly = true;
@@ -53,7 +60,7 @@
           then null
           else
             pkgs.callPackage ./bootstrap {
-              inherit (bootstrap) domain;
+              inherit (bootstrap) domain settings;
               port = home.serverProperties.server-port;
             };
       };

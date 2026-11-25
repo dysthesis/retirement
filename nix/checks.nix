@@ -31,7 +31,8 @@
         python3 ${./bootstrap/check.py} \
           ${bootstrap}/RetirementHome-bootstrap.zip \
           ${../packwiz/pack.toml} \
-          ${lib.escapeShellArgs [bootstrap.domain bootstrap.clientJvmArgs]}
+          mc.example.test \
+          ${pkgs.writeText "general.json" (builtins.toJSON bootstrap.settings.General)}
         touch "$out"
       '';
 
