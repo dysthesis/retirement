@@ -553,6 +553,11 @@ def collect(variant, client_pack=None, server_pack=None, overlay=None, settle=12
         hud.sendall(b":logging=0;")
         event("mangohud_log_stop")
         rows["sample"].append((run_id, time.time() - t0, "client_hwm_mib", status_mib(pid, "VmHWM")))
+        if jdk:  # live set after a full GC; after the measured phases, so it perturbs none
+            histo = subprocess.run([f"{jdk}/bin/jcmd", str(pid), "GC.class_histogram"],
+                                   capture_output=True, text=True, timeout=120).stdout.split()
+            rows["sample"].append((run_id, time.time() - t0, "client_live_heap_mib",
+                                   int(histo[histo.index("Total") + 2]) / 2**20))
         time.sleep(2)  # let MangoHud close its CSV
         hud.close()
         screenshot(xdotool, pid)
