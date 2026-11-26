@@ -253,6 +253,10 @@ file = "config/paxi/datapacks/retirement-compat/data/mynethersdelight/loot_modif
 hash = "d42d8060adf1daf267990ce9f752a7f26275cd6433283372a06c49763c2d5705"
 
 [[files]]
+file = "config/paxi/datapacks/retirement-compat/data/retirement/accessories/slot/back.json"
+hash = "2d9fa325752e314c8449b4c6cd160aa81f9a3845faf3a18cb6d90ee3335d4efb"
+
+[[files]]
 file = "config/paxi/datapacks/retirement-compat/data/supplementaries/loot_modifiers/straw_from_flax.json"
 hash = "968994b4084e1aab0ea22d59ffc3fe3746dcd96cd58321a3f4c1821dac87d080"
 
