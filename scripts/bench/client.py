@@ -329,7 +329,7 @@ def java_version(jdk):
                           check=True).stderr.splitlines()[0]
 
 
-def prepare_prism(raw, client_pack, overlay, jfr, gamescope, mangohud, profiler, jdk=None):
+def prepare_prism(raw, client_pack, overlay, jfr, gamescope, mangohud, profiler, jdk=None, heap=None):
     """Isolated Prism root with an offline account; shares libraries/assets read-only."""
     PRISM.mkdir(parents=True, exist_ok=True)
     if not (PRISM / "assets").exists():
@@ -375,6 +375,8 @@ def prepare_prism(raw, client_pack, overlay, jfr, gamescope, mangohud, profiler,
         general = bootstrap_general()
         instance = general | instance | {"JavaPath": f"{jdk}/bin/java", "AutomaticJava": "false",
                                          "OverrideJavaLocation": "true", "IgnoreJavaCompatibility": "true"}
+    if heap:  # a player's smaller Prism maximum heap
+        instance["MaxMemAlloc"] = str(heap)
     if jfr:
         agent = {"async": f"-agentpath:{profiler}/lib/libasyncProfiler.so={ASYNC_PROFILER.format(raw=raw)}",
                  "jdk": f"-XX:StartFlightRecording={JDK_JFR.format(raw=raw)}"}[jfr]
@@ -445,7 +447,7 @@ def save_raw(raw):
 
 
 def collect(variant, client_pack=None, server_pack=None, overlay=None, settle=120, duration=60,
-            timeout=3600, jfr=None):
+            timeout=3600, jfr=None, heap=None):
     t0 = time.time()
     run_id = time.strftime("%Y%m%dT%H%M%S") + "-" + variant
     raw = RUNS / run_id / "raw"
@@ -487,7 +489,7 @@ def collect(variant, client_pack=None, server_pack=None, overlay=None, settle=12
     overrides += [("server_file", k, v) for k, v in SERVER_FILES.items()]
     overrides += [("server_console", c, "") for c in WORLD_COMMANDS]
     overrides += [("java", "version", java_version(jdk))] if jdk else []
-    overrides += prepare_prism(raw, client_pack, overlay, jfr, gamescope, mangohud, profiler, jdk)
+    overrides += prepare_prism(raw, client_pack, overlay, jfr, gamescope, mangohud, profiler, jdk, heap)
     rows["override"] = [(run_id, *o) for o in overrides]
 
     remove(SERVER)
