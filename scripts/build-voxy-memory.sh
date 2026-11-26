@@ -31,11 +31,13 @@ python3 "$root/scripts/materialize-source-patch.py" "$work" "$root/scripts/voxy-
     -Pmod_version="$version" fluidBlockRegression jar
   test -f "build/libs/$jar"
 )
-# NeoForge keeps nested jars in heap for the whole session. Drop RocksDB natives
-# for platforms Minecraft cannot run on (musl, 32-bit, ppc64le, s390x, riscv64).
+# NeoForge keeps nested jars in heap for the whole session. Drop RocksDB and SQLite
+# natives for platforms Minecraft cannot run on (musl, Android, BSD, 32-bit, ppc, s390x, riscv).
 python3 - "$work/build/libs/$jar" <<'EOF'
 import io, re, sys, zipfile
-keep = re.compile(r"librocksdbjni-(linux64\.so|linux-aarch64\.so|osx-.*\.jnilib|win64\.dll)$")
+native = re.compile(r"librocksdbjni-.*|org/sqlite/native/.+/.+")
+keep = re.compile(r"librocksdbjni-(linux64\.so|linux-aarch64\.so|osx-.*\.jnilib|win64\.dll)"
+                  r"|org/sqlite/native/(Linux|Mac|Windows)/(x86_64|aarch64)/.*")
 def repack(data, edit):
     out = io.BytesIO()
     with zipfile.ZipFile(io.BytesIO(data)) as src, zipfile.ZipFile(out, "w") as dst:
@@ -44,8 +46,8 @@ def repack(data, edit):
             if body is not None:
                 dst.writestr(info, body)
     return out.getvalue()
-natives = lambda name, body: body if not name.startswith("librocksdbjni-") or keep.match(name) else None
-outer = lambda name, body: repack(body, natives) if re.fullmatch(r"META-INF/jarjar/rocksdbjni-[^/]+\.jar", name) else body
+natives = lambda name, body: None if native.fullmatch(name) and not keep.fullmatch(name) else body
+outer = lambda name, body: repack(body, natives) if re.fullmatch(r"META-INF/jarjar/(rocksdbjni|sqlite-jdbc)-[^/]+\.jar", name) else body
 path = sys.argv[1]
 data = repack(open(path, "rb").read(), outer)
 open(path, "wb").write(data)
