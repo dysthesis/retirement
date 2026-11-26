@@ -124,7 +124,9 @@ JDK_JFR = "filename={raw}/client.jfr,settings=profile"  # Java-only stacks; 10/2
 # ---------------------------------------------------------------- files and processes
 
 def nix_build(*args):
-    out = subprocess.run(["nix", "build", "--no-link", "--print-out-paths", *args], cwd=REPO,
+    # GC-root every build: a nix-collect-garbage mid-run once deleted a tool the run still needed.
+    link = WORK / "gcroots" / hashlib.sha256("\0".join(args).encode()).hexdigest()[:16]
+    out = subprocess.run(["nix", "build", "--out-link", str(link), "--print-out-paths", *args], cwd=REPO,
                          check=True, capture_output=True, text=True).stdout.split()
     return [Path(p) for p in out]
 
