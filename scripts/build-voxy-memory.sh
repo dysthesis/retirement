@@ -31,6 +31,25 @@ python3 "$root/scripts/materialize-source-patch.py" "$work" "$root/scripts/voxy-
     -Pmod_version="$version" fluidBlockRegression jar
   test -f "build/libs/$jar"
 )
+# NeoForge keeps nested jars in heap for the whole session. Drop RocksDB natives
+# for platforms Minecraft cannot run on (musl, 32-bit, ppc64le, s390x, riscv64).
+python3 - "$work/build/libs/$jar" <<'EOF'
+import io, re, sys, zipfile
+keep = re.compile(r"librocksdbjni-(linux64\.so|linux-aarch64\.so|osx-.*\.jnilib|win64\.dll)$")
+def repack(data, edit):
+    out = io.BytesIO()
+    with zipfile.ZipFile(io.BytesIO(data)) as src, zipfile.ZipFile(out, "w") as dst:
+        for info in src.infolist():
+            body = edit(info.filename, src.read(info))
+            if body is not None:
+                dst.writestr(info, body)
+    return out.getvalue()
+natives = lambda name, body: body if not name.startswith("librocksdbjni-") or keep.match(name) else None
+outer = lambda name, body: repack(body, natives) if re.fullmatch(r"META-INF/jarjar/rocksdbjni-[^/]+\.jar", name) else body
+path = sys.argv[1]
+data = repack(open(path, "rb").read(), outer)
+open(path, "wb").write(data)
+EOF
 # Validate mod metadata, cache classes and the new settings before leaving a candidate.
 python3 "$root/scripts/promote-voxy-memory.py" --check-jar "$work/build/libs/$jar"
 digest="$(sha256sum "$work/build/libs/$jar" | cut -d ' ' -f 1)"
