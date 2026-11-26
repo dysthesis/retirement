@@ -1,3 +1,4 @@
 .direnv/
 .rehash.lock
 result
+__pycache__/
