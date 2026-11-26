@@ -93,6 +93,10 @@ file = "config/paxi/datapacks/retirement-compat/data/c/tags/item/raw_bacon.json"
 hash = "c8f24765fbd4c22a43d5eaf33a5718d5154c8b4d792bd5b01078dc55e03dbed0"
 
 [[files]]
+file = "config/paxi/datapacks/retirement-compat/data/cataclysm/tags/worldgen/biome/has_structure/burning_arena_biomes.json"
+hash = "6c0596a9226677e5a3fa44c67941a303b9e858ac5c039732263226d3ca8a8277"
+
+[[files]]
 file = "config/paxi/datapacks/retirement-compat/data/create/recipe/crushing/gloomslate_coal_ore.json"
 hash = "9ae9cd9c370dae686011a680f782a6bb8a6ffd4e62790bf1ec3dc01a952362ae"
 
@@ -314,10 +318,6 @@ file = "config/vss-server-config.yaml"
 hash = "f8db9c1d7eb722ca7691fd27b078162384ed25fbcf107c263414c57da9a49023"
 
 [[files]]
-file = "config/wover/client.json"
-hash = "cc34b2a265c4d9224e0f64c403adfc3a9255cbba06f21475858dcc623af4d53d"
-
-[[files]]
 file = "config/xaero/minimap/default_radar_categories_client.json"
 hash = "f523d5e91eb6bedd27b9c828551b85a90fb77917b6e3b79450792171cf57c63c"
 
@@ -449,11 +449,6 @@ hash = "89d5086e2383c436bcedadc91aff9d69ec6a59d2bacbbba6b5d59e2d74576a69"
 metafile = true
 
 [[files]]
-file = "mods/bclib-neoforge.pw.toml"
-hash = "f625927d49a62f8c1dff430aac72063164fca6fe5fdbbe0e38d54190db475eae"
-metafile = true
-
-[[files]]
 file = "mods/better-block-entities.pw.toml"
 hash = "eb0c1e82baced061d551f83b4be1c9996029d8b6571eca5390bc0eca96b9f7a6"
 metafile = true
@@ -471,11 +466,6 @@ metafile = true
 [[files]]
 file = "mods/better-tridents.pw.toml"
 hash = "f8a38924e14f920e143eca6225cb2a8151d7c2978bf36869fe3290e1302bd6a4"
-metafile = true
-
-[[files]]
-file = "mods/betternether-neoforge.pw.toml"
-hash = "35ad9db98f1a331c617ceaf9425b12a3e071533ee56d180cdf6616c48ee9b018"
 metafile = true
 
 [[files]]
@@ -992,6 +982,11 @@ metafile = true
 [[files]]
 file = "mods/immersivethunder.pw.toml"
 hash = "29a2a1c085015a76586ac7d9e227e34004c4891208e877ae0a58dfce5abdc54b"
+metafile = true
+
+[[files]]
+file = "mods/incendium.pw.toml"
+hash = "391f5b0b0fcae3ce77be6ab211435228faec79cb92c50d69471c52ba36b139d6"
 metafile = true
 
 [[files]]
@@ -1655,16 +1650,6 @@ metafile = true
 [[files]]
 file = "mods/what-are-they-up-to.pw.toml"
 hash = "9ce52d07c0c3d146a2a44f8bc187138ce7a5558a4e3ab540c86234702b6de274"
-metafile = true
-
-[[files]]
-file = "mods/worldweaver-neoforge.pw.toml"
-hash = "c7812eda3fdc8cf823c886707f5d3f51c838754fccff39447c52d991f079bb99"
-metafile = true
-
-[[files]]
-file = "mods/wunderlib-neoforge.pw.toml"
-hash = "59f0ddb50597f1bec9a062ff4a2b11215541494ac74a61214358a4b5994164a8"
 metafile = true
 
 [[files]]
