@@ -295,7 +295,7 @@ hash = "0e1843dae78267ba764f91f4870c4e22bccaf72749205adcd424949807ac7f72"
 
 [[files]]
 file = "config/sparsestructures.json5"
-hash = "e5218cceb4fe622501eb968451bd564b69d7a2e540a4658e30bfce6514c93b44"
+hash = "fe57d689a15bb4597abecfbd9e908e2c971b12ab766d7064da57024ec2363b86"
 
 [[files]]
 file = "config/streamsreflowing.properties"

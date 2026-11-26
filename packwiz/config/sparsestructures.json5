@@ -1,5 +1,13 @@
 {
   "spreadFactor": 6,
   "idBasedSalt": true,
-  "customSpreadFactors": []
+  // The Nether is an eighth of the Overworld's scale and gates progression on fortresses, bastions and bosses.
+  "customSpreadFactors": [
+    { "structure": "betterfortresses:fortress", "factor": 1 },
+    { "structure": "minecraft:nether_complexes", "factor": 1.5 },
+    { "structure": "cataclysm:burning_arena", "factor": 1 },
+    { "structure": "cataclysm:soul_black_smith", "factor": 1 },
+    { "structure": "incendium:greater_structures", "factor": 1 },
+    { "structure": "incendium:lesser_structures", "factor": 1 }
+  ]
 }
