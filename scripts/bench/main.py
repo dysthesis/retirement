@@ -52,6 +52,8 @@ def main():
         p.add_argument("--duration", type=float, default=60, help="seconds per measured phase")
         p.add_argument("--timeout", type=float, default=3600, help="abort collect after this many seconds")
         p.add_argument("--heap", type=int, metavar="MIB", help="Prism maximum heap; default: the bootstrap's")
+        p.add_argument("--java", default="nixpkgs#jdk25^out", metavar="INSTALLABLE",
+                       help="nix installable of the client's full JDK, e.g. nixpkgs#graalvmPackages.graalvm-ce")
         p.add_argument("--jfr", nargs="?", const="async", choices=("async", "jdk"),
                        help="also record raw/client.jfr: async-profiler (default) or the JDK recorder; "
                             "perturbs results")
@@ -80,7 +82,7 @@ def main():
         lock = open(Path.home() / ".cache/claude-retirement-scratch/bench/lock", "w")
         fcntl.flock(lock, fcntl.LOCK_EX)
         run_dir = client.collect(args.variant, args.client_pack, args.server_pack, args.overlay,
-                                 args.settle, args.duration, args.timeout, args.jfr, args.heap)
+                                 args.settle, args.duration, args.timeout, args.jfr, args.heap, args.java)
         print(run_dir)
         if args.stage == "run":
             client.normalise([run_dir])

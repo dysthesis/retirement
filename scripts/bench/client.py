@@ -447,7 +447,7 @@ def save_raw(raw):
 
 
 def collect(variant, client_pack=None, server_pack=None, overlay=None, settle=120, duration=60,
-            timeout=3600, jfr=None, heap=None):
+            timeout=3600, jfr=None, heap=None, java="nixpkgs#jdk25^out"):
     t0 = time.time()
     run_id = time.strftime("%Y%m%dT%H%M%S") + "-" + variant
     raw = RUNS / run_id / "raw"
@@ -476,7 +476,7 @@ def collect(variant, client_pack=None, server_pack=None, overlay=None, settle=12
     # Loaded into the game's JVM, so from the same nixpkgs as MangoHud.
     profiler = nix_build("nixpkgs#async-profiler^out")[0] if jfr == "async" else None
     # Full JDK (the client needs its AWT libraries), from the same nixpkgs as MangoHud.
-    jdk = nix_build("nixpkgs#jdk25^out")[0] if BOOTSTRAP else None
+    jdk = nix_build(java)[0] if BOOTSTRAP else None
     template = template_for(server_pack, deadline)
     for role, path in [("client_pack", client_pack), ("server_pack", server_pack)] + \
                       ([("client_overlay", Path(overlay))] if overlay else []):
