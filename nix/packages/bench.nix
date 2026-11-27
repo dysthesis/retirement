@@ -10,6 +10,7 @@
   mangohud,
   xdotool,
   async-profiler,
+  util-linux,
   jdk25,
   clientPack,
   serverPack,
@@ -20,6 +21,7 @@
   python = python3.withPackages (ps: []);
 in
   writeShellScriptBin "bench" ''
+    export PATH=${util-linux}/bin:$PATH # taskset for --cpus
     export BENCH_PRISM=${prismlauncher}
     export BENCH_GAMESCOPE=${gamescope}
     export BENCH_MANGOHUD=${mangohud}

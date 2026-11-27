@@ -77,6 +77,8 @@ def main():
         p.add_argument("--timeout", type=float, default=3600, help="abort collect after this many seconds")
         p.add_argument("--heap", type=int, metavar="MIB", help="Prism maximum heap; default: the bootstrap's")
         p.add_argument("--jvm-args", metavar="ARGS", help="replace the bootstrap's JVM arguments (GC choice, flags)")
+        p.add_argument("--cpus", metavar="LIST", help="taskset CPU list for the client only, e.g. 0-3 to emulate a "
+                                                       "weaker CPU; the server stays unpinned")
         p.add_argument("--jfr", nargs="?", const="async", choices=("async", "jdk"),
                        help="also record raw/client.jfr: async-profiler (default) or the JDK recorder; "
                             "perturbs results")

@@ -18,6 +18,13 @@ import tables as T
 INPUTS = ("run", "phase", "event", "sample", "frame", "gc_pause", "gc_cycle")
 
 
+def spikes(series, window=30, floor=1000 / 60):
+    """Frames over twice the median of the previous `window` frames and over one 60 Hz refresh:
+    visible uneven pacing that the lows average away."""
+    return sum(x > floor and x > 2 * T.quantile(sorted(series[i - window:i]), 0.5)
+               for i, x in enumerate(series) if i >= window)
+
+
 def frame_metrics(t):
     rows = []
     ft = t["frame"]["frametime_ms"]
@@ -35,6 +42,8 @@ def frame_metrics(t):
             "max_ms": s[-1],
             "over33ms_n": sum(x > 33.3 for x in s),
             "over50ms_n": sum(x > 50 for x in s),
+            "over100ms_n": sum(x > 100 for x in s),  # a freeze visible on any display
+            "spike2x_n": spikes([ft[i] for i in idx]),
         }
         rows += [(run_id, phase, k, float(v)) for k, v in values.items() if s]
     return rows

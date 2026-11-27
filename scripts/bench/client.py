@@ -317,7 +317,7 @@ def java_version(jdk):
 
 
 def prepare_prism(raw, client_pack, overlay, jfr, gamescope, mangohud, profiler, bootstrap, jdk=None,
-                  heap=None, jvm_args=None):
+                  heap=None, jvm_args=None, cpus=None):
     """Isolated Prism root with an offline account; shares libraries/assets read-only."""
     PRISM.mkdir(parents=True, exist_ok=True)
     if not (PRISM / "assets").exists():
@@ -353,7 +353,7 @@ def prepare_prism(raw, client_pack, overlay, jfr, gamescope, mangohud, profiler,
     wrapper.write_text(
         f"#!/bin/sh\nunset DISPLAY WAYLAND_DISPLAY\nexec >{raw}/game.out 2>&1\n"
         f"exec env {' '.join(f'{k}={shlex.quote(v)}' for k, v in env.items())} "
-        f"{gamescope}/bin/gamescope --backend headless -w 1920 -h 1080 -W 1920 -H 1080 "
+        f"{f'taskset -c {cpus} ' if cpus else ''}{gamescope}/bin/gamescope --backend headless -w 1920 -h 1080 -W 1920 -H 1080 "
         f"-- {mangohud}/bin/mangohud \"$@\"\n")
     wrapper.chmod(0o755)
 
@@ -437,7 +437,7 @@ def save_raw(raw):
 
 
 def collect(*, variant, client_pack, server_pack, overlay, settle, duration, timeout, jfr, heap, java,
-            jvm_args, server_launcher, bootstrap, prism, gamescope, mangohud, xdotool, async_profiler):
+            jvm_args, cpus, server_launcher, bootstrap, prism, gamescope, mangohud, xdotool, async_profiler):
     t0 = time.time()
     run_id = time.strftime("%Y%m%dT%H%M%S") + "-" + variant
     raw = RUNS / run_id / "raw"
@@ -473,8 +473,9 @@ def collect(*, variant, client_pack, server_pack, overlay, settle, duration, tim
     overrides += [("server_file", k, v) for k, v in SERVER_FILES.items()]
     overrides += [("server_console", c, "") for c in WORLD_COMMANDS]
     overrides += [("java", "version", java_version(jdk))] if jdk else []
+    overrides += [("client", "cpus", cpus)] if cpus else []
     overrides += prepare_prism(raw, client_pack, overlay, jfr, gamescope, mangohud, profiler, bootstrap, jdk, heap,
-                               jvm_args)
+                               jvm_args, cpus)
     rows["override"] = [(run_id, *o) for o in overrides]
 
     remove(SERVER)
