@@ -68,8 +68,11 @@ def main():
         p = sub.add_parser(name, help="client benchmark run")
         p.add_argument("--overlay", help="dir copied over the client minecraft/ dir after the pack")
         p.add_argument("--variant", default="baseline", help="label that compare groups by")
+        # 60 runs with Voxy, no shaders (2026-11-26/27): the 10 s rolling median FPS stays
+        # within 5% of the stationary median from 116 s after join (median); in 16 runs
+        # never in the 120 s. Stationary 2nd half is 2.7% faster than 1st (median).
         p.add_argument("--settle", type=float, default=120,
-                       help="seconds at the start spot before measuring; FPS still rises for ~90 s after join")
+                       help="seconds at the start spot before measuring; FPS still rises at 120 s after join")
         p.add_argument("--duration", type=float, default=60, help="seconds per measured phase")
         p.add_argument("--timeout", type=float, default=3600, help="abort collect after this many seconds")
         p.add_argument("--heap", type=int, metavar="MIB", help="Prism maximum heap; default: the bootstrap's")

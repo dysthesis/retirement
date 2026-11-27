@@ -8,6 +8,9 @@ instance from the pack (plus optional overlay), Prism Launcher -> gamescope
   stationary  at START, fixed rotation
   movement    absolute teleports along +x at SPEED blocks/s, over terrain the
               client has not loaded (pregenerated on the server)
+The client starts with the server and loads while the server starts, so
+client_launch precedes server_ready and launch timings include CPU contention
+with the server start: they are not comparable with runs before this change.
 collect writes raw/ (run, input, override, phase, event, sample tables and
 raw logs). normalise reads raw/ and writes all tables to the run directory.
 """
@@ -208,8 +211,9 @@ def kill_all(procs, grace=30):
 
 # A JVM whose main thread died can keep running; treat these log lines as failure.
 # The NeoForge early-display error waits for a click in a dialog nobody sees.
+# Quick play does not retry a refused connect; the client would wait in a menu.
 FATAL = re.compile(r'Exception in thread "main"|java\.lang\.OutOfMemoryError|---- Minecraft Crash Report ----'
-                   r'|early-display-errors|!!\[Fatal\]!')
+                   r"|early-display-errors|!!\[Fatal\]!|Couldn't connect to server")
 
 
 def read_text(path):
@@ -477,17 +481,21 @@ def collect(*, variant, client_pack, server_pack, overlay, settle, duration, tim
     copy_tree(template, SERVER)
     procs = []
     stop = threading.Event()
+    env = child_env() | {"QT_QPA_PLATFORM": "offscreen"}  # Prism's own UI never reaches a display
+
     try:
         server = start_server(server_launcher, SERVER, raw / "server.out")
         procs.append(server)
-        wait_for(raw / "server.out", r"Done \([0-9.]+s\)", 900, procs, deadline)
-        event("server_ready")
-        env = child_env() | {"QT_QPA_PLATFORM": "offscreen"}  # Prism's own UI never reaches a display
+        # Client and server start together. In 87 sequential runs (2026-11-26/27) the
+        # client took >= 68 s from launch to its connect, the server <= 46 s to "Done";
+        # it listens >= 6.5 s before "Done". A connect that comes too early fails the run (FATAL).
         event("client_launch")
         procs.append(subprocess.Popen(
             [f"{prism}/bin/prismlauncher", "-d", str(PRISM), "-l", "bench", "-o", PLAYER, "-s", f"127.0.0.1:{PORT}"],
             cwd=PRISM, env=env, stdout=(raw / "prism.out").open("w"), stderr=subprocess.STDOUT,
             start_new_session=True))
+        wait_for(raw / "server.out", r"Done \([0-9.]+s\)", 900, procs, deadline)
+        event("server_ready")
         wait_for(raw / "server.out", rf"{PLAYER} joined the game", 900, procs, deadline, [raw / "game.out"])
         event("player_join")
         pid = client_pid()
@@ -541,16 +549,19 @@ def collect(*, variant, client_pack, server_pack, overlay, settle, duration, tim
                                    capture_output=True, text=True, timeout=120).stdout.split()
             rows["sample"].append((run_id, time.time() - t0, "client_live_heap_mib",
                                    int(histo[histo.index("Total") + 2]) / 2**20))
-        time.sleep(2)  # let MangoHud close its CSV
-        hud.close()
+        hud.close()  # MangoHud stops on the next frame; jcmd and the 3 s screenshot precede SIGTERM
         screenshot(xdotool, pid)
         event("screenshot")
         os.kill(pid, signal.SIGTERM)
+        console(server, "stop")  # the two stop in parallel; neither needs the other
         end = time.time() + 90
         while Path(f"/proc/{pid}").exists() and time.time() < end:
             time.sleep(0.5)
         event("client_stopped")  # Prism itself stays up; kill_all stops it
-        stop_server(server)
+        try:
+            server.wait(180)
+        except subprocess.TimeoutExpired:
+            pass
         event("server_stopped")
     finally:
         stop.set()
