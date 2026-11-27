@@ -331,6 +331,10 @@ hash = "b53d22bef2bb36b66138da57a389d85d27fbfca14305245b49ce7b1f55baa7f9"
 preserve = true
 
 [[files]]
+file = "mods/ContinuityNeoForge-3.0.11+retirement.1+1.21.1.jar"
+hash = "cfcd61e15a43283caa7cab509f81c0a1e2696227397d9c3a8c4f7e1248b49013"
+
+[[files]]
 file = "mods/CrosshairAddons-2.2.2+retirement.1+1.21-1.21.1-neoforge.jar"
 hash = "81d7d64f69b9ac07fccf45811efc355b1bb9df81c052d956ba73b9412091588a"
 
@@ -576,11 +580,6 @@ metafile = true
 [[files]]
 file = "mods/configmanager.pw.toml"
 hash = "66e066d2fdecd2750afca6b9cf5296e0fb0c61573ddbbd41c1dc2ce53e8b71a7"
-metafile = true
-
-[[files]]
-file = "mods/continuity-neoforged.pw.toml"
-hash = "2994021cbfb1f99607e99d90336364a2b2fe7e28bd91cd1a50287ff29c33a9a9"
 metafile = true
 
 [[files]]

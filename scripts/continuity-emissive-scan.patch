@@ -1,0 +1,49 @@
+diff --git a/src/main/java/me/pepperbell/continuity/client/model/EmissiveBakedModel.java b/src/main/java/me/pepperbell/continuity/client/model/EmissiveBakedModel.java
+index 0c1f4bc..d1f7eae 100644
+--- a/src/main/java/me/pepperbell/continuity/client/model/EmissiveBakedModel.java
++++ b/src/main/java/me/pepperbell/continuity/client/model/EmissiveBakedModel.java
+@@ -111,6 +111,27 @@ public class EmissiveBakedModel extends ForwardingBakedModel {
+ 			return null;
+ 		}
+ 
++		// Most blocks have no emissive sprite. Find that out before copying every quad into the collector,
++		// which otherwise allocates new lists for each block on every chunk rebuild.
++		List<List<BakedQuad>> lists = new ObjectArrayList<>(DIRECTIONS.length + 1);
++		boolean emissive = false;
++		for (RenderType layer : baseRenderTypes) {
++			for (int i = 0; i <= DIRECTIONS.length; i++) {
++				Direction cullFace = i == DIRECTIONS.length ? null : DIRECTIONS[i];
++
++				random.setSeed(seed);
++				List<BakedQuad> quads = originalModel.getQuads(state, cullFace, random, data, layer);
++				lists.add(quads);
++				for (int j = 0; !emissive && j < quads.size(); j++) {
++					TextureAtlasSprite sprite = quads.get(j).getSprite();
++					emissive = sprite != null && EmissiveSpriteApi.get().getEmissiveSprite(sprite) != null;
++				}
++			}
++		}
++		if (!emissive) {
++			return null;
++		}
++
+ 		QuadCollector collector = container.emissiveQuadCollector;
+ 		MutableQuad workingQuad = container.emissiveWorkingQuad;
+ 		collector.reset();
+@@ -118,14 +139,14 @@ public class EmissiveBakedModel extends ForwardingBakedModel {
+ 		quadTransform.prepare(collector, state);
+ 
+ 		try {
++			int list = 0;
+ 			for (RenderType layer : baseRenderTypes) {
+ 				collector.prepare(layer);
+ 
+ 				for (int i = 0; i <= DIRECTIONS.length; i++) {
+ 					Direction cullFace = i == DIRECTIONS.length ? null : DIRECTIONS[i];
+ 
+-					random.setSeed(seed);
+-					List<BakedQuad> quads = originalModel.getQuads(state, cullFace, random, data, layer);
++					List<BakedQuad> quads = lists.get(list++);
+ 					int amount = quads.size();
+ 					for (int j = 0; j < amount; j++) {
+ 						BakedQuad quad = quads.get(j);
