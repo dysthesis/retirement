@@ -54,6 +54,7 @@ def main():
         p.add_argument("--heap", type=int, metavar="MIB", help="Prism maximum heap; default: the bootstrap's")
         p.add_argument("--java", default="nixpkgs#jdk25^out", metavar="INSTALLABLE",
                        help="nix installable of the client's full JDK, e.g. nixpkgs#graalvmPackages.graalvm-ce")
+        p.add_argument("--jvm-args", metavar="ARGS", help="replace the bootstrap's JVM arguments (GC choice, flags)")
         p.add_argument("--jfr", nargs="?", const="async", choices=("async", "jdk"),
                        help="also record raw/client.jfr: async-profiler (default) or the JDK recorder; "
                             "perturbs results")
@@ -82,7 +83,8 @@ def main():
         lock = open(Path.home() / ".cache/claude-retirement-scratch/bench/lock", "w")
         fcntl.flock(lock, fcntl.LOCK_EX)
         run_dir = client.collect(args.variant, args.client_pack, args.server_pack, args.overlay,
-                                 args.settle, args.duration, args.timeout, args.jfr, args.heap, args.java)
+                                 args.settle, args.duration, args.timeout, args.jfr, args.heap, args.java,
+                                 args.jvm_args)
         print(run_dir)
         if args.stage == "run":
             client.normalise([run_dir])
