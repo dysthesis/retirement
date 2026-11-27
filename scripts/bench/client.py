@@ -31,7 +31,6 @@ import time
 import jfr
 import tables as T
 
-REPO = Path(__file__).resolve().parents[2]
 # All mutable state lives under WORK. remove() deletes only the three fixed trees.
 WORK = Path.home() / ".cache/claude-retirement-scratch/bench"
 PRISM = WORK / "prism"
@@ -81,12 +80,9 @@ INSTANCE_CFG = {
     "MinecraftWinHeight": "1080",
 }
 # Players import the bootstrap ZIP (nix/bootstrap) and set Java 25 (its README).
-# True: the bootstrap's [General] (memory, JvmArgs) and a nixpkgs JDK 25 replace
-# the user's real instance.cfg, whose JVM settings are stale.
+# True: the bootstrap's [General] (memory, JvmArgs; --bootstrap) and the --java JDK
+# replace the user's real instance.cfg, whose JVM settings are stale.
 BOOTSTRAP = True
-BOOTSTRAP_EXPR = """let f = builtins.getFlake (toString ./.);
-  pkgs = import f.inputs.nixpkgs { system = "x86_64-linux"; };
-in (pkgs.callPackage (f + "/nix/bootstrap") { domain = "bench.invalid"; }).settings.General"""
 # prismlauncher.cfg overrides on top of the user's global Prism settings.
 # The themes are built in: the user's custom themes are not in the isolated
 # root, and a missing theme opens the setup wizard, which blocks the launch.
@@ -108,10 +104,6 @@ SERVER_PROPERTIES = {
 # Written into the server after the pack. BlueMap would otherwise download
 # assets and render the world on server threads during the measurement.
 SERVER_FILES = {"config/bluemap/core.conf": 'accept-download: false\ndata: "bluemap"\nmetrics: false\n'}
-# Same launcher derivation as nix/minecraft.nix uses for the real server.
-SERVER_EXPR = """let f = builtins.getFlake (toString ./.);
-  pkgs = import f.inputs.nixpkgs { system = "x86_64-linux"; overlays = [ f.inputs.nix-minecraft.overlay ]; };
-in pkgs.neoforgeServers."neoforge-1_21_1-21_1_265".override { jre_headless = pkgs.jdk25_headless; }"""
 COLLECTED = ("run", "input", "override", "phase", "event", "sample", "provenance")
 # Profilers (--jfr); both write raw/client.jfr. async-profiler: CPU-time samples
 # of every thread, with native (C, driver) frames. The kernel forbids perf_events
@@ -123,23 +115,16 @@ JDK_JFR = "filename={raw}/client.jfr,settings=profile"  # Java-only stacks; 10/2
 
 # ---------------------------------------------------------------- files and processes
 
-def nix_build(*args):
-    # GC-root every build: a nix-collect-garbage mid-run once deleted a tool the run still needed.
-    link = WORK / "gcroots" / hashlib.sha256("\0".join(args).encode()).hexdigest()[:16]
-    out = subprocess.run(["nix", "build", "--out-link", str(link), "--print-out-paths", *args], cwd=REPO,
-                         check=True, capture_output=True, text=True).stdout.split()
-    return [Path(p) for p in out]
-
-
 def jj(*args):
-    return subprocess.run(["jj", "--ignore-working-copy", "--no-pager", "--color=never", *args], cwd=REPO,
+    return subprocess.run(["jj", "--ignore-working-copy", "--no-pager", "--color=never", *args],
                           check=True, capture_output=True).stdout
 
 
 def provenance():
-    """Source revision as (key, value): jj snapshots the working copy once, here;
-    later reads use that snapshot. diff_sha256 is of `jj diff --git` (@ vs @-)."""
-    subprocess.run(["jj", "util", "snapshot"], cwd=REPO, check=True, capture_output=True)
+    """Source revision of the current directory's jj repo as (key, value): jj snapshots
+    the working copy once, here; later reads use that snapshot. diff_sha256 is of
+    `jj diff --git` (@ vs @-)."""
+    subprocess.run(["jj", "util", "snapshot"], check=True, capture_output=True)
     ids = jj("log", "--no-graph", "-r", "@", "-T", 'change_id ++ " " ++ commit_id ++ " " ++ parents.map(|c| c.commit_id()).join(",")')
     change_id, commit_id, parent = ids.decode().split()
     diff = jj("diff", "--git")
@@ -249,12 +234,11 @@ def wait_for(path, pattern, timeout, procs, deadline, watch=()):
     raise TimeoutError(f"no {pattern!r} in {path}")
 
 
-def start_server(directory, log):
-    launcher = nix_build("--impure", "--expr", SERVER_EXPR)[0] / "bin/minecraft-server"
+def start_server(launcher, directory, log):
     # The launcher puts its args before @unix_args.txt, so pass JVM args only (no "nogui").
-    return subprocess.Popen([str(launcher), *SERVER_JVM], cwd=directory, env=child_env(), stdin=subprocess.PIPE,
-                            stdout=log.open("w"), stderr=subprocess.STDOUT, start_new_session=True,
-                            text=True)
+    return subprocess.Popen([f"{launcher}/bin/minecraft-server", *SERVER_JVM], cwd=directory, env=child_env(),
+                            stdin=subprocess.PIPE, stdout=log.open("w"), stderr=subprocess.STDOUT,
+                            start_new_session=True, text=True)
 
 
 def console(proc, *commands):
@@ -280,7 +264,7 @@ def write_server_files(directory):
         (directory / rel).write_text(text)
 
 
-def template_for(server_pack, deadline):
+def template_for(server_pack, launcher, deadline):
     """Pregenerated server directory for this pack and settings, built once."""
     key = hashlib.sha256(json.dumps([tree_hash(server_pack), SERVER_PROPERTIES, SERVER_FILES, PREGEN])
                          .encode()).hexdigest()[:16]
@@ -291,7 +275,7 @@ def template_for(server_pack, deadline):
     copy_tree(server_pack, TEMPLATE_BUILD)
     write_server_files(TEMPLATE_BUILD)
     log = TEMPLATE_BUILD / "pregen.out"
-    proc = start_server(TEMPLATE_BUILD, log)
+    proc = start_server(launcher, TEMPLATE_BUILD, log)
     try:
         wait_for(log, r"Done \([0-9.]+s\)", 900, [proc], deadline)
         console(proc, "chunky world minecraft:overworld", "chunky shape square",
@@ -316,11 +300,10 @@ def write_ini(path, general):
     path.write_text("[General]\n" + "".join(f"{k}={v}\n" for k, v in general.items()))
 
 
-def bootstrap_general():
-    """The bootstrap's instance.cfg [General], with values as Prism reads them."""
-    out = subprocess.run(["nix", "eval", "--json", "--impure", "--expr", BOOTSTRAP_EXPR], cwd=REPO,
-                         check=True, capture_output=True, text=True).stdout
-    general = {k: str(v).lower() if isinstance(v, bool) else str(v) for k, v in json.loads(out).items()}
+def bootstrap_general(path):
+    """The bootstrap's instance.cfg [General] (a JSON file), with values as Prism reads them."""
+    general = {k: str(v).lower() if isinstance(v, bool) else str(v)
+               for k, v in json.loads(Path(path).read_text()).items()}
     return general | {"JvmArgs": f'"{general["JvmArgs"]}"'}  # QSettings splits unquoted values at commas
 
 
@@ -329,8 +312,8 @@ def java_version(jdk):
                           check=True).stderr.splitlines()[0]
 
 
-def prepare_prism(raw, client_pack, overlay, jfr, gamescope, mangohud, profiler, jdk=None, heap=None,
-                  jvm_args=None):
+def prepare_prism(raw, client_pack, overlay, jfr, gamescope, mangohud, profiler, bootstrap, jdk=None,
+                  heap=None, jvm_args=None):
     """Isolated Prism root with an offline account; shares libraries/assets read-only."""
     PRISM.mkdir(parents=True, exist_ok=True)
     if not (PRISM / "assets").exists():
@@ -373,7 +356,7 @@ def prepare_prism(raw, client_pack, overlay, jfr, gamescope, mangohud, profiler,
     instance = dict(INSTANCE_CFG, WrapperCommand=str(wrapper))
     general = ini_general((REAL_INSTANCE / "instance.cfg").read_text())
     if jdk:
-        general = bootstrap_general()
+        general = bootstrap_general(bootstrap)
         instance = general | instance | {"JavaPath": f"{jdk}/bin/java", "AutomaticJava": "false",
                                          "OverrideJavaLocation": "true", "IgnoreJavaCompatibility": "true"}
     if heap:  # a player's smaller Prism maximum heap
@@ -449,8 +432,8 @@ def save_raw(raw):
             copy_tree(src, raw / dst)
 
 
-def collect(variant, client_pack=None, server_pack=None, overlay=None, settle=120, duration=60,
-            timeout=3600, jfr=None, heap=None, java="nixpkgs#jdk25^out", jvm_args=None):
+def collect(*, variant, client_pack, server_pack, overlay, settle, duration, timeout, jfr, heap, java,
+            jvm_args, server_launcher, bootstrap, prism, gamescope, mangohud, xdotool, async_profiler):
     t0 = time.time()
     run_id = time.strftime("%Y%m%dT%H%M%S") + "-" + variant
     raw = RUNS / run_id / "raw"
@@ -468,31 +451,26 @@ def collect(variant, client_pack=None, server_pack=None, overlay=None, settle=12
     if rows["provenance"][-1][2] != "0":  # diff_bytes
         event("warning", "jj diff of @ is not empty: the run's source is not a commit alone")
     kill_all([])  # leftovers of an earlier harness that was SIGKILLed
-    client_pack = Path(client_pack) if client_pack else nix_build(".#modpack-client")[0]
-    server_pack = Path(server_pack) if server_pack else nix_build(".#modpack-server")[0]
-    # MangoHud is loaded into the game's JVM, so it must come from the same nixpkgs
-    # (glibc) as Prism's Java and GLFW: the system registry entry. Gamescope is a
-    # separate process; the flake's nixpkgs has one whose headless backend works.
-    gamescope = nix_build("--inputs-from", ".", "nixpkgs#gamescope^out")[0]
-    mangohud = nix_build("nixpkgs#mangohud^out")[0]
-    xdotool = nix_build("--inputs-from", ".", "nixpkgs#xdotool^out")[0]
-    # Loaded into the game's JVM, so from the same nixpkgs as MangoHud.
-    profiler = nix_build("nixpkgs#async-profiler^out")[0] if jfr == "async" else None
-    # Full JDK (the client needs its AWT libraries), from the same nixpkgs as MangoHud.
-    jdk = nix_build(java)[0] if BOOTSTRAP else None
-    template = template_for(server_pack, deadline)
+    # MangoHud, async-profiler and Prism's GLFW are loaded into the game's JVM, so
+    # they need a glibc no newer than the JDK's: take all from one nixpkgs (the nix app).
+    client_pack, server_pack = Path(client_pack), Path(server_pack)
+    profiler = async_profiler if jfr == "async" else None
+    jdk = java if BOOTSTRAP else None  # a full JDK: the client needs its AWT libraries
+    template = template_for(server_pack, server_launcher, deadline)
     for role, path in [("client_pack", client_pack), ("server_pack", server_pack)] + \
                       ([("client_overlay", Path(overlay))] if overlay else []):
         rows["input"].append((run_id, role, str(path), tree_hash(path)))
     rows["input"] += [(run_id, "world_template", str(template), template.name),
-                      (run_id, "gamescope", str(gamescope), ""), (run_id, "mangohud", str(mangohud), "")]
+                      (run_id, "gamescope", str(gamescope), ""), (run_id, "mangohud", str(mangohud), ""),
+                      (run_id, "prism", str(prism), "")]
     rows["input"] += [(run_id, "async_profiler", str(profiler), "")] if profiler else []
     rows["input"] += [(run_id, "java", f"{jdk}/bin/java", "")] if jdk else []
     overrides = [("server.properties", k, v) for k, v in SERVER_PROPERTIES.items()]
     overrides += [("server_file", k, v) for k, v in SERVER_FILES.items()]
     overrides += [("server_console", c, "") for c in WORLD_COMMANDS]
     overrides += [("java", "version", java_version(jdk))] if jdk else []
-    overrides += prepare_prism(raw, client_pack, overlay, jfr, gamescope, mangohud, profiler, jdk, heap, jvm_args)
+    overrides += prepare_prism(raw, client_pack, overlay, jfr, gamescope, mangohud, profiler, bootstrap, jdk, heap,
+                               jvm_args)
     rows["override"] = [(run_id, *o) for o in overrides]
 
     remove(SERVER)
@@ -500,14 +478,14 @@ def collect(variant, client_pack=None, server_pack=None, overlay=None, settle=12
     procs = []
     stop = threading.Event()
     try:
-        server = start_server(SERVER, raw / "server.out")
+        server = start_server(server_launcher, SERVER, raw / "server.out")
         procs.append(server)
         wait_for(raw / "server.out", r"Done \([0-9.]+s\)", 900, procs, deadline)
         event("server_ready")
         env = child_env() | {"QT_QPA_PLATFORM": "offscreen"}  # Prism's own UI never reaches a display
         event("client_launch")
         procs.append(subprocess.Popen(
-            ["prismlauncher", "-d", str(PRISM), "-l", "bench", "-o", PLAYER, "-s", f"127.0.0.1:{PORT}"],
+            [f"{prism}/bin/prismlauncher", "-d", str(PRISM), "-l", "bench", "-o", PLAYER, "-s", f"127.0.0.1:{PORT}"],
             cwd=PRISM, env=env, stdout=(raw / "prism.out").open("w"), stderr=subprocess.STDOUT,
             start_new_session=True))
         wait_for(raw / "server.out", rf"{PLAYER} joined the game", 900, procs, deadline, [raw / "game.out"])

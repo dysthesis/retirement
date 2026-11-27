@@ -2,6 +2,7 @@
   perSystem = {
     pkgs,
     lib,
+    system,
     ...
   }: let
     packwiz = pkgs.callPackage ./packwiz.nix {};
@@ -51,8 +52,31 @@
     fixture = pkgs.writeText "fixture.jar" dummy;
     fixtureReplacement = {source = fixture; sha256 = builtins.hashString "sha256" dummy;};
     fixtureSources = withReplacements {voxy = fixtureReplacement; create = fixtureReplacement;};
+    pack = builtins.fromTOML (builtins.readFile ../../packwiz/pack.toml);
+    # The server launcher is unfree; the same nixpkgs, so the same glibc as pkgs.
+    serverPkgs = import inputs.nixpkgs {
+      inherit system;
+      overlays = [inputs.nix-minecraft.overlay];
+      config.allowUnfreePredicate = pkg: lib.elem (lib.getName pkg) ["minecraft-server" "neoforge"];
+    };
+    bench = pkgs.callPackage ./bench.nix {
+      clientPack = modpacks.client;
+      serverPack = modpacks.server;
+      # Same launcher as nix/minecraft.nix runs for the real server.
+      serverLauncher = serverPkgs.neoforgeServers."neoforge-${builtins.replaceStrings ["."] ["_"] "${pack.versions.minecraft}-${pack.versions.neoforge}"}".override {jre_headless = serverPkgs.jdk25_headless;};
+      bootstrapGeneral = (pkgs.callPackage ../bootstrap {domain = "bench.invalid";}).settings.General;
+    };
   in {
-    packages = {
+    # gamescope and MangoHud are Linux-only.
+    apps = lib.optionalAttrs pkgs.stdenv.isLinux {
+      bench = {
+        type = "app";
+        program = "${bench}/bin/bench";
+        meta.description = "Client benchmark harness (scripts/bench/main.py)";
+      };
+    };
+
+    packages = lib.optionalAttrs pkgs.stdenv.isLinux {inherit bench;} // {
       inherit packwiz;
       voxy-memory = candidates.voxy;
       create-panel = candidates.create;

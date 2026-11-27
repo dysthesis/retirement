@@ -13,20 +13,30 @@ Stages; each reads files and writes files, and can be rerun alone on old runs:
 Runs live in ~/.local/share/retirement-bench/runs/<time>-<variant>/; scratch state in
 ~/.cache/claude-retirement-scratch/bench/.
 
+The nix app (nix/packages/bench.nix) sets every tool and pack path from the
+flake, so it runs the working copy's packs. Run it from the working copy: the
+run's provenance is the jj revision of the current directory. A --java JDK
+needs a GC root (--out-link) and the flake's nixpkgs (--inputs-from .): MangoHud
+and GLFW, loaded into its JVM, need a glibc no newer than its own.
+
 Examples:
-  scripts/bench/main.py run
-  scripts/bench/main.py run --variant no-dynfps --overlay ~/overlays/no-dynfps
-  scripts/bench/main.py compare ~/.local/share/retirement-bench/runs/*
-  scripts/bench/main.py compare --by change_id ~/.local/share/retirement-bench/runs/*-baseline*
-  scripts/bench/main.py db && sqlite3 ~/.local/share/retirement-bench/bench.sqlite
-  scripts/bench/main.py normalise RUN... ; scripts/bench/main.py reduce RUN...
-  scripts/bench/main.py run --variant profiled --jfr       # async-profiler, 1 ms CPU samples
-  scripts/bench/main.py profile RUN --thread "Render thread" --top 20
-  scripts/bench/main.py profile RUN --callees GameRenderer.renderLevel --phase movement
+  nix run .#bench -- run
+  nix run .#bench -- run --variant no-dynfps --overlay ~/overlays/no-dynfps
+  nix run .#bench -- collect --variant graalvm --heap 8192 --jvm-args "-XX:+UseG1GC -Xlog:gc*:file=gc.log:time,uptime,level,tags" \
+      --java $(nix build --inputs-from . --print-out-paths --out-link /tmp/bench-graalvm \
+                 nixpkgs#graalvmPackages.graalvm-ce)
+  nix run .#bench -- compare ~/.local/share/retirement-bench/runs/*
+  nix run .#bench -- compare --by change_id ~/.local/share/retirement-bench/runs/*-baseline*
+  nix run .#bench -- db && sqlite3 ~/.local/share/retirement-bench/bench.sqlite
+  nix run .#bench -- normalise RUN... ; nix run .#bench -- reduce RUN...
+  nix run .#bench -- run --variant profiled --jfr       # async-profiler, 1 ms CPU samples
+  nix run .#bench -- profile RUN --thread "Render thread" --top 20
+  nix run .#bench -- profile RUN --callees GameRenderer.renderLevel --phase movement
 """
 
 import argparse
 import fcntl
+import os
 from pathlib import Path
 import signal
 import sys
@@ -37,14 +47,25 @@ import analyse  # noqa: E402
 import client  # noqa: E402
 import tables  # noqa: E402
 
+TOOLS = (
+    ("--client-pack", "BENCH_CLIENT_PACK", "client pack dir"),
+    ("--server-pack", "BENCH_SERVER_PACK", "server pack dir"),
+    ("--server-launcher", "BENCH_SERVER_LAUNCHER", "NeoForge server package, with bin/minecraft-server"),
+    ("--bootstrap", "BENCH_BOOTSTRAP", "JSON of the bootstrap instance.cfg [General]"),
+    ("--java", "BENCH_JAVA", "full JDK dir of the client, e.g. a GraalVM"),
+    ("--prism", "BENCH_PRISM", "Prism Launcher package, with bin/prismlauncher"),
+    ("--gamescope", "BENCH_GAMESCOPE", "gamescope package"),
+    ("--mangohud", "BENCH_MANGOHUD", "MangoHud package"),
+    ("--xdotool", "BENCH_XDOTOOL", "xdotool package"),
+    ("--async-profiler", "BENCH_ASYNC_PROFILER", "async-profiler package, for --jfr async"),
+)
+
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = parser.add_subparsers(dest="stage", required=True)
     for name in ("run", "collect"):
         p = sub.add_parser(name, help="client benchmark run")
-        p.add_argument("--client-pack", help="client pack dir; default: nix build .#modpack-client")
-        p.add_argument("--server-pack", help="server pack dir; default: nix build .#modpack-server")
         p.add_argument("--overlay", help="dir copied over the client minecraft/ dir after the pack")
         p.add_argument("--variant", default="baseline", help="label that compare groups by")
         p.add_argument("--settle", type=float, default=120,
@@ -52,12 +73,15 @@ def main():
         p.add_argument("--duration", type=float, default=60, help="seconds per measured phase")
         p.add_argument("--timeout", type=float, default=3600, help="abort collect after this many seconds")
         p.add_argument("--heap", type=int, metavar="MIB", help="Prism maximum heap; default: the bootstrap's")
-        p.add_argument("--java", default="nixpkgs#jdk25^out", metavar="INSTALLABLE",
-                       help="nix installable of the client's full JDK, e.g. nixpkgs#graalvmPackages.graalvm-ce")
         p.add_argument("--jvm-args", metavar="ARGS", help="replace the bootstrap's JVM arguments (GC choice, flags)")
         p.add_argument("--jfr", nargs="?", const="async", choices=("async", "jdk"),
                        help="also record raw/client.jfr: async-profiler (default) or the JDK recorder; "
                             "perturbs results")
+        # Store paths from the nix app (nix/packages/bench.nix); a flag replaces one.
+        for flag, env, what in TOOLS:
+            p.add_argument(flag, metavar="PATH", default=os.environ.get(env),
+                           required=env not in os.environ and flag != "--async-profiler",
+                           help=f"{what}; default: ${env}")
     for name in ("normalise", "reduce", "compare", "profile"):
         p = sub.add_parser(name)
         p.add_argument("runs", nargs="+", help="run directories")
@@ -72,6 +96,8 @@ def main():
     p.add_argument("--phase", action="append", help="only this phase (repeatable)")
     sub.add_parser("db", help="rebuild bench.sqlite from every run directory")
     args = parser.parse_args()
+    if args.stage in ("run", "collect") and args.jfr == "async" and not args.async_profiler:
+        parser.error("--jfr async needs --async-profiler or $BENCH_ASYNC_PROFILER")
 
     def interrupt(signum, frame):
         raise KeyboardInterrupt(signal.Signals(signum).name)  # unwinds into collect's cleanup
@@ -82,9 +108,7 @@ def main():
         # One benchmark per machine at a time: runs block until the lock is free.
         lock = open(Path.home() / ".cache/claude-retirement-scratch/bench/lock", "w")
         fcntl.flock(lock, fcntl.LOCK_EX)
-        run_dir = client.collect(args.variant, args.client_pack, args.server_pack, args.overlay,
-                                 args.settle, args.duration, args.timeout, args.jfr, args.heap, args.java,
-                                 args.jvm_args)
+        run_dir = client.collect(**{k: v for k, v in vars(args).items() if k != "stage"})
         print(run_dir)
         if args.stage == "run":
             client.normalise([run_dir])
